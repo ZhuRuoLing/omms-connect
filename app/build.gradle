@@ -18,6 +18,12 @@ android {
             useSupportLibrary true
         }
     }
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all{
+                outputFileName = "OMMS-Connect.apk"
+            }
+    }
 
     buildTypes {
         release {

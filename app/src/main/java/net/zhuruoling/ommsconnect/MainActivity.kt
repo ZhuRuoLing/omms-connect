@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
+        alertDialog.dismiss()
     }
 
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
@@ -97,12 +98,12 @@ class MainActivity : AppCompatActivity() {
                     ToastUtils.showLong(R.string.success)
                     startActivity(Intent(this@MainActivity,SessionActivity0::class.java))
                     runOnUiThread {
-                        alertDialog.hide()
+                        alertDialog.dismiss()
                     }
                 }
                 else -> {
                     runOnUiThread {
-                        alertDialog.hide()
+                        alertDialog.dismiss()
                     }
                     ToastUtils.showLong(R.string.fail)
 
