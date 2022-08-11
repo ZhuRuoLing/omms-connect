@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation2"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="net.zhuruoling.ommsconnect.ui.server.ServerFragment"
+        android:label="@string/title_server"
+        tools:layout="@layout/fragment_server" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="net.zhuruoling.ommsconnect.ui.whitelist.WhitelistFragment"
+        android:label="@string/title_whitelist"
+        tools:layout="@layout/fragment_whitelist" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="net.zhuruoling.ommsconnect.ui.broadcast.BroadcastFragment"
+        android:label="@string/title_broadcast"
+        tools:layout="@layout/fragment_announcement" />
+</navigation>

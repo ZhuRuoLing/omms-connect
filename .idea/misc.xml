@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/drawable/ic_baseline_more_horiz_24.xml" value="0.249" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/drawable/ic_launcher_background.xml" value="0.255" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.249" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/drawable/whitelist_icon.xml" value="0.249" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/activity_session.xml" value="0.25" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/activity_session0.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/activity_session1.xml" value="0.340625" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/activity_whitelist_edit.xml" value="0.25" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/app_bar_session0.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/content_main.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/content_session0.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/content_whitelist_edit.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_announcement.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_dashboard.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_gallery.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_home.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_notifications.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_server.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_session_activity1.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_slideshow.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/fragment_whitelist.xml" value="0.1" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/input_text_layout.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/nav_header_session0.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/sample_whitelist_compoent_view.xml" value="0.340625" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/whitelist_compoent_view.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/layout/whitelist_entry_view.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/menu/bottom_nav_menu.xml" value="0.35520833333333335" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/menu/menu_main.xml" value="0.278125" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.255" />
+        <entry key="..\:/Users/jkl-9/AndroidStudioProjects/OMMSConnect/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.255" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
