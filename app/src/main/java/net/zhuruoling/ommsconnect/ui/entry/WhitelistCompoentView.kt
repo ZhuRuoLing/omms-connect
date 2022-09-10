@@ -14,7 +14,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import net.zhuruoling.omms.client.server.session.ClientSession
-import net.zhuruoling.omms.client.util.WhitelistResult
+import net.zhuruoling.omms.client.util.Result
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
 import net.zhuruoling.ommsconnect.ui.entry.WhitelistCompoentView
@@ -56,7 +56,7 @@ class WhitelistCompoentView : ConstraintLayout {
                     val session = getClientSession()
 
                     val result = session.removeFromWhitelist(fromWhitelist, playerName)
-                    if (result != WhitelistResult.OK) {
+                    if (result != Result.OK) {
                         MaterialAlertDialogBuilder(activity!!)
                             .setPositiveButton("Ok", null)
                             .setTitle("Fail")
