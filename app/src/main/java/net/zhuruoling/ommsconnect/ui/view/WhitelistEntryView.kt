@@ -1,4 +1,4 @@
-package net.zhuruoling.ommsconnect.ui.entry
+package net.zhuruoling.ommsconnect.ui.view
 
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.TextView
@@ -12,7 +12,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import net.zhuruoling.ommsconnect.ui.entry.WhitelistEntryView
 import java.util.ArrayList
 
 class WhitelistEntryView : ConstraintLayout {

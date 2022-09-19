@@ -1,7 +1,5 @@
 package net.zhuruoling.ommsconnect.ui.whitelist
 
-import android.content.Intent
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
-import net.zhuruoling.ommsconnect.WhitelistEditActivity
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.databinding.FragmentWhitelistBinding
-import net.zhuruoling.ommsconnect.ui.entry.WhitelistEntryView
+import net.zhuruoling.ommsconnect.ui.view.Placeholder68dpView
+import net.zhuruoling.ommsconnect.ui.view.WhitelistEntryView
 
 
 class WhitelistFragment : Fragment() {
@@ -61,6 +58,16 @@ class WhitelistFragment : Fragment() {
                         this@WhitelistFragment.binding.linearLayout.addView(view)
                     }
                 }
+                this@WhitelistFragment.binding.linearLayout.addView(this@WhitelistFragment.context?.let {
+                    Placeholder68dpView(
+                        it
+                    )
+                })
+                this@WhitelistFragment.binding.linearLayout.addView(this@WhitelistFragment.context?.let {
+                    Placeholder68dpView(
+                        it
+                    )
+                })
                 this@WhitelistFragment.binding.whitelistTitle.text = "${this@WhitelistFragment.whitelistMap.size} whitelists were added to this server.";
             }
         }

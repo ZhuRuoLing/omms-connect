@@ -1,4 +1,4 @@
-package net.zhuruoling.ommsconnect.ui.entry
+package net.zhuruoling.ommsconnect.ui.view
 
 import android.content.Context
 import net.zhuruoling.ommsconnect.client.Connection.getClientSession
@@ -13,13 +13,9 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
-import net.zhuruoling.omms.client.server.session.ClientSession
 import net.zhuruoling.omms.client.util.Result
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
-import net.zhuruoling.ommsconnect.ui.entry.WhitelistCompoentView
-import java.lang.Exception
-import java.util.concurrent.Executors
 
 class WhitelistCompoentView : ConstraintLayout {
     private var playerNameText: TextView? = null

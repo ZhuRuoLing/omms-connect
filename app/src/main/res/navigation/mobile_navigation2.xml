@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_server" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_whitelist"
         android:name="net.zhuruoling.ommsconnect.ui.whitelist.WhitelistFragment"
         android:label="@string/title_whitelist"
         tools:layout="@layout/fragment_whitelist" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/announcement"
         android:name="net.zhuruoling.ommsconnect.ui.broadcast.BroadcastFragment"
         android:label="@string/title_broadcast"
         tools:layout="@layout/fragment_announcement" />

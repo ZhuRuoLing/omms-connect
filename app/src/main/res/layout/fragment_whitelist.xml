@@ -3,42 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".ui.whitelist.WhitelistFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/whitelistTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/wdnmd"
-            android:textSize="20sp">
-
-        </com.google.android.material.textview.MaterialTextView>
-
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Elevated"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginVertical="10dp"
-                android:orientation="vertical"
-                app:layout_constrainedHeight="true"
-                tools:layout_editor_absoluteY="1dp">
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Whitelist"
+                android:textSize="40sp">
+            </com.google.android.material.textview.MaterialTextView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/whitelistTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/wdnmd"
+                android:textSize="20sp">
+            </com.google.android.material.textview.MaterialTextView>
 
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical"
+                        app:layout_constrainedHeight="true"
+                        tools:layout_editor_absoluteY="1dp">
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+            </ScrollView>
+        </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
