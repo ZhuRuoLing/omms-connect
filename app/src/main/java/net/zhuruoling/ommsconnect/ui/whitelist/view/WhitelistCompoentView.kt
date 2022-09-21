@@ -1,4 +1,4 @@
-package net.zhuruoling.ommsconnect.ui.view
+package net.zhuruoling.ommsconnect.ui.whitelist.view
 
 import android.content.Context
 import net.zhuruoling.ommsconnect.client.Connection.getClientSession

@@ -12,7 +12,7 @@ import kotlinx.coroutines.*
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.databinding.FragmentWhitelistBinding
 import net.zhuruoling.ommsconnect.ui.view.Placeholder68dpView
-import net.zhuruoling.ommsconnect.ui.view.WhitelistEntryView
+import net.zhuruoling.ommsconnect.ui.whitelist.view.WhitelistEntryView
 
 
 class WhitelistFragment : Fragment() {

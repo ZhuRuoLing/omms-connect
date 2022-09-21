@@ -1,4 +1,4 @@
-package net.zhuruoling.ommsconnect.ui.view
+package net.zhuruoling.ommsconnect.ui.whitelist.view
 
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.TextView

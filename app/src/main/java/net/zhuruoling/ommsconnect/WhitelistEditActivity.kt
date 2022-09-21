@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.*
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.databinding.ActivityWhitelistEditBinding
-import net.zhuruoling.ommsconnect.ui.view.WhitelistCompoentView
+import net.zhuruoling.ommsconnect.ui.whitelist.view.WhitelistCompoentView
 
 class WhitelistEditActivity : AppCompatActivity() {
 
