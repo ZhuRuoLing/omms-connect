@@ -31,7 +31,7 @@ class WhitelistEntryView : ConstraintLayout {
         LayoutInflater.from(context).inflate(R.layout.whitelist_entry_view, this)
         nameText = findViewById(R.id.whitelistNameText)
         introText = findViewById(R.id.whitelistIntroductionText)
-        setOnClickListener { v: View? -> launchActivity() }
+        setOnClickListener { launchActivity() }
     }
 
     private fun launchActivity() {
