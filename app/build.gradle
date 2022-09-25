@@ -10,8 +10,8 @@ android {
         applicationId "net.zhuruoling.ommsconnect"
         minSdk 29
         targetSdk 32
-        versionCode 1
-        versionName "0.1.1"
+        versionCode 56
+        versionName '0.5.6'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
