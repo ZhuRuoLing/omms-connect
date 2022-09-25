@@ -21,14 +21,9 @@
             android:label="@string/title_activity_whitelist_edit"
             android:theme="@style/Theme.OMMSConnect" />
         <activity
-            android:name=".SessionActivity0"
-            android:exported="false"
-            android:label="@string/title_activity_session0" />
-        <activity
             android:name=".SessionActivity"
             android:exported="false"
-            android:label="@string/title_activity_session"
-            android:theme="@style/Theme.OMMSConnect" />
+            android:label="@string/title_activity_session0" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -37,7 +32,6 @@
             tools:ignore="RedundantLabel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

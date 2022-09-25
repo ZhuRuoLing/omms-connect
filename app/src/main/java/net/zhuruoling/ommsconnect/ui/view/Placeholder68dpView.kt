@@ -20,11 +20,11 @@ import kotlinx.coroutines.*
 class Placeholder68dpView : ConstraintLayout {
 
     constructor(context: Context) : super(context) {
-        LayoutInflater.from(context).inflate(R.layout.whitelist_compoent_view, this)
+        LayoutInflater.from(context).inflate(R.layout.placeholder_68, this)
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        LayoutInflater.from(context).inflate(R.layout.whitelist_compoent_view, this)
+        LayoutInflater.from(context).inflate(R.layout.placeholder_68, this)
     }
 
 }

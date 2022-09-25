@@ -3,16 +3,13 @@ package net.zhuruoling.ommsconnect
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.Editable
 import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.key
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.dialog.MaterialDialogs
 import kotlinx.coroutines.*
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.client.Response
@@ -96,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             when (Connection.init(ip, port, code)) {
                 is Result.Success<Response> -> {
                     ToastUtils.showLong(R.string.success)
-                    startActivity(Intent(this@MainActivity,SessionActivity0::class.java))
+                    startActivity(Intent(this@MainActivity,SessionActivity::class.java))
                     runOnUiThread {
                         alertDialog.dismiss()
                     }
