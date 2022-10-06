@@ -1,8 +1,8 @@
 package net.zhuruoling.ommsconnect.client
 
 import kotlinx.coroutines.*
-import net.zhuruoling.omms.client.server.session.ClientInitialSession
-import net.zhuruoling.omms.client.server.session.ClientSession
+import net.zhuruoling.omms.client.session.ClientInitialSession
+import net.zhuruoling.omms.client.session.ClientSession
 import java.net.InetAddress
 import kotlin.RuntimeException
 

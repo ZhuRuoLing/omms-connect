@@ -68,12 +68,14 @@ class ServerFragment : Fragment() {
                 var result = this.fetchCotrollersFromServer()
                 if (result == Result.OK) {
                     controllers = this.controllerMap
-                    this@ServerFragment.binding.serverText.text =
-                        "${controllers.count()} controllers added to this server."
+                    this@ServerFragment.externalScope.launch(Dispatchers.Main){
+                        this@ServerFragment.binding.serverText.text =
+                            "${controllers.count()} controllers added to this server."
+                    }
                 } else {
                     ToastUtils.showLong("Cannot fetch Controllers from server, Caused By: ${result.name}")
                 }
-                result = this.fetchSystemInfoFromServer();
+                result = this.fetchSystemInfoFromServer()
                 if (result == Result.OK) {
                     systemInfo = this.systemInfo
                 } else {
@@ -83,14 +85,14 @@ class ServerFragment : Fragment() {
             launch(Dispatchers.Main) {
                 try {
                     context?.let { it1 ->
-                        val view = activity?.let { it2 ->
-                            systemInfo.let {
-                                it?.let { it3 ->
-                                    ServerEntryView(it1).withSystemInfo(it3).setValue(
+                        val view = activity?.let { fragmentActivity ->
+                            systemInfo.let { systemInfo ->
+                                systemInfo?.let { systemInfo1 ->
+                                    ServerEntryView(it1).withSystemInfo(systemInfo1).setValue(
                                         name = "Operating System",
-                                        introText = "${it.osName} ${it.osVersion} ${it.osArch}",
-                                        type = getSystemType(it.osName),
-                                        parent = it2
+                                        introText = "${systemInfo.osName} ${systemInfo.osVersion} ${systemInfo.osArch}",
+                                        type = getSystemType(systemInfo.osName),
+                                        parent = fragmentActivity
                                     )
                                 }
                             }
