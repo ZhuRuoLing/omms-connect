@@ -14,14 +14,12 @@ import kotlinx.coroutines.*
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.client.system.SystemInfo
 import net.zhuruoling.omms.client.util.Result
-import net.zhuruoling.ommsconnect.R
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.databinding.FragmentServerBinding
 import net.zhuruoling.ommsconnect.ui.server.view.ServerEntryView
 import net.zhuruoling.ommsconnect.ui.util.genControllerIntroText
 import net.zhuruoling.ommsconnect.ui.util.getSystemType
 import net.zhuruoling.ommsconnect.ui.view.Placeholder68dpView
-import java.lang.Exception
 
 class ServerFragment : Fragment() {
 
@@ -50,6 +48,7 @@ class ServerFragment : Fragment() {
     }
 
     private fun tryInit() {
+
         var controllers = hashMapOf<String, Controller>()
         var systemInfo: SystemInfo? = null
         val alertDialog = this.context?.let {
@@ -68,7 +67,7 @@ class ServerFragment : Fragment() {
                 var result = this.fetchCotrollersFromServer()
                 if (result == Result.OK) {
                     controllers = this.controllerMap
-                    this@ServerFragment.externalScope.launch(Dispatchers.Main){
+                    this@ServerFragment.externalScope.launch(Dispatchers.Main) {
                         this@ServerFragment.binding.serverText.text =
                             "${controllers.count()} controllers added to this server."
                     }
@@ -88,12 +87,14 @@ class ServerFragment : Fragment() {
                         val view = activity?.let { fragmentActivity ->
                             systemInfo.let { systemInfo ->
                                 systemInfo?.let { systemInfo1 ->
-                                    ServerEntryView(it1).withSystemInfo(systemInfo1).setValue(
+                                    ServerEntryView(it1).setValue(
                                         name = "Operating System",
                                         introText = "${systemInfo.osName} ${systemInfo.osVersion} ${systemInfo.osArch}",
                                         type = getSystemType(systemInfo.osName),
                                         parent = fragmentActivity
                                     )
+                                        .withSystemInfo(systemInfo1)
+                                        .prepare(this@ServerFragment)
                                 }
                             }
                         }
@@ -106,7 +107,9 @@ class ServerFragment : Fragment() {
                             val view = activity?.let { it2 ->
                                 ServerEntryView(it1).setValue(
                                     it.value.name, introText, it.value.type, it2
-                                ).withController(it.value)
+                                )
+                                    .withController(it.value)
+                                    .prepare(this@ServerFragment)
                             }
                             this@ServerFragment.binding.serverList.addView(view)
                         }

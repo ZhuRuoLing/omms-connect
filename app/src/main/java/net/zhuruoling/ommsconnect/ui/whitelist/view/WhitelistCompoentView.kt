@@ -4,7 +4,7 @@ import android.content.Context
 import net.zhuruoling.ommsconnect.client.Connection.getClientSession
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.TextView
-import net.zhuruoling.ommsconnect.WhitelistEditActivity
+import net.zhuruoling.ommsconnect.ui.whitelist.activity.WhitelistEditActivity
 import android.view.LayoutInflater
 import net.zhuruoling.ommsconnect.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

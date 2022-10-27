@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".WhitelistEditActivity">
+    tools:context=".ui.whitelist.activity.WhitelistEditActivity">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

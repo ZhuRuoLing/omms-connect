@@ -7,7 +7,7 @@ import net.zhuruoling.ommsconnect.R
 import com.blankj.utilcode.util.CacheMemoryUtils
 import com.blankj.utilcode.util.ActivityUtils
 import android.content.Intent
-import net.zhuruoling.ommsconnect.WhitelistEditActivity
+import net.zhuruoling.ommsconnect.ui.whitelist.activity.WhitelistEditActivity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
@@ -24,7 +24,7 @@ class WhitelistEntryView : ConstraintLayout {
         LayoutInflater.from(context).inflate(R.layout.whitelist_entry_view, this)
         nameText = findViewById(R.id.whitelistNameText)
         introText = findViewById(R.id.whitelistIntroductionText)
-        setOnClickListener { v: View? -> launchActivity() }
+        setOnClickListener { launchActivity() }
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {

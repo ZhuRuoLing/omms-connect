@@ -15,8 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OMMSConnect"
         tools:targetApi="31">
+
         <activity
-            android:name=".WhitelistEditActivity"
+            android:name=".ui.server.activity.ui.system.ServerOSControlActivity"
+            android:exported="false"
+            android:label="@string/title_activity_server_oscontrol"
+            android:theme="@style/Theme.OMMSConnect.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.server.activity.ui.minecraft.MinecraftServerControlActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
+            android:name=".ui.whitelist.activity.WhitelistEditActivity"
             android:exported="false"
             android:label="@string/title_activity_whitelist_edit"
             android:theme="@style/Theme.OMMSConnect" />
@@ -32,6 +50,7 @@
             tools:ignore="RedundantLabel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

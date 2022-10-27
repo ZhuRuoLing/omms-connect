@@ -1,4 +1,4 @@
-package net.zhuruoling.ommsconnect
+package net.zhuruoling.ommsconnect.ui.whitelist.activity
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.*
+import net.zhuruoling.ommsconnect.R
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.databinding.ActivityWhitelistEditBinding
 import net.zhuruoling.ommsconnect.ui.whitelist.view.WhitelistCompoentView
