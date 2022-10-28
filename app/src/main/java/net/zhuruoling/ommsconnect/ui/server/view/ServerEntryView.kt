@@ -27,6 +27,7 @@ class ServerEntryView : ConstraintLayout {
     private var controller: Controller? = null
     private var systemInfo: SystemInfo? = null
     private var serverEntryType = ServerEntryType.UNDEFINED
+    private var entryType = ""
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.server_entry_view, this)
@@ -46,6 +47,7 @@ class ServerEntryView : ConstraintLayout {
         try {
             this.serverNameTextView.text = name
             this.serverIntroTextView.text = introText
+            this.entryType = type
             this.imageView.setImageDrawable(Assets.getServerIcon(type, parent))
         } catch (e: Exception) {
             e.printStackTrace()
@@ -74,6 +76,7 @@ class ServerEntryView : ConstraintLayout {
                         parent.activity,
                         ServerOSControlActivity::class.java
                     ).putExtra("data", GsonUtils.toJson(systemInfo))
+                        .putExtra("system_type", entryType)
                 )
             }
             else OnClickListener {
@@ -82,6 +85,7 @@ class ServerEntryView : ConstraintLayout {
                         parent.activity,
                         MinecraftServerControlActivity::class.java
                     ).putExtra("data", GsonUtils.toJson(controller))
+                        .putExtra("server_type", entryType)
                 )
             }
         )

@@ -14,5 +14,5 @@
 
     <style name="Theme.OMMSConnect.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.OMMSConnect.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.OMMSConnect.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 </resources>

@@ -1,13 +1,13 @@
-package net.zhuruoling.ommsconnect.ui.server.activity.ui.minecraft.ui.gallery
+package net.zhuruoling.ommsconnect.ui.server.activity.ui.minecraft.ui.control
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class GalleryViewModel : ViewModel() {
+class ControlViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
+        value = "This is ctrl Fragment"
     }
     val text: LiveData<String> = _text
 }

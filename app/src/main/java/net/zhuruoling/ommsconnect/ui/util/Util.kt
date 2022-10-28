@@ -17,6 +17,6 @@ fun getSystemType(origin: String): String {
     ) "LINUX" else "")
 }
 
-enum class ServerEntryType{
-    OS,MINECRAFT,BRIDGE,UNDEFINED
+enum class ServerEntryType {
+    OS, MINECRAFT, BRIDGE, UNDEFINED
 }
