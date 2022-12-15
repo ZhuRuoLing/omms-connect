@@ -14,9 +14,13 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="@string/server"
             android:textSize="50sp" />
 
@@ -24,6 +28,7 @@
             android:id="@+id/server_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="@string/wdnmd"
             android:textSize="20sp" />
 
