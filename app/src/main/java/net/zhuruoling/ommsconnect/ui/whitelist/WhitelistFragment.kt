@@ -5,25 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.databinding.FragmentWhitelistBinding
+import net.zhuruoling.ommsconnect.ui.util.showErrorDialog
 import net.zhuruoling.ommsconnect.ui.view.Placeholder68dpView
 import net.zhuruoling.ommsconnect.ui.whitelist.view.WhitelistEntryView
-import java.lang.Exception
 
 
 class WhitelistFragment : Fragment() {
 
     private var _binding: FragmentWhitelistBinding? = null
-    val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
     }
-    val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
+    private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
     val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
     // This property is only valid between onCreateView and
@@ -35,17 +34,19 @@ class WhitelistFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        ViewModelProvider(this).get(WhitelistViewModel::class.java)
-
         _binding = FragmentWhitelistBinding.inflate(inflater, container, false)
         val root: View = binding.root
         if (Connection.isConnected) {
-            initGui()
+            refreshWhitelist()
+        }
+        binding.whitelistSwipeRefresh.setOnRefreshListener {
+            ToastUtils.showShort("Refreshing!")
+            refreshWhitelist(showDialog = false)
         }
         return root
     }
 
-    private fun initGui() {
+    private fun refreshWhitelist(showDialog: Boolean = true) {
         val alertDialog = this.context?.let {
             MaterialAlertDialogBuilder(it)
                 .setCancelable(false)
@@ -53,17 +54,31 @@ class WhitelistFragment : Fragment() {
                 .setMessage("Please Wait...")
                 .create()
         }
+
         externalScope.launch(Dispatchers.IO) {
-            launch(Dispatchers.Main) {
-                alertDialog?.show()
+            if (showDialog) {
+                launch(Dispatchers.Main) {
+                    alertDialog?.show()
+                }
             }
             ensureActive()
-            Connection.getClientSession().apply {
-                this.fetchWhitelistFromServer()
-                this@WhitelistFragment.whitelistMap = this.whitelistMap
+            try{
+                Connection.getClientSession().apply {
+                    this.fetchWhitelistFromServer()
+                    this@WhitelistFragment.whitelistMap = this.whitelistMap
+                }
+            }catch (e:Exception){
+                if (showDialog){
+                    alertDialog?.dismiss()
+                }else{
+                    this@WhitelistFragment.binding.whitelistSwipeRefresh.isRefreshing = false
+                }
+                showErrorDialog("Cannot fetch whitelists from server, reason: $e", requireContext())
             }
             launch(Dispatchers.Main) {
+                ensureActive()
                 try {
+                    this@WhitelistFragment.binding.linearLayout.removeAllViews()
                     this@WhitelistFragment.whitelistMap.forEach {
                         context?.let { it1 ->
                             val view = WhitelistEntryView(
@@ -77,16 +92,27 @@ class WhitelistFragment : Fragment() {
                             it
                         )
                     })
-                    this@WhitelistFragment.binding.linearLayout.addView(this@WhitelistFragment.context?.let {
-                        Placeholder68dpView(
-                            it
-                        )
-                    })
+//                    this@WhitelistFragment.binding.linearLayout.addView(this@WhitelistFragment.context?.let {
+//                        Placeholder68dpView(
+//                            it
+//                        )
+//                    })
                     this@WhitelistFragment.binding.whitelistTitle.text =
                         "${this@WhitelistFragment.whitelistMap.size} whitelists were added to this server.";
-                    alertDialog?.dismiss()
+                    if (showDialog) {
+                        alertDialog?.dismiss()
+                    }else{
+                        this@WhitelistFragment.binding.whitelistSwipeRefresh.isRefreshing = false
+                        ToastUtils.showShort("Done!")
+                    }
                 } catch (e: Exception) {
-                    alertDialog?.dismiss()
+                    showErrorDialog(e.toString(), requireContext())
+                    if (showDialog){
+                        alertDialog?.dismiss()
+                    }else{
+                        this@WhitelistFragment.binding.whitelistSwipeRefresh.isRefreshing = false
+
+                    }
                 }
             }
         }
@@ -96,4 +122,5 @@ class WhitelistFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

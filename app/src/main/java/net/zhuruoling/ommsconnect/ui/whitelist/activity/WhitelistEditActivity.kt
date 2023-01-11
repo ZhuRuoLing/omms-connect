@@ -14,7 +14,7 @@ import kotlinx.coroutines.*
 import net.zhuruoling.ommsconnect.R
 import net.zhuruoling.ommsconnect.client.Connection
 import net.zhuruoling.ommsconnect.databinding.ActivityWhitelistEditBinding
-import net.zhuruoling.ommsconnect.ui.whitelist.view.WhitelistCompoentView
+import net.zhuruoling.ommsconnect.ui.whitelist.view.WhitelistPlayerView
 
 class WhitelistEditActivity : AppCompatActivity() {
 
@@ -38,7 +38,7 @@ class WhitelistEditActivity : AppCompatActivity() {
         players = CacheMemoryUtils.getInstance().get("whitelist_content")
         binding.whitelistNameTitle.text = "${players.size} players were added to this whitelist."
         if (players.isNotEmpty())players.forEach {
-            this.binding.whitelistCompoentContainer.addView(WhitelistCompoentView(this).setAttribute(it, fromWhitelist, this))
+            this.binding.whitelistCompoentContainer.addView(WhitelistPlayerView(this).setAttribute(it, fromWhitelist, this))
         }
     }
 

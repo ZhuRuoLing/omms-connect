@@ -17,7 +17,7 @@ import net.zhuruoling.omms.client.util.Result
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
 
-class WhitelistCompoentView : ConstraintLayout {
+class WhitelistPlayerView : ConstraintLayout {
     private var playerNameText: TextView? = null
     private var fromWhitelist: String? = null
     private var activity: WhitelistEditActivity? = null
@@ -29,7 +29,8 @@ class WhitelistCompoentView : ConstraintLayout {
     private lateinit var externalScope: CoroutineScope
 
     constructor(context: Context) : super(context) {
-        LayoutInflater.from(context).inflate(R.layout.whitelist_compoent_view, this)
+        LayoutInflater.from(context).inflate(R.layout.whitelist_player_view, this)
+
         setOnClickListener { view: View -> displayActions(view) }
         playerNameText = findViewById(R.id.playerNameText)
         setOnClickListener { view: View -> displayActions(view) }
@@ -85,7 +86,7 @@ class WhitelistCompoentView : ConstraintLayout {
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        LayoutInflater.from(context).inflate(R.layout.whitelist_compoent_view, this)
+        LayoutInflater.from(context).inflate(R.layout.whitelist_player_view, this)
         setOnClickListener { view: View -> displayActions(view) }
     }
 
@@ -93,7 +94,7 @@ class WhitelistCompoentView : ConstraintLayout {
         playerName: String,
         fromWhitelist: String,
         activity: WhitelistEditActivity
-    ): WhitelistCompoentView {
+    ): WhitelistPlayerView {
         playerNameText!!.text = playerName
         this.fromWhitelist = fromWhitelist
         this.activity = activity

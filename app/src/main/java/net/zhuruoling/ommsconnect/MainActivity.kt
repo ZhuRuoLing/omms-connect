@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             if (binding.remeberCodeCheckbox.isChecked){
                 editor.putString("server_code",code)
             }
+
             editor.apply()
             login(ip, Integer.valueOf(port), Integer.valueOf(code))
             alertDialog.show()
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     private fun login(ip: String, port: Int, code: Int) {
         externalScope.launch(defaultDispatcher) {
             ensureActive()
-            when (Connection.init(ip, port, code)) {
+            when (val result = Connection.init(ip, port, code)) {
                 is Result.Success<Response> -> {
                     ToastUtils.showLong(R.string.success)
                     startActivity(Intent(this@MainActivity,SessionActivity::class.java))
@@ -101,8 +102,14 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     runOnUiThread {
                         alertDialog.dismiss()
+                        val dialog = MaterialAlertDialogBuilder(this@MainActivity)
+                            .setCancelable(true)
+                            .setTitle("Loading")
+                            .setMessage(String.format("Cannot connect to server, reason %s", (result as Result.Error).exception.toString()))
+                            .create()
+                        dialog.show()
+                        ToastUtils.showLong(R.string.fail)
                     }
-                    ToastUtils.showLong(R.string.fail)
 
                 }
             }

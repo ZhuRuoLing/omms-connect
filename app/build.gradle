@@ -8,11 +8,11 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "net.zhuruoling.ommsconnect"
+        applicationId "net.zhuruoling.omms.connect"
         minSdk 29
-        targetSdk 32
-        versionCode 66
-        versionName '0.6.10'
+        targetSdk 33
+        versionCode 73
+        versionName '0.7.3'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -21,8 +21,8 @@ android {
     }
     android.applicationVariants.all {
         variant ->
-            variant.outputs.all{
-                outputFileName = "OMMS-Connect.apk"
+            variant.outputs.all {
+                outputFileName = "${applicationId}-${versionCode}-${versionName}.apk"
             }
     }
 
@@ -56,7 +56,7 @@ android {
 
 dependencies {
     implementation 'com.blankj:utilcodex:1.31.0'
-    implementation( fileTree(dir: 'libs', includes: ['*.jar']))
+    implementation(fileTree(dir: 'libs', includes: ['*.jar']))
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.5.0-alpha04'
@@ -70,6 +70,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

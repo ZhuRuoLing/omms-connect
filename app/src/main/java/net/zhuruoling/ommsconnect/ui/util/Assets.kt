@@ -15,6 +15,4 @@ object Assets {
             "LINUX" -> AppCompatResources.getDrawable(parent, R.drawable.ic_server_linux)
             else -> AppCompatResources.getDrawable(parent, R.drawable.ic_server_default)
         }
-
-
 }

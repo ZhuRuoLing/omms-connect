@@ -19,16 +19,16 @@ import net.zhuruoling.ommsconnect.databinding.FragmentServerBinding
 import net.zhuruoling.ommsconnect.ui.server.view.ServerEntryView
 import net.zhuruoling.ommsconnect.ui.util.genControllerIntroText
 import net.zhuruoling.ommsconnect.ui.util.getSystemType
+import net.zhuruoling.ommsconnect.ui.util.showErrorDialog
 import net.zhuruoling.ommsconnect.ui.view.Placeholder68dpView
 
 class ServerFragment : Fragment() {
 
     private var _binding: FragmentServerBinding? = null
-    val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
     }
-    val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
-    val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -36,18 +36,19 @@ class ServerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val serverViewModel =
-            ViewModelProvider(this).get(ServerViewModel::class.java)
-
         _binding = FragmentServerBinding.inflate(inflater, container, false)
 
         if (Connection.isConnected) {
-            tryInit()
+            load()
+        }
+        binding.serverSwipeRefresh.isRefreshing = false
+        binding.serverSwipeRefresh.setOnRefreshListener {
+            load(false)
         }
         return binding.root
     }
 
-    private fun tryInit() {
+    private fun load(showDialog: Boolean = true) {
 
         var controllers = hashMapOf<String, Controller>()
         var systemInfo: SystemInfo? = null
@@ -59,29 +60,54 @@ class ServerFragment : Fragment() {
                 .create()
         }
         externalScope.launch(Dispatchers.IO) {
-            launch(Dispatchers.Main) {
-                alertDialog?.show()
+            if (showDialog) {
+                launch(Dispatchers.Main) {
+                    alertDialog?.show()
+                }
             }
             ensureActive()
             Connection.getClientSession().apply {
-                var result = this.fetchCotrollersFromServer()
-                if (result == Result.OK) {
-                    controllers = this.controllerMap
-                    this@ServerFragment.externalScope.launch(Dispatchers.Main) {
-                        this@ServerFragment.binding.serverText.text =
-                            "${controllers.count()} controllers added to this server."
+                try {
+                    var result = this.fetchCotrollersFromServer()
+                    if (result == Result.OK) {
+                        controllers = this.controllerMap
+                        this@ServerFragment.externalScope.launch(Dispatchers.Main) {
+                            this@ServerFragment.binding.serverText.text =
+                                "${controllers.count()} controllers added to this server."
+                        }
+                    } else {
+                        if (showDialog) {
+                            alertDialog?.dismiss()
+                        } else {
+                            this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                        }
+                        showErrorDialog(
+                            "Cannot fetch systemInfo from server, Caused By: ${result.name}",
+                            this@ServerFragment.requireContext()
+                        )
                     }
-                } else {
-                    ToastUtils.showLong("Cannot fetch Controllers from server, Caused By: ${result.name}")
+                    result = this.fetchSystemInfoFromServer()
+                    if (result == Result.OK) {
+                        systemInfo = this.systemInfo
+                    } else {
+                        if (showDialog) {
+                            alertDialog?.dismiss()
+                        } else {
+                            this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                        }
+                        showErrorDialog(
+                            "Cannot fetch systemInfo from server, Caused By: ${result.name}",
+                            this@ServerFragment.requireContext()
+                        )
+                    }
+                } catch (e: Exception) {
+                    showErrorDialog(e.toString(), this@ServerFragment.requireContext())
+                    return@launch
                 }
-                result = this.fetchSystemInfoFromServer()
-                if (result == Result.OK) {
-                    systemInfo = this.systemInfo
-                } else {
-                    ToastUtils.showLong("Cannot fetch systemInfo from server, Caused By: ${result.name}")
-                }
+
             }
             launch(Dispatchers.Main) {
+                this@ServerFragment.binding.serverList.removeAllViews()
                 try {
                     context?.let { it1 ->
                         val view = activity?.let { fragmentActivity ->
@@ -92,9 +118,7 @@ class ServerFragment : Fragment() {
                                         introText = "${systemInfo.osName} ${systemInfo.osVersion} ${systemInfo.osArch}",
                                         type = getSystemType(systemInfo.osName),
                                         parent = fragmentActivity
-                                    )
-                                        .withSystemInfo(systemInfo1)
-                                        .prepare(this@ServerFragment)
+                                    ).withSystemInfo(systemInfo1).prepare(this@ServerFragment)
                                 }
                             }
                         }
@@ -120,10 +144,19 @@ class ServerFragment : Fragment() {
                             it
                         )
                     })
-                    alertDialog?.dismiss()
+                    if (showDialog) {
+                        alertDialog?.dismiss()
+                    } else {
+                        this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                    }
                 } catch (e: Exception) {
+                    showErrorDialog(e.toString(), this@ServerFragment.requireContext())
                     Log.e("omms", "err", e)
-                    alertDialog?.dismiss()
+                    if (showDialog) {
+                        alertDialog?.dismiss()
+                    } else {
+                        this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                    }
                 }
             }
         }
@@ -133,6 +166,8 @@ class ServerFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
 
 
