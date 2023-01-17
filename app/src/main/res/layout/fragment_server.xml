@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
-    tools:context=".ui.server.ServerFragment">
+    tools:context="net.zhuruoling.omms.connect.ui.server.ServerFragment">
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

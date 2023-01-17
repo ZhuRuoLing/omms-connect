@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.server.activity.ui.minecraft.ui.status.StatusFragment">
+    tools:context="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.status.StatusFragment">
 
     <TextView
         android:id="@+id/text_slideshow"

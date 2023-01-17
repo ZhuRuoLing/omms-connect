@@ -51,4 +51,5 @@
     <string name="more">More</string>
     <string name="title_activity_minecraft_server_control">MinecraftServerControlActivity</string>
     <string name="whitelist_icon_desp">whitelist icon</string>
+    <string name="announcement">Announcement</string>
 </resources>

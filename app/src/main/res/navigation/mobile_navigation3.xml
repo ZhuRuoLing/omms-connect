@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="net.zhuruoling.ommsconnect.ui.server.activity.ui.minecraft.ui.management.ManagementFragment"
+        android:name="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.management.ManagementFragment"
         android:label="Management"
         tools:layout="@layout/fragment_mc_management" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="net.zhuruoling.ommsconnect.ui.server.activity.ui.minecraft.ui.status.StatusFragment"
+        android:name="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.status.StatusFragment"
         android:label="Status"
         tools:layout="@layout/fragment_mc_control" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="net.zhuruoling.ommsconnect.ui.server.activity.ui.minecraft.ui.control.ControlFragment"
+        android:name="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.control.ControlFragment"
         android:label="Control"
         tools:layout="@layout/fragment_mc_status" />
 </navigation>

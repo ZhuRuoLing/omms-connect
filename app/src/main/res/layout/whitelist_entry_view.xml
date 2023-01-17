@@ -28,13 +28,12 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                app:srcCompat="@drawable/ic_baseline_sensor_window_24"
-                android:layout_margin="5dp"
-                android:contentDescription="@string/whitelist_icon_desp" />
+                android:layout_margin="25dp"
+                android:contentDescription="@string/whitelist_icon_desp"
+                app:srcCompat="@drawable/ic_baseline_whitelist_icon" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -46,14 +45,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
-                    android:text="123"/>
+                    android:text="@string/wdnmd"/>
 
                 <TextView
                     android:id="@+id/whitelistIntroductionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:text="4566"/>
+                    android:textSize="20sp"
+                    android:text="@string/wdnmd"
+                    android:textColor="@color/gray_600"/>
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
