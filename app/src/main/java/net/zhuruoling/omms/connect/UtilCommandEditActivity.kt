@@ -5,7 +5,6 @@ import android.text.Editable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import net.zhuruoling.omms.connect.databinding.ActivityUtilCommandEditBinding
