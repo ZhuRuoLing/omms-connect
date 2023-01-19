@@ -3,6 +3,7 @@ package net.zhuruoling.omms.connect.ui.util
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import net.zhuruoling.omms.client.controller.Controller
+import net.zhuruoling.omms.connect.storage.PreferencesStorage
 
 fun genControllerText(controller: Controller): String {
     val stringBuilder = StringBuilder()
@@ -28,10 +29,16 @@ fun showErrorDialog(info:String, context:Context){
         val alertDialog = context.let {
             MaterialAlertDialogBuilder(it)
                 .setCancelable(true)
-                .setTitle("Loading")
+                .setTitle("Error")
                 .setMessage(info)
                 .create()
         }
         alertDialog.show()
 
+}
+
+fun getUtilCommands(context: Context): List<String> {
+    return PreferencesStorage.withContext(context, "util_command")
+        .getStringSet("util_commands",
+        mutableSetOf()).toList()
 }

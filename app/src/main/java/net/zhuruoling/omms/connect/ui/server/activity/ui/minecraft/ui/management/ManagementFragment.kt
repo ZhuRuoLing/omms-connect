@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import net.zhuruoling.ommsconnect.databinding.FragmentMcManagementBinding
+import net.zhuruoling.omms.connect.databinding.FragmentMcManagementBinding
 
 
 class ManagementFragment : Fragment() {

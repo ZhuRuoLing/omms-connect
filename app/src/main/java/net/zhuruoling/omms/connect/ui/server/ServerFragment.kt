@@ -14,7 +14,7 @@ import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.client.system.SystemInfo
 import net.zhuruoling.omms.client.util.Result
 import net.zhuruoling.omms.connect.client.Connection
-import net.zhuruoling.ommsconnect.databinding.FragmentServerBinding
+import net.zhuruoling.omms.connect.databinding.FragmentServerBinding
 import net.zhuruoling.omms.connect.ui.server.view.ServerEntryView
 import net.zhuruoling.omms.connect.ui.util.genControllerText
 import net.zhuruoling.omms.connect.ui.util.getSystemType

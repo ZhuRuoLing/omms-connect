@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <!--                    <com.google.android.material.button.MaterialButton-->
+                    <!--                        style="@style/Widget.Material3.Button.ElevatedButton"-->
+                    <!--                        app:cornerRadius="17dp"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:text="@string/wdnmd"-->
+                    <!--                        android:layout_margin="5dp"/>-->
+                    <!--                    <com.google.android.material.button.MaterialButton-->
+                    <!--                        style="@style/Widget.Material3.Button.ElevatedButton"-->
+                    <!--                        app:cornerRadius="17dp"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:textSize="18sp"-->
+                    <!--                        android:text="@string/wdnmd"-->
+                    <!--                        android:layout_margin="5dp" />-->
+                    <!--                    <com.google.android.material.button.MaterialButton-->
+                    <!--                        style="@style/Widget.Material3.Button.Icon"-->
+                    <!--                        app:cornerRadius="17dp"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:text="@string/wdnmd"-->
+                    <!--                        android:layout_margin="5dp" />-->
+                    <!--                    <com.google.android.material.button.MaterialButton-->
+                    <!--                        style="@style/Widget.Material3.Button.TextButton.Dialog"-->
+                    <!--                        app:cornerRadius="17dp"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:text="@string/wdnmd"-->
+                    <!--                        android:layout_margin="5dp"/>-->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:backgroundTintMode="add"
+                        android:text="Some Option"/>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:backgroundTintMode="add"
+                        android:text="Another Option"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/util_command_button"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:text="Util Commands"
+                        app:cornerRadius="17dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:text="Some Configuration"
+                        app:cornerRadius="17dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:text="Another Configuration"
+                        app:cornerRadius="17dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

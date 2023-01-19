@@ -1,7 +1,6 @@
 package net.zhuruoling.omms.connect
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -9,20 +8,20 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 import net.zhuruoling.omms.connect.client.Connection
-import net.zhuruoling.ommsconnect.R
 import net.zhuruoling.omms.connect.client.Response
-import net.zhuruoling.ommsconnect.databinding.ActivitySession0Binding
+import net.zhuruoling.omms.connect.databinding.ActivitySession0Binding
 
 class SessionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySession0Binding
-    val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
     }
-    val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
-    val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

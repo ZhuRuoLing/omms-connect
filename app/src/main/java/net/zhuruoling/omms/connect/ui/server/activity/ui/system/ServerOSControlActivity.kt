@@ -15,8 +15,8 @@ import com.blankj.utilcode.util.CacheDiskUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.google.android.material.navigation.NavigationView
 import net.zhuruoling.omms.client.system.SystemInfo
-import net.zhuruoling.ommsconnect.R
-import net.zhuruoling.ommsconnect.databinding.ActivityServerOscontrolBinding
+import net.zhuruoling.omms.connect.R
+import net.zhuruoling.omms.connect.databinding.ActivityServerOscontrolBinding
 import net.zhuruoling.omms.connect.ui.util.Assets
 import net.zhuruoling.omms.connect.ui.util.getSystemType
 

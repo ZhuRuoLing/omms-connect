@@ -1,18 +1,22 @@
 package net.zhuruoling.omms.connect.ui.whitelist
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import net.zhuruoling.omms.connect.client.Connection
-import net.zhuruoling.ommsconnect.databinding.FragmentWhitelistBinding
+import net.zhuruoling.omms.connect.databinding.FragmentWhitelistBinding
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.ui.view.Placeholder68dpView
+import net.zhuruoling.omms.connect.ui.whitelist.activity.WhitelistEditActivity
 import net.zhuruoling.omms.connect.ui.whitelist.view.WhitelistEntryView
 
 
@@ -24,6 +28,14 @@ class WhitelistFragment : Fragment() {
     }
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
     val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+
+    private val activityResultLauncher = registerForActivityResult(ResultContract()){
+        if (it){
+            this.binding.whitelistSwipeRefresh.isRefreshing = true
+            refreshWhitelist(false)
+        }
+    }
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -80,7 +92,7 @@ class WhitelistFragment : Fragment() {
                     this@WhitelistFragment.binding.linearLayout.removeAllViews()
                     this@WhitelistFragment.whitelistMap.forEach {
                         val view =
-                            WhitelistEntryView(requireContext()).setAttribute(it.key, it.value)
+                            WhitelistEntryView(requireContext()).setAttribute(it.key, it.value, activityResultLauncher)
                         this@WhitelistFragment.binding.linearLayout.addView(view)
                     }
                     this@WhitelistFragment.binding.linearLayout.addView(Placeholder68dpView(requireContext()))
@@ -110,9 +122,28 @@ class WhitelistFragment : Fragment() {
         }
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    class ResultContract: ActivityResultContract<Int, Boolean>() {
+        override fun createIntent(context: Context, input: Int): Intent {
+            val intent = Intent(context, WhitelistEditActivity::class.java)
+            intent.putExtra("check",input)
+            return intent
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Boolean {
+            return if (resultCode == 114514) {
+                intent!!.getBooleanExtra("requireRefresh", false)
+            }else{
+                false
+            }
+        }
+
+    }
+
 }
+

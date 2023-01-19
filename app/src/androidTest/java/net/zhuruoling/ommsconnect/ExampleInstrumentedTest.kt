@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("net.zhuruoling.ommsconnect", appContext.packageName)
+        assertEquals("net.zhuruoling.omms.connect", appContext.packageName)
     }
 }

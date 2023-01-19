@@ -6,7 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.TextView
 import net.zhuruoling.omms.connect.ui.whitelist.activity.WhitelistEditActivity
 import android.view.LayoutInflater
-import net.zhuruoling.ommsconnect.R
+import net.zhuruoling.omms.connect.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import android.content.DialogInterface
 import android.util.AttributeSet
@@ -18,9 +18,9 @@ import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
 
 class WhitelistPlayerView : ConstraintLayout {
-    private var playerNameText: TextView? = null
-    private var fromWhitelist: String? = null
-    private var activity: WhitelistEditActivity? = null
+    private lateinit var playerNameText: TextView
+    private lateinit var fromWhitelist: String
+    private lateinit var activity: WhitelistEditActivity
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
         Log.e("wdnmd","FUCK", e)
@@ -37,24 +37,24 @@ class WhitelistPlayerView : ConstraintLayout {
     }
 
     private fun displayActions(view: View) {
-        val dialog = MaterialAlertDialogBuilder(activity!!)
+        val dialog = MaterialAlertDialogBuilder(activity)
             .setCancelable(true)
             .setTitle("Confirm")
             .setMessage(
                 String.format(
                     "Are you sure to remove this player?\n player:%s\n whitelist: %s",
-                    playerNameText!!.text,
+                    playerNameText.text,
                     fromWhitelist
                 )
             )
-            .setPositiveButton("Yes") { dialog1: DialogInterface?, which: Int ->
+            .setPositiveButton("Yes") { _: DialogInterface?, _: Int ->
                 externalScope.launch(Dispatchers.IO) {
-                    val playerName = playerNameText!!.text.toString()
+                    val playerName = playerNameText.text.toString()
                     val session = getClientSession()
 
                     val result = session.removeFromWhitelist(fromWhitelist, playerName)
                     if (result != Result.OK) {
-                        MaterialAlertDialogBuilder(activity!!)
+                        MaterialAlertDialogBuilder(activity)
                             .setPositiveButton("Ok", null)
                             .setTitle("Fail")
                             .setMessage(
@@ -67,7 +67,7 @@ class WhitelistPlayerView : ConstraintLayout {
 
                     } else {
                         this.launch (Dispatchers.Main){
-                            MaterialAlertDialogBuilder(activity!!)
+                            MaterialAlertDialogBuilder(activity)
                                 .setPositiveButton("Ok", null)
                                 .setTitle("Success")
                                 .setMessage(
@@ -76,11 +76,16 @@ class WhitelistPlayerView : ConstraintLayout {
                                         playerName,
                                     )
                                 ).show()
+                            activity.requireRefresh = true
+                            activity.removePlayer(playerName)
+                            activity.refreshPlayerList()
                         }
                     }
                 }
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton("No"){ _: DialogInterface?, _: Int ->
+
+            }
             .create()
         dialog.show()
     }

@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/announcement"
-        android:name="net.zhuruoling.omms.connect.ui.Announcement.AnnouncementFragment"
+        android:name="net.zhuruoling.omms.connect.ui.announcement.AnnouncementFragment"
         android:label="@string/title_broadcast"
         tools:layout="@layout/fragment_announcement" />
 </navigation>

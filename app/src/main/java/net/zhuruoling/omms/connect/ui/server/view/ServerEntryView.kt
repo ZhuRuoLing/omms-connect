@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.GsonUtils
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.client.system.SystemInfo
-import net.zhuruoling.ommsconnect.R
+import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.MinecraftServerControlActivity
 import net.zhuruoling.omms.connect.ui.server.activity.ui.system.ServerOSControlActivity
 import net.zhuruoling.omms.connect.ui.util.Assets

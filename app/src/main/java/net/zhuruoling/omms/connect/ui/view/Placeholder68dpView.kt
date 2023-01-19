@@ -3,7 +3,7 @@ package net.zhuruoling.omms.connect.ui.view
 import android.content.Context
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.view.LayoutInflater
-import net.zhuruoling.ommsconnect.R
+import net.zhuruoling.omms.connect.R
 import android.util.AttributeSet
 
 class Placeholder68dpView : ConstraintLayout {

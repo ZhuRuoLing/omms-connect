@@ -16,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.CacheDiskUtils
 import com.blankj.utilcode.util.GsonUtils
 import net.zhuruoling.omms.client.controller.Controller
-import net.zhuruoling.ommsconnect.R
-import net.zhuruoling.ommsconnect.databinding.ActivityMinecraftServerControlBinding
+import net.zhuruoling.omms.connect.R
+import net.zhuruoling.omms.connect.databinding.ActivityMinecraftServerControlBinding
 import net.zhuruoling.omms.connect.ui.util.Assets
 
 class MinecraftServerControlActivity : AppCompatActivity() {

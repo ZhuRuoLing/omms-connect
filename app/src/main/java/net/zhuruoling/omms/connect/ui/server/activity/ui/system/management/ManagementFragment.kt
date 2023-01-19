@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import net.zhuruoling.ommsconnect.databinding.FragmentOsManagementBinding
+import net.zhuruoling.omms.connect.databinding.FragmentOsManagementBinding
 
 //import net.zhuruoling.ommsconnect.ui.server.activity.databinding.FragmentHomeBinding
 

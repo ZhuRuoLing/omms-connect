@@ -3,7 +3,7 @@ package net.zhuruoling.omms.connect.ui.util
 import android.app.Activity
 import android.graphics.drawable.Drawable
 import androidx.appcompat.content.res.AppCompatResources
-import net.zhuruoling.ommsconnect.R
+import net.zhuruoling.omms.connect.R
 import java.util.*
 
 object Assets {

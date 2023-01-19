@@ -1,21 +1,22 @@
 package net.zhuruoling.omms.connect
 
 import android.content.Intent
-import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import net.zhuruoling.omms.connect.client.Connection
-import net.zhuruoling.omms.connect.client.Response
 import net.zhuruoling.omms.connect.client.Connection.Result
-import net.zhuruoling.ommsconnect.R
-import net.zhuruoling.ommsconnect.databinding.ActivityMainBinding
+import net.zhuruoling.omms.connect.client.Response
+import net.zhuruoling.omms.connect.databinding.ActivityMainBinding
+import net.zhuruoling.omms.connect.storage.PreferencesStorage
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,9 +35,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Loading")
             .setMessage(R.string.working)
             .create()
-        val sharedPreferences:SharedPreferences = getSharedPreferences("server",
-            MODE_PRIVATE)
-        val editor:SharedPreferences.Editor = sharedPreferences.edit()
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,7 +48,9 @@ class MainActivity : AppCompatActivity() {
                 binding.remeberCodeCheckbox.isChecked = false
             }
         }
+        val preferencesStorage = PreferencesStorage.withContext(this, "login")
         button.setOnClickListener {
+
             val ip: String = binding.textIpaddr.text.toString()
             val port = binding.textPort.text.toString()
             val code = binding.textCode.text.toString()
@@ -57,36 +58,39 @@ class MainActivity : AppCompatActivity() {
                 ToastUtils.showLong(R.string.empty)
                 return@setOnClickListener
             }
-
-
             if (binding.remeberServerCheckbox.isChecked){
-                editor.putString("server_ip",ip)
-                editor.putString("server_port",port)
+                preferencesStorage.putString("server_ip",ip).putString("server_port",port)
             }
             else{
-                editor.clear()
+                preferencesStorage.clear()
             }
             if (binding.remeberCodeCheckbox.isChecked){
-                editor.putString("server_code",code)
+                preferencesStorage.putString("server_code",code)
             }
 
-            editor.apply()
+            preferencesStorage.commit()
             login(ip, Integer.valueOf(port), Integer.valueOf(code))
             alertDialog.show()
             }
-        if (sharedPreferences.contains("server_ip") and sharedPreferences.contains("server_port")){
-            val ip = sharedPreferences.getString("server_ip","")
-            val port = sharedPreferences.getString("server_port","")
+        if (preferencesStorage.contains("server_ip") and preferencesStorage.contains("server_port")){
+            val ip = preferencesStorage.getString("server_ip","")
+            val port = preferencesStorage.getString("server_port","")
             binding.textIpaddr.text = SpannableStringBuilder(ip)
             binding.textPort.text = SpannableStringBuilder(port)
             binding.remeberServerCheckbox.isChecked = true
         }
-        if (sharedPreferences.contains("server_code")){
-            val code = sharedPreferences.getString("server_code","")
+        if (preferencesStorage.contains("server_code")){
+            val code = preferencesStorage.getString("server_code","")
             binding.textCode.text = SpannableStringBuilder(code)
             binding.remeberCodeCheckbox.isChecked = true
         }
-
+        binding.settingButton.setOnClickListener {
+            ActivityUtils.startActivity(SettingsActivity::class.java)
+        }
+        binding.ommsIcon.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/OhMyMinecraftServer"))
+            startActivity(intent)
+        }
     }
 
     private fun login(ip: String, port: Int, code: Int) {
