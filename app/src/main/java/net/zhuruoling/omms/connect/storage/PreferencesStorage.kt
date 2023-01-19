@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 
 class PreferencesStorage private constructor(context: Context, region: String) {
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
+    val sharedPreferences: SharedPreferences = context.getSharedPreferences(
         "omms-connect:$region",
         AppCompatActivity.MODE_PRIVATE
     )

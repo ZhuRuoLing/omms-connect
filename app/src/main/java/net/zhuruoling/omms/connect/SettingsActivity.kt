@@ -2,11 +2,20 @@ package net.zhuruoling.omms.connect
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.ClipboardUtils
+import com.blankj.utilcode.util.SnackbarUtils
+import com.blankj.utilcode.util.ToastUtils
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import net.zhuruoling.omms.client.util.Util
 import net.zhuruoling.omms.connect.databinding.ActivitySettingsBinding
+import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -25,6 +34,31 @@ class SettingsActivity : AppCompatActivity() {
         }
         binding.utilCommandButton.setOnClickListener {
             ActivityUtils.startActivity(UtilCommandEditActivity::class.java)
+        }
+        binding.exportData.setOnClickListener {
+            val content = toExportDataJson(this)
+            ClipboardUtils.copyText(content)
+            Snackbar.make(this, this.binding.root, "Copied to Clipboard!", Snackbar.LENGTH_LONG).show()
+        }
+        binding.importData.setOnClickListener {
+            val textView = TextInputEditText(this)
+            val dialog = MaterialAlertDialogBuilder(this)
+                .setView(textView)
+                .setCancelable(true)
+                .setTitle("Import Data")
+                .setPositiveButton("Done") { _, _ ->
+                    Log.i("omms-crystal", "Back ${textView.text}")
+                    try{
+                        importDataFromJson(this, textView.text.toString())
+                        Snackbar.make(this, this.binding.root, "Done!", Snackbar.LENGTH_LONG).show()
+                    }catch (e: Exception){
+                        showErrorDialog("Exception occurred while parsing data. $e", this)
+                    }
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    Log.i("omms-crystal", "Back ${textView.text}")
+                }
+            dialog.show()
         }
     }
 

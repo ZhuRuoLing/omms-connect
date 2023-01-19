@@ -41,35 +41,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <!--                    <com.google.android.material.button.MaterialButton-->
-                    <!--                        style="@style/Widget.Material3.Button.ElevatedButton"-->
-                    <!--                        app:cornerRadius="17dp"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="50dp"-->
-                    <!--                        android:text="@string/wdnmd"-->
-                    <!--                        android:layout_margin="5dp"/>-->
-                    <!--                    <com.google.android.material.button.MaterialButton-->
-                    <!--                        style="@style/Widget.Material3.Button.ElevatedButton"-->
-                    <!--                        app:cornerRadius="17dp"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="50dp"-->
-                    <!--                        android:textSize="18sp"-->
-                    <!--                        android:text="@string/wdnmd"-->
-                    <!--                        android:layout_margin="5dp" />-->
-                    <!--                    <com.google.android.material.button.MaterialButton-->
-                    <!--                        style="@style/Widget.Material3.Button.Icon"-->
-                    <!--                        app:cornerRadius="17dp"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="50dp"-->
-                    <!--                        android:text="@string/wdnmd"-->
-                    <!--                        android:layout_margin="5dp" />-->
-                    <!--                    <com.google.android.material.button.MaterialButton-->
-                    <!--                        style="@style/Widget.Material3.Button.TextButton.Dialog"-->
-                    <!--                        app:cornerRadius="17dp"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="50dp"-->
-                    <!--                        android:text="@string/wdnmd"-->
-                    <!--                        android:layout_margin="5dp"/>-->
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -91,22 +62,32 @@
                         android:layout_margin="10dp"
                         android:text="Util Commands"
                         app:cornerRadius="17dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        style="@style/Widget.Material3.Button.TonalButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:text="Some Configuration"
-                        app:cornerRadius="17dp" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/export_data"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_margin="10dp"
+                            android:text="@string/export_data"
+                            android:layout_weight="1"
+                            app:cornerRadius="17dp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:text="Another Configuration"
-                        app:cornerRadius="17dp" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/import_data"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_margin="10dp"
+                            android:text="@string/import_data"
+                            android:layout_weight="1"
+                            app:cornerRadius="17dp" />
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

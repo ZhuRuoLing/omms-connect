@@ -6,17 +6,118 @@
     android:layout_height="match_parent"
     tools:context="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.status.StatusFragment">
 
-    <TextView
-        android:id="@+id/text_slideshow"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/mc_status_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/status_card"
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:outlineAmbientShadowColor="?colorPrimary"
+                    android:outlineSpotShadowColor="?colorPrimary"
+                    android:stateListAnimator="@null"
+                    app:cardBackgroundColor="#555555"
+                    app:cardElevation="6dp"
+                    app:cardPreventCornerOverlap="false">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="?dialogPreferredPadding">
+
+                        <ImageView
+                            android:id="@+id/status_icon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_baseline_circle_24"
+                            app:tint="?colorOnPrimary"
+                            tools:ignore="ContentDescription" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/mc_status_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_toEndOf="@id/status_icon"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/status_waiting"
+                            android:textAppearance="?textAppearanceTitleMedium"
+                            android:textColor="?colorOnPrimary"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    app:cardCornerRadius="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:outlineAmbientShadowColor="?colorAccent"
+                    android:outlineSpotShadowColor="?colorAccent"
+                    app:cardBackgroundColor="#B9F6CA"
+                    android:layout_margin="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/player_count"
+                            android:layout_margin="2sp"
+                            android:textSize="18sp"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/mc_text_player_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:textColor="#505050"
+                            android:textSize="16sp"
+                            android:textAllCaps="false"
+                            android:elegantTextHeight="true"
+                            android:text="@string/unavailable" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/player_list"
+                            android:layout_marginTop="2sp"
+                            android:textSize="18sp"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/mc_text_player_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:textColor="#505050"
+                            android:textSize="16sp"
+                            android:textAllCaps="false"
+                            android:elegantTextHeight="true"
+                            android:text="@string/unavailable" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,6 @@ import net.zhuruoling.omms.connect.databinding.ActivityMainBinding
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
@@ -50,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
         val preferencesStorage = PreferencesStorage.withContext(this, "login")
         button.setOnClickListener {
-
             val ip: String = binding.textIpaddr.text.toString()
             val port = binding.textPort.text.toString()
             val code = binding.textCode.text.toString()

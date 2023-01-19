@@ -2,8 +2,11 @@ package net.zhuruoling.omms.connect.ui.util
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.GsonBuilder
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
+
+private val gson = GsonBuilder().serializeNulls().create()
 
 fun genControllerText(controller: Controller): String {
     val stringBuilder = StringBuilder()
@@ -24,7 +27,6 @@ enum class ServerEntryType {
     OS, MINECRAFT, BRIDGE, UNDEFINED
 }
 
-
 fun showErrorDialog(info:String, context:Context){
         val alertDialog = context.let {
             MaterialAlertDialogBuilder(it)
@@ -34,11 +36,18 @@ fun showErrorDialog(info:String, context:Context){
                 .create()
         }
         alertDialog.show()
-
 }
 
 fun getUtilCommands(context: Context): List<String> {
     return PreferencesStorage.withContext(context, "util_command")
         .getStringSet("util_commands",
         mutableSetOf()).toList()
+}
+
+fun <T> fromJson(src: String, klass: Class<out T>): T{
+    return gson.fromJson(src, klass)
+}
+
+fun toJson(obj: Any): String{
+    return gson.toJson(obj)
 }
