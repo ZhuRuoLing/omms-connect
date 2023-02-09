@@ -21,6 +21,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:clickable="true"
                     android:id="@+id/status_card"
                     style="@style/Widget.Material3.CardView.Elevated"
                     android:layout_width="match_parent"
@@ -64,6 +65,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:clickable="true"
                     style="@style/Widget.Material3.CardView.Elevated"
                     app:cardCornerRadius="10dp"
                     android:layout_width="match_parent"

@@ -1,10 +1,14 @@
 package net.zhuruoling.omms.connect.ui.util
 
 import android.content.Context
+import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import net.zhuruoling.omms.client.controller.Controller
+import net.zhuruoling.omms.client.util.Result
+import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
+import java.util.Objects
 
 private val gson = GsonBuilder().serializeNulls().create()
 
@@ -50,4 +54,21 @@ fun <T> fromJson(src: String, klass: Class<out T>): T{
 
 fun toJson(obj: Any): String{
     return gson.toJson(obj)
+}
+
+fun toHumanReadableErrorMessage(base: String, result: Result, context: Context):String{
+    val errorString = when(result){
+        Result.PERMISSION_DENIED -> context.getString(R.string.error_permission_denied)
+        Result.FAIL -> context.getString(R.string.error_unknown_error)
+        else -> result.name
+    }
+    return String.format(base, errorString)
+}
+
+fun toHumanReadableErrorMessageResId(@StringRes base: Int, result: Result, context: Context):String{
+    return toHumanReadableErrorMessage(context.getString(base), result, context)
+}
+
+fun formatResString(@StringRes format: Int, vararg objects: Any, context: Context):String{
+    return context.getString(format).format(*objects)
 }

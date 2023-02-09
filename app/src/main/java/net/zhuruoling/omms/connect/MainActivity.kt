@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         alertDialog.dismiss()
     }
 
+
+
+
+
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     private lateinit var alertDialog: AlertDialog
@@ -94,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     private fun login(ip: String, port: Int, code: Int) {
         externalScope.launch(defaultDispatcher) {
             ensureActive()
-            when (val result = Connection.init(ip, port, code)) {
+            when (val result = Connection.init(ip, port, code, true)) {
                 is Result.Success<Response> -> {
                     ToastUtils.showLong(R.string.success)
                     startActivity(Intent(this@MainActivity, SessionActivity::class.java))

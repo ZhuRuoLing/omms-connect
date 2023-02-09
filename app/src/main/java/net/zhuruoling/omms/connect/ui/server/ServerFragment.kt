@@ -13,12 +13,11 @@ import kotlinx.coroutines.*
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.client.system.SystemInfo
 import net.zhuruoling.omms.client.util.Result
+import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.FragmentServerBinding
 import net.zhuruoling.omms.connect.ui.server.view.ServerEntryView
-import net.zhuruoling.omms.connect.ui.util.genControllerText
-import net.zhuruoling.omms.connect.ui.util.getSystemType
-import net.zhuruoling.omms.connect.ui.util.showErrorDialog
+import net.zhuruoling.omms.connect.ui.util.*
 import net.zhuruoling.omms.connect.ui.view.Placeholder68dpView
 
 class ServerFragment : Fragment() {
@@ -26,6 +25,7 @@ class ServerFragment : Fragment() {
     private var _binding: FragmentServerBinding? = null
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
+        Log.e("OMMS", "Unexpected exception in coroutines.", e)
     }
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
     private val binding get() = _binding!!
@@ -49,12 +49,14 @@ class ServerFragment : Fragment() {
     }
 
     private fun load(showDialog: Boolean = true) {
+        var hasController = false
+        var hasSystemInfo = false
         var controllers = hashMapOf<String, Controller>()
         var systemInfo: SystemInfo? = null
         val alertDialog = MaterialAlertDialogBuilder(requireContext())
             .setCancelable(false)
-            .setTitle("Loading")
-            .setMessage("Please Wait...")
+            .setTitle(R.string.label_loading)
+            .setMessage(R.string.label_wait)
             .create()
 
         externalScope.launch(Dispatchers.IO) {
@@ -66,60 +68,91 @@ class ServerFragment : Fragment() {
             ensureActive()
             Connection.getClientSession().apply {
                 try {
-                    var result = this.fetchControllersFromServer()
+                    ensureActive()
+                    var result = Result.PERMISSION_DENIED
+                    try {
+                        result = this.fetchControllersFromServer()
+                    } catch (e: java.lang.Exception) {
+                        Log.e("OMMS", "wtf", e)
+                    }
                     if (result == Result.OK) {
                         controllers = this.controllerMap
                         this@launch.launch(Dispatchers.Main) {
-                            this@ServerFragment.binding.serverText.text =
-                                "${controllers.count()} controllers added to this server."
+                            this@ServerFragment.binding.serverText.text = formatResString(
+                                R.string.label_controller_count,
+                                controllers.count(),
+                                context = requireContext()
+                            )
                         }
+                        hasController = true
                     } else {
-                        if (showDialog) {
-                            alertDialog.dismiss()
-                        } else {
-                            this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                        hasController = false
+                        launch(Dispatchers.Main) {
+                            if (showDialog) {
+                                alertDialog.dismiss()
+                            } else {
+                                this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                            }
+                            showErrorDialog(
+                                toHumanReadableErrorMessageResId(
+                                    R.string.error_controller_fetch_error,
+                                    result,
+                                    requireContext()
+                                ),
+                                this@ServerFragment.requireContext()
+                            )
                         }
-                        showErrorDialog(
-                            "Cannot fetch systemInfo from server, Caused By: ${result.name}",
-                            this@ServerFragment.requireContext()
-                        )
                     }
                     result = this.fetchSystemInfoFromServer()
                     if (result == Result.OK) {
                         systemInfo = this.systemInfo
+                        hasSystemInfo = true
                     } else {
-                        if (showDialog) {
-                            alertDialog.dismiss()
-                        } else {
-                            this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                        hasSystemInfo = false
+                        launch(Dispatchers.Main) {
+                            if (showDialog) {
+                                alertDialog.dismiss()
+                            } else {
+                                this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                            }
+                            showErrorDialog(
+                                toHumanReadableErrorMessageResId(
+                                    R.string.error_system_info_fetch_error,
+                                    result,
+                                    requireContext()
+                                ),
+                                this@ServerFragment.requireContext()
+                            )
                         }
-                        showErrorDialog(
-                            "Cannot fetch systemInfo from server, Caused By: ${result.name}",
-                            this@ServerFragment.requireContext()
-                        )
                     }
                 } catch (e: Exception) {
-                    showErrorDialog(e.toString(), this@ServerFragment.requireContext())
+                    launch(Dispatchers.Main) {
+                        showErrorDialog(e.toString(), this@ServerFragment.requireContext())
+                    }
                     return@launch
                 }
             }
             launch(Dispatchers.Main) {
                 this@ServerFragment.binding.serverList.removeAllViews()
                 try {
-                    val osEntryView = ServerEntryView(requireContext()).setValue(
-                        name = "Operating System",
-                        introText = "${systemInfo!!.osName} ${systemInfo!!.osVersion} ${systemInfo!!.osArch}",
-                        type = getSystemType(systemInfo!!.osName),
-                        parent = requireActivity()
-                    ).withSystemInfo(systemInfo!!).prepare(this@ServerFragment)
-                    this@ServerFragment.binding.serverList.addView(osEntryView)
-
-                    controllers.forEach {
-                        val text = genControllerText(it.value)
-                        val controllerEntryView = ServerEntryView(this@ServerFragment.requireContext()).setValue(
-                            it.value.name, text, it.value.type, requireActivity()
-                        ).withController(it.value).prepare(this@ServerFragment)
-                        this@ServerFragment.binding.serverList.addView(controllerEntryView)
+                    if (hasSystemInfo) {
+                        val osEntryView = ServerEntryView(requireContext()).setValue(
+                            name = getString(R.string.label_server_os),
+                            introText = "${systemInfo!!.osName} ${systemInfo!!.osVersion} ${systemInfo!!.osArch}",
+                            type = getSystemType(systemInfo!!.osName),
+                            parent = requireActivity()
+                        ).withSystemInfo(systemInfo!!).prepare(this@ServerFragment)
+                        this@ServerFragment.binding.serverList.addView(osEntryView)
+                    }
+                    if (hasController) {
+                        controllers.forEach {
+                            val text = genControllerText(it.value)
+                            val controllerEntryView =
+                                ServerEntryView(this@ServerFragment.requireContext()).setValue(
+                                    it.value.name, text, it.value.type, requireActivity()
+                                ).withController(it.value).prepare(this@ServerFragment)
+                            this@ServerFragment.binding.serverList.addView(controllerEntryView)
+                        }
                     }
 
                     this@ServerFragment.binding.serverList.addView(Placeholder68dpView(this@ServerFragment.requireContext()))
@@ -129,13 +162,20 @@ class ServerFragment : Fragment() {
                         this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
                     }
                 } catch (e: Exception) {
-                    showErrorDialog(e.toString(), this@ServerFragment.requireContext())
+                    showErrorDialog(
+                        formatResString(
+                            R.string.error_unknown_error,
+                            e.toString(),
+                            context = requireContext()
+                        ), this@ServerFragment.requireContext()
+                    )
                     Log.e("omms", "err", e)
                     if (showDialog) {
                         alertDialog.dismiss()
                     } else {
                         this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
                     }
+
                 }
             }
         }

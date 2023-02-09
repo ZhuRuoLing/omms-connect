@@ -1,7 +1,12 @@
 package net.zhuruoling.omms.connect
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText
 import net.zhuruoling.omms.client.util.Util
 import net.zhuruoling.omms.connect.databinding.ActivitySettingsBinding
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
+import kotlin.system.exitProcess
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -50,7 +56,12 @@ class SettingsActivity : AppCompatActivity() {
                     Log.i("omms-crystal", "Back ${textView.text}")
                     try{
                         importDataFromJson(this, textView.text.toString())
-                        Snackbar.make(this, this.binding.root, "Done!", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(this, this.binding.root, "Done! App will restart.", Snackbar.LENGTH_LONG).show()
+                        val intent = packageManager.getLaunchIntentForPackage(application.packageName)
+                        val restartIntent = PendingIntent.getActivity(applicationContext, 0, intent, FLAG_IMMUTABLE)
+                        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis()+1000, restartIntent)
+                        android.os.Process.killProcess(android.os.Process.myPid())
                     }catch (e: Exception){
                         showErrorDialog("Exception occurred while parsing data. $e", this)
                     }

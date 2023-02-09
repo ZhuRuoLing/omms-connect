@@ -12,8 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
+import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.FragmentWhitelistBinding
+import net.zhuruoling.omms.connect.ui.util.formatResString
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.ui.view.Placeholder68dpView
 import net.zhuruoling.omms.connect.ui.whitelist.activity.WhitelistEditActivity
@@ -27,10 +29,9 @@ class WhitelistFragment : Fragment() {
         ToastUtils.showLong("Failed connect to server\nreason:$e")
     }
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
-    val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
-    private val activityResultLauncher = registerForActivityResult(ResultContract()){
-        if (it){
+    private val activityResultLauncher = registerForActivityResult(ResultContract()) {
+        if (it) {
             this.binding.whitelistSwipeRefresh.isRefreshing = true
             refreshWhitelist(false)
         }
@@ -52,7 +53,6 @@ class WhitelistFragment : Fragment() {
             refreshWhitelist()
         }
         binding.whitelistSwipeRefresh.setOnRefreshListener {
-            ToastUtils.showShort("Refreshing!")
             refreshWhitelist(showDialog = false)
         }
         return root
@@ -62,8 +62,8 @@ class WhitelistFragment : Fragment() {
         val alertDialog = this.context?.let {
             MaterialAlertDialogBuilder(it)
                 .setCancelable(false)
-                .setTitle("Loading")
-                .setMessage("Please Wait...")
+                .setTitle(R.string.label_loading)
+                .setMessage(R.string.label_wait)
                 .create()
         }
         externalScope.launch(Dispatchers.IO) {
@@ -92,22 +92,32 @@ class WhitelistFragment : Fragment() {
                     this@WhitelistFragment.binding.linearLayout.removeAllViews()
                     this@WhitelistFragment.whitelistMap.forEach {
                         val view =
-                            WhitelistEntryView(requireContext()).setAttribute(it.key, it.value, activityResultLauncher)
+                            WhitelistEntryView(requireContext()).setAttribute(
+                                it.key,
+                                it.value,
+                                activityResultLauncher
+                            )
                         this@WhitelistFragment.binding.linearLayout.addView(view)
                     }
-                    this@WhitelistFragment.binding.linearLayout.addView(Placeholder68dpView(requireContext()))
+                    this@WhitelistFragment.binding.linearLayout.addView(
+                        Placeholder68dpView(
+                            requireContext()
+                        )
+                    )
 //                    this@WhitelistFragment.binding.linearLayout.addView(this@WhitelistFragment.context?.let {
 //                        Placeholder68dpView(
 //                            it
 //                        )
 //                    })
-                    this@WhitelistFragment.binding.whitelistTitle.text =
-                        "${this@WhitelistFragment.whitelistMap.size} whitelists were added to this server.";
+                    this@WhitelistFragment.binding.whitelistTitle.text = formatResString(
+                        R.string.label_whitelists_count,
+                        whitelistMap.count(),
+                        context = requireContext()
+                    )
                     if (showDialog) {
                         alertDialog?.dismiss()
                     } else {
                         this@WhitelistFragment.binding.whitelistSwipeRefresh.isRefreshing = false
-                        ToastUtils.showShort("Done!")
                     }
                 } catch (e: Exception) {
                     showErrorDialog(e.toString(), requireContext())
@@ -128,17 +138,17 @@ class WhitelistFragment : Fragment() {
         _binding = null
     }
 
-    class ResultContract: ActivityResultContract<Int, Boolean>() {
+    class ResultContract : ActivityResultContract<Int, Boolean>() {
         override fun createIntent(context: Context, input: Int): Intent {
             val intent = Intent(context, WhitelistEditActivity::class.java)
-            intent.putExtra("check",input)
+            intent.putExtra("check", input)
             return intent
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): Boolean {
             return if (resultCode == 114514) {
                 intent!!.getBooleanExtra("requireRefresh", false)
-            }else{
+            } else {
                 false
             }
         }

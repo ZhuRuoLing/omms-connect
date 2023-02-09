@@ -18,12 +18,18 @@ object Connection {
         data class Error(val exception: Exception) : Result<Nothing>()
     }
 
-    suspend fun init(ip: String, port: Int, code: Int): Result<Response> {
+    suspend fun init(ip: String, port: Int, code: Int, forceConnect: Boolean): Result<Response> {
+        if (forceConnect){
+            if (isConnected){
+                end()
+            }
+        }
         if (isConnected) {
             return Result.Error(RuntimeException("Already connected to this server."))
         }
         return withContext(Dispatchers.IO) {
             try {
+
                 val clientInitialSession = ClientInitialSession(InetAddress.getByName(ip), port)
                 this.ensureActive()
                 val task = FutureTask {
