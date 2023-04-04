@@ -78,7 +78,7 @@ class WhitelistPlayerView : ConstraintLayout {
                                     .setTitle("Success")
                                     .setMessage(
                                         formatResString(
-                                            R.string.hint_server_ip_port,
+                                            R.string.hint_whitelist_player_removed,
                                             it.b,
                                             context = this@WhitelistPlayerView.context
                                         )

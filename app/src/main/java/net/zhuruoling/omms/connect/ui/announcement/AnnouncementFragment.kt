@@ -15,6 +15,7 @@ import net.zhuruoling.omms.client.util.Result
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.databinding.FragmentAnnouncementBinding
+import net.zhuruoling.omms.connect.util.awaitExecute
 
 class AnnouncementFragment : Fragment() {
 
@@ -49,14 +50,18 @@ class AnnouncementFragment : Fragment() {
             ensureActive()
             if (Connection.isConnected) {
                 try {
-                    Connection.getClientSession().fetchAnnouncementFromServer {
-                        launch(Dispatchers.Main) {
-                            binding.announcementList.removeAllViews()
-                            val map = it
-                            this@AnnouncementFragment.binding.announcementTitle.text = "${map.count()} announcements added to this server."
-                            dismissLoadDialog(showDialog)
+                    awaitExecute { latch ->
+                        Connection.getClientSession().fetchAnnouncementFromServer {
+                            launch(Dispatchers.Main) {
+                                binding.announcementList.removeAllViews()
+                                val map = it
+                                this@AnnouncementFragment.binding.announcementTitle.text = "${map.count()} announcements added to this server."
+                                dismissLoadDialog(showDialog)
+                                latch.countDown()
+                            }
                         }
                     }
+
                 } catch (e: Exception) {
                     showAlertAndDismissDialog("Error in fetching announcement.\n$e", showDialog)
                     return@launch
