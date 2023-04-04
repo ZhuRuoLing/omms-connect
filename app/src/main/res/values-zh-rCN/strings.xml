@@ -30,7 +30,7 @@
     <string name="setting_button">设置按钮</string>
     <string name="title_activity_settings">设置</string>
     <string name="title_activity_util_command_edit">编辑快速命令</string>
-    <string name="export_data">导出设置数据</string>
+    <string name="label_export_data">导出设置数据</string>
     <string name="import_data">导入设置数据</string>
     <string name="status_waiting">等待服务器响应</string>
     <string name="player_count">玩家数量</string>
@@ -51,7 +51,23 @@
     <string name="error_permission_denied">权限不足</string>
     <string name="error_unknown_error">服务器发生了内部错误</string>
     <string name="error_code_error">服务器找不到该权限代码</string>
-    <string name="util_commands">快速命令</string>
+    <string name="label_util_commands">快速命令</string>
     <string name="hint_server_ip_port">在这里键入服务器IP地址和端口</string>
     <string name="hint_permission_code">在这里键入服务器权限代码</string>
+    <string name="label_state_running">正在运行</string>
+    <string name="label_state_stopped">已停止</string>
+    <string name="label_state_not_queryable">状态无法获取</string>
+    <string name="label_no_player">一个人都没有 :(</string>
+    <string name="error_exception">在%s时发生了异常%s</string>
+    <string name="label_whitelist_player_count">该白名单中有%s个玩家</string>
+    <string name="hint_whitelist_player_removed">成功移除玩家%s</string>
+    <string name="hint_whitelist_remove_player_not_exist">无法移除玩家%s\\n此玩家不存在。</string>
+    <string name="hint_whitelist_remove_permission_denied">无法移除玩家%s\\n权限不足。</string>
+    <string name="error_controller_not_exist">服务器找不到受控端%s,该受控端可能已经被从服务端上移除。</string>
+    <string name="error_server_controller_auth_error">Central服务端无法与被控端验证，请确保被控端名称正确且存在。</string>
+    <string name="label_connect_console">连接控制台</string>
+    <string name="label_disconnect_console">断开连接</string>
+    <string name="hint_console_exists">[控制台已在别处启动]</string>
+    <string name="hint_console_not_exist">[找不到指定的控制台]</string>
+    <string name="hint_console_stopped">[控制台已断开连接]</string>
 </resources>

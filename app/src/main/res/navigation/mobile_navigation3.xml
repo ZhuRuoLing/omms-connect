@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.management.ManagementFragment"
-        android:label="Management"
-        tools:layout="@layout/fragment_mc_management" />
+        android:name="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.management.ConsoleFragment"
+        android:label="Console"
+        tools:layout="@layout/fragment_mc_console" />
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -20,6 +20,6 @@
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.control.ControlFragment"
-        android:label="Control"
+        android:label="Command"
         tools:layout="@layout/fragment_mc_status" />
 </navigation>

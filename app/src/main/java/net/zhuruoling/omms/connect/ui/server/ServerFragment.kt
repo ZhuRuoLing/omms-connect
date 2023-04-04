@@ -12,13 +12,16 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.client.system.SystemInfo
-import net.zhuruoling.omms.client.util.Result
 import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.FragmentServerBinding
 import net.zhuruoling.omms.connect.ui.server.view.ServerEntryView
-import net.zhuruoling.omms.connect.ui.util.*
+import net.zhuruoling.omms.connect.ui.util.formatResString
+import net.zhuruoling.omms.connect.ui.util.genControllerText
+import net.zhuruoling.omms.connect.ui.util.getSystemType
+import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.ui.view.Placeholder68dpView
+import net.zhuruoling.omms.connect.util.awaitExecute
 
 class ServerFragment : Fragment() {
 
@@ -51,7 +54,7 @@ class ServerFragment : Fragment() {
     private fun load(showDialog: Boolean = true) {
         var hasController = false
         var hasSystemInfo = false
-        var controllers = hashMapOf<String, Controller>()
+        var controllers = mutableMapOf<String, Controller>()
         var systemInfo: SystemInfo? = null
         val alertDialog = MaterialAlertDialogBuilder(requireContext())
             .setCancelable(false)
@@ -69,23 +72,28 @@ class ServerFragment : Fragment() {
             Connection.getClientSession().apply {
                 try {
                     ensureActive()
-                    var result = Result.PERMISSION_DENIED
                     try {
-                        result = this.fetchControllersFromServer()
+                        awaitExecute {
+                            this.fetchControllersFromServer { map ->
+                                controllers = map
+                                awaitExecute { latch ->
+                                    this@launch.launch(Dispatchers.Main) {
+                                        this@ServerFragment.binding.serverText.text =
+                                            formatResString(
+                                                R.string.label_controller_count,
+                                                controllers.count(),
+                                                context = requireContext()
+                                            )
+                                        latch.countDown()
+                                    }
+
+                                }
+                                hasController = true
+                                it.countDown()
+                            }
+                        }
                     } catch (e: java.lang.Exception) {
                         Log.e("OMMS", "wtf", e)
-                    }
-                    if (result == Result.OK) {
-                        controllers = this.controllerMap
-                        this@launch.launch(Dispatchers.Main) {
-                            this@ServerFragment.binding.serverText.text = formatResString(
-                                R.string.label_controller_count,
-                                controllers.count(),
-                                context = requireContext()
-                            )
-                        }
-                        hasController = true
-                    } else {
                         hasController = false
                         launch(Dispatchers.Main) {
                             if (showDialog) {
@@ -94,35 +102,40 @@ class ServerFragment : Fragment() {
                                 this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
                             }
                             showErrorDialog(
-                                toHumanReadableErrorMessageResId(
+                                formatResString(
                                     R.string.error_controller_fetch_error,
-                                    result,
-                                    requireContext()
+                                    e.message,
+                                    context =  requireContext()
                                 ),
                                 this@ServerFragment.requireContext()
                             )
                         }
                     }
-                    result = this.fetchSystemInfoFromServer()
-                    if (result == Result.OK) {
-                        systemInfo = this.systemInfo
-                        hasSystemInfo = true
-                    } else {
-                        hasSystemInfo = false
-                        launch(Dispatchers.Main) {
-                            if (showDialog) {
-                                alertDialog.dismiss()
-                            } else {
-                                this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                    awaitExecute{latch ->
+                        try{
+                            this.fetchSystemInfoFromServer {
+                                systemInfo = it
+                                hasSystemInfo = true
+                                latch.countDown()
                             }
-                            showErrorDialog(
-                                toHumanReadableErrorMessageResId(
-                                    R.string.error_system_info_fetch_error,
-                                    result,
-                                    requireContext()
-                                ),
-                                this@ServerFragment.requireContext()
-                            )
+                        }catch (e:java.lang.Exception){
+                            hasSystemInfo = false
+                            launch(Dispatchers.Main) {
+                                if (showDialog) {
+                                    alertDialog.dismiss()
+                                } else {
+                                    this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
+                                }
+                                showErrorDialog(
+                                    formatResString(
+                                        R.string.error_system_info_fetch_error,
+                                        e.message,
+                                        context = requireContext()
+                                    ),
+                                    this@ServerFragment.requireContext()
+                                )
+                            }
+                            latch.countDown()
                         }
                     }
                 } catch (e: Exception) {

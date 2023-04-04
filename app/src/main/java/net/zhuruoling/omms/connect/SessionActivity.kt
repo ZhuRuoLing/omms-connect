@@ -47,24 +47,14 @@ class SessionActivity : AppCompatActivity() {
         }
         super.onStop()
     }
-
     override fun onDestroy() {
         end()
         super.onDestroy()
     }
-
-
     private fun end() {
         externalScope.launch(defaultDispatcher) {
             ensureActive()
-            when (Connection.end()) {
-                is Connection.Result.Success<Response> -> {
-                    ToastUtils.showLong("Disconnected.")
-                }
-                else -> {
-                    throw RuntimeException("Failed to end connection.")
-                }
-            }
+            Connection.end()
         }
     }
 

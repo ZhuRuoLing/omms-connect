@@ -19,6 +19,7 @@ import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.ActivityWhitelistEditBinding
 import net.zhuruoling.omms.connect.ui.whitelist.view.WhitelistPlayerView
+import net.zhuruoling.omms.connect.util.awaitExecute
 
 class WhitelistEditActivity : AppCompatActivity() {
 
@@ -32,7 +33,7 @@ class WhitelistEditActivity : AppCompatActivity() {
         Log.e("wdnmd", "FUCK", e)
     }
     private var externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun  onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
@@ -43,6 +44,7 @@ class WhitelistEditActivity : AppCompatActivity() {
         players = CacheMemoryUtils.getInstance().get("whitelist_content")
         binding.whitelistNameTitle.text = "${players.size} players were added to this whitelist."
         refreshPlayerList()
+        @androidx.annotation.OptIn(BuildCompat.PrereleaseSdkCheck::class)
         if (BuildCompat.isAtLeastT()) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
                 setResult(114514, Intent().putExtra("requireRefresh", requireRefresh))
@@ -51,7 +53,7 @@ class WhitelistEditActivity : AppCompatActivity() {
         }
     }
 
-    fun refreshPlayerList(){
+    fun refreshPlayerList() {
         players.sort()
         externalScope.launch(Dispatchers.Main) {
             this@WhitelistEditActivity.binding.whitelistCompoentContainer.removeAllViews()
@@ -67,12 +69,12 @@ class WhitelistEditActivity : AppCompatActivity() {
         }
     }
 
-    fun addPlayer(player: String){
+    fun addPlayer(player: String) {
         players.add(player)
         players.sort()
     }
 
-    fun removePlayer(player: String){
+    fun removePlayer(player: String) {
         players.remove(player)
         players.sort()
     }
@@ -92,27 +94,43 @@ class WhitelistEditActivity : AppCompatActivity() {
                 val dialog = alertDialogBuilder.show()
                 externalScope.launch(Dispatchers.IO) {
                     val session = Connection.getClientSession()
-                    val result = session.addToWhitelist(fromWhitelist, textView.text.toString())
-                    this.launch(Dispatchers.Main) {
-                        if (result != Result.OK) {
+                    awaitExecute { latch ->
+                        session.setOnPermissionDeniedCallback {
                             dialog.dismiss()
                             MaterialAlertDialogBuilder(this@WhitelistEditActivity)
                                 .setIcon(R.drawable.ic_baseline_error_24)
                                 .setTitle("Error")
-                                .setMessage("Failed to add ${textView.text.toString()} to whitelist, reason: $result")
+                                .setMessage("Failed to add ${textView.text.toString()} to whitelist: Permission Denied")
                                 .setPositiveButton("OK", null)
                                 .show()
-                        } else {
-                            dialog.dismiss()
-                            MaterialAlertDialogBuilder(this@WhitelistEditActivity)
-                                .setIcon(R.drawable.ic_notifications_black_24dp)
-                                .setTitle("Success")
-                                .setMessage("Added ${textView.text.toString()} to whitelist, reason: $result")
-                                .setPositiveButton("OK", null)
-                                .show()
-                            addPlayer(textView.text.toString())
-                            refreshPlayerList()
+                            latch.countDown()
+                            session.setOnPermissionDeniedCallback(null)
                         }
+                        session.addToWhitelist(fromWhitelist, textView.text.toString(), {
+                            launch(Dispatchers.Main) {
+                                dialog.dismiss()
+                                MaterialAlertDialogBuilder(this@WhitelistEditActivity)
+                                    .setIcon(R.drawable.ic_notifications_black_24dp)
+                                    .setTitle("Success")
+                                    .setMessage("Added ${textView.text.toString()} to whitelist.")
+                                    .setPositiveButton("OK", null)
+                                    .show()
+                                addPlayer(textView.text.toString())
+                                refreshPlayerList()
+                                latch.countDown()
+                            }
+                        }, {
+                            launch(Dispatchers.Main) {
+                                dialog.dismiss()
+                                MaterialAlertDialogBuilder(this@WhitelistEditActivity)
+                                    .setIcon(R.drawable.ic_baseline_error_24)
+                                    .setTitle("Error")
+                                    .setMessage("Failed to add ${textView.text.toString()} to whitelist, this player already exists.")
+                                    .setPositiveButton("OK", null)
+                                    .show()
+                                latch.countDown()
+                            }
+                        })
                         requireRefresh = true
                     }
 

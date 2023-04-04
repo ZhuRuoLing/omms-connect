@@ -69,6 +69,10 @@ fun toHumanReadableErrorMessageResId(@StringRes base: Int, result: Result, conte
     return toHumanReadableErrorMessage(context.getString(base), result, context)
 }
 
-fun formatResString(@StringRes format: Int, vararg objects: Any, context: Context):String{
+//fun toHumanReadableErrorMessageResId(@StringRes base: Int, message: String, context: Context):String{
+//    return toHumanReadableErrorMessage(context.getString(base), message, context)
+//}
+
+fun formatResString(@StringRes format: Int, vararg objects: Any?, context: Context):String{
     return context.getString(format).format(*objects)
 }

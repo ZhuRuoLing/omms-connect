@@ -1,5 +1,6 @@
 package net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.status
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.Icon
 import android.os.Bundle
@@ -20,6 +21,7 @@ import net.zhuruoling.omms.connect.databinding.FragmentMcStatusBinding
 import net.zhuruoling.omms.connect.ui.util.fromJson
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.ui.util.toJson
+import net.zhuruoling.omms.connect.util.awaitExecute
 
 
 class StatusFragment : Fragment() {
@@ -29,11 +31,9 @@ class StatusFragment : Fragment() {
         ToastUtils.showLong("Failed connect to server\nreason:$e")
     }
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     private val binding get() = _binding!!
     private lateinit var controller: Controller
-    private lateinit var alertDialog: AlertDialog
-    private lateinit var status:Status
+    private lateinit var status: Status
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +51,7 @@ class StatusFragment : Fragment() {
         return root
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getStatus() {
         if (!Connection.isConnected) {
             showErrorDialog("Disconnected from server.", requireContext())
@@ -59,31 +60,47 @@ class StatusFragment : Fragment() {
         externalScope.launch(Dispatchers.IO) {
             showLoadDialog()
             try {
-                val result = Connection.getClientSession().fetchControllerStatus(controller.name)
-                if (result.a == net.zhuruoling.omms.client.util.Result.OK) {
-                    launch(Dispatchers.Main) {
-                        status = result.b
-                        putStatusToCache()
-                        binding.statusIcon.setImageIcon(
-                            Icon.createWithResource(
-                                requireContext(),
-                                getStatusIconId(status)
+                awaitExecute { latch ->
+                    Connection.getClientSession().fetchControllerStatus(controller.name, {
+                        launch(Dispatchers.Main) {
+                            status = it
+                            latch.countDown()
+                            putStatusToCache()
+                            binding.statusIcon.setImageIcon(
+                                Icon.createWithResource(
+                                    requireContext(),
+                                    getStatusIconId(status)
+                                )
                             )
-                        )
-                        binding.statusCard.setCardBackgroundColor(ColorStateList.valueOf(getStatusColor(status)).withAlpha(0xff))
-                        binding.mcStatusTitle.text = if (status.isQueryable) if (status.isAlive) "Running" else "Stopped" else "Not Queryable"
-                        if (status.isQueryable and status.isAlive){
-                            binding.mcTextPlayerCount.text = "${status.playerCount}/${status.maxPlayerCount}"
-                            binding.mcTextPlayerList.text = if(status.players.isEmpty()) "Nobody was here :("  else status.players.joinToString(separator = "\n")
-                        }else{
-                            binding.mcTextPlayerCount.text = "Unavailable"
-                            binding.mcTextPlayerList.text = "Unavailable"
+                            binding.statusCard.setCardBackgroundColor(
+                                ColorStateList.valueOf(
+                                    getStatusColor(status)
+                                ).withAlpha(0xff)
+                            )
+                            binding.mcStatusTitle.setText(if (status.isQueryable)
+                                if (status.isAlive)
+                                    R.string.label_state_running
+                                else
+                                    R.string.label_state_stopped
+                            else R.string.label_state_not_queryable)
+
+                            if (status.isQueryable and status.isAlive) {
+                                binding.mcTextPlayerCount.text =
+                                    "${status.playerCount}/${status.maxPlayerCount}"
+                                binding.mcTextPlayerList.text =
+                                    if (status.players.isEmpty()) requireContext().getText(R.string.label_no_player) else status.players.joinToString(
+                                        separator = "\n"
+                                    )
+                            } else {
+                                binding.mcTextPlayerCount.setText(R.string.unavailable)
+                                binding.mcTextPlayerList.setText(R.string.unavailable)
+                            }
+                            dismissLoadAnim()
                         }
-                        dismissLoadAnim()
-                    }
-                } else {
-                    showAlertAndDismissDialog("Server returned code ${result.a}")
-                    return@launch
+
+                    }, {
+
+                    })
                 }
             } catch (e: Exception) {
                 showAlertAndDismissDialog("Exception occurred while loading status: $e")
@@ -91,7 +108,7 @@ class StatusFragment : Fragment() {
         }
     }
 
-    private fun putStatusToCache(){
+    private fun putStatusToCache() {
         CacheMemoryUtils.getInstance().put("${controller.name}:status", toJson(status))
     }
 

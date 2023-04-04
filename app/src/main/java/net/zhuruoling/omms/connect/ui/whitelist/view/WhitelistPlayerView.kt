@@ -16,6 +16,8 @@ import androidx.lifecycle.lifecycleScope
 import net.zhuruoling.omms.client.util.Result
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
+import net.zhuruoling.omms.connect.ui.util.formatResString
+import net.zhuruoling.omms.connect.util.awaitExecute
 
 class WhitelistPlayerView : ConstraintLayout {
     private lateinit var playerNameText: TextView
@@ -23,7 +25,7 @@ class WhitelistPlayerView : ConstraintLayout {
     private lateinit var activity: WhitelistEditActivity
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
-        Log.e("wdnmd","FUCK", e)
+        Log.e("wdnmd", "FUCK", e)
     }
 
     private lateinit var externalScope: CoroutineScope
@@ -51,39 +53,58 @@ class WhitelistPlayerView : ConstraintLayout {
                 externalScope.launch(Dispatchers.IO) {
                     val playerName = playerNameText.text.toString()
                     val session = getClientSession()
-
-                    val result = session.removeFromWhitelist(fromWhitelist, playerName)
-                    if (result != Result.OK) {
-                        MaterialAlertDialogBuilder(activity)
-                            .setPositiveButton("Ok", null)
-                            .setTitle("Fail")
-                            .setMessage(
-                                String.format(
-                                    "Failed to remove %s \n reason:%s",
-                                    playerName,
-                                    result.name
+                    awaitExecute { latch ->
+                        session.setOnPermissionDeniedCallback {
+                            MaterialAlertDialogBuilder(this@WhitelistPlayerView.activity)
+                                .setIcon(R.drawable.ic_baseline_error_24)
+                                .setTitle("Error")
+                                .setMessage(
+                                    formatResString(
+                                        R.string.hint_whitelist_remove_permission_denied,
+                                        playerNameText.text,
+                                        context = context
+                                    )
                                 )
-                            ).show()
-
-                    } else {
-                        this.launch (Dispatchers.Main){
+                                .setMessage("Failed to remove ${playerNameText.text} from whitelist: Permission Denied")
+                                .setPositiveButton("OK", null)
+                                .show()
+                            latch.countDown()
+                            session.setOnPermissionDeniedCallback(null)
+                        }
+                        session.removeFromWhitelist(fromWhitelist, playerName, {
+                            this.launch(Dispatchers.Main) {
+                                MaterialAlertDialogBuilder(activity)
+                                    .setPositiveButton("Ok", null)
+                                    .setTitle("Success")
+                                    .setMessage(
+                                        formatResString(
+                                            R.string.hint_server_ip_port,
+                                            it.b,
+                                            context = this@WhitelistPlayerView.context
+                                        )
+                                    ).show()
+                                activity.requireRefresh = true
+                                activity.removePlayer(playerName)
+                                activity.refreshPlayerList()
+                                latch.countDown()
+                            }
+                        }, {
                             MaterialAlertDialogBuilder(activity)
                                 .setPositiveButton("Ok", null)
-                                .setTitle("Success")
+                                .setTitle("Fail")
                                 .setMessage(
-                                    String.format(
-                                        "Successfully to removed %s",
-                                        playerName,
+                                    formatResString(
+                                        R.string.hint_whitelist_remove_player_not_exist,
+                                        it.b,
+                                        context = this@WhitelistPlayerView.context
                                     )
                                 ).show()
-                            activity.requireRefresh = true
-                            activity.removePlayer(playerName)
-                            activity.refreshPlayerList()
-                        }
+                            latch.countDown()
+                        })
                     }
                 }
             }
-            .setNegativeButton("No"){ _: DialogInterface?, _: Int ->
+            .setNegativeButton("No") { _: DialogInterface?, _: Int ->
 
             }
             .create()
@@ -100,7 +121,7 @@ class WhitelistPlayerView : ConstraintLayout {
         fromWhitelist: String,
         activity: WhitelistEditActivity
     ): WhitelistPlayerView {
-        playerNameText!!.text = playerName
+        playerNameText.text = playerName
         this.fromWhitelist = fromWhitelist
         this.activity = activity
         externalScope = activity.lifecycleScope.plus(coroutineExceptionHandler)

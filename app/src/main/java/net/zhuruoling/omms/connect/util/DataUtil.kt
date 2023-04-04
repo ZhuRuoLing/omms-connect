@@ -1,7 +1,6 @@
-package net.zhuruoling.omms.connect
+package net.zhuruoling.omms.connect.util
 
 import android.content.Context
-import android.graphics.Region
 import java.util.Base64
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
 import net.zhuruoling.omms.connect.ui.util.fromJson

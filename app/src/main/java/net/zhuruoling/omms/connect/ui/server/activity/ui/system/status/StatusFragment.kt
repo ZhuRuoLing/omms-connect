@@ -1,5 +1,6 @@
 package net.zhuruoling.omms.connect.ui.server.activity.ui.system.status
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,10 @@ import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.FragmentOsStatusBinding
 import net.zhuruoling.omms.connect.ui.server.activity.ui.system.view.OsStorageStatusEntryView
 import net.zhuruoling.omms.connect.ui.util.Assets
+import net.zhuruoling.omms.connect.ui.util.formatResString
 import net.zhuruoling.omms.connect.ui.util.getSystemType
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
+import net.zhuruoling.omms.connect.util.awaitExecute
 import kotlin.math.ceil
 class StatusFragment : Fragment() {
 
@@ -47,6 +50,7 @@ class StatusFragment : Fragment() {
         return root
     }
 
+    @SuppressLint("SetTextI18n")
     private fun refreshSystemInfo(fetch: Boolean) {
         if (!Connection.isConnected) {
             showErrorDialog("Disconnected from Server.", requireContext())
@@ -59,12 +63,16 @@ class StatusFragment : Fragment() {
                 binding.osSwapUsage.isIndeterminate = true
             }
             if (fetch) {
-                val res = Connection.getClientSession().fetchSystemInfoFromServer()
-                if (res != Result.OK) {
-                    showErrorDialog("Server returned error code: $res", requireContext())
-                    return@launch
+                try {
+                    awaitExecute {latch ->
+                        Connection.getClientSession().fetchSystemInfoFromServer{
+                            systemInfo = Connection.getClientSession().systemInfo
+                            latch.countDown()
+                        }
+                    }
+                }catch (e:java.lang.Exception){
+                    showErrorDialog(formatResString(R.string.error_system_info_fetch_error,e.toString(), context = requireContext()), requireContext())
                 }
-                systemInfo = Connection.getClientSession().systemInfo
             }
             launch(Dispatchers.Main) {
                 ensureActive()

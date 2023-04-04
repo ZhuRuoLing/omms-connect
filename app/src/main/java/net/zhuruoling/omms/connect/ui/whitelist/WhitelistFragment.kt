@@ -20,6 +20,7 @@ import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.ui.view.Placeholder68dpView
 import net.zhuruoling.omms.connect.ui.whitelist.activity.WhitelistEditActivity
 import net.zhuruoling.omms.connect.ui.whitelist.view.WhitelistEntryView
+import net.zhuruoling.omms.connect.util.awaitExecute
 
 
 class WhitelistFragment : Fragment() {
@@ -74,9 +75,13 @@ class WhitelistFragment : Fragment() {
             }
             ensureActive()
             try {
-                Connection.getClientSession().apply {
-                    this.fetchWhitelistFromServer()
-                    this@WhitelistFragment.whitelistMap = this.whitelistMap
+                awaitExecute{latch ->
+                    Connection.getClientSession().apply {
+                        this.fetchWhitelistFromServer {
+                            this@WhitelistFragment.whitelistMap = it
+                            latch.countDown()
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 if (showDialog) {

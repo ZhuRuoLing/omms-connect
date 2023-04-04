@@ -4,24 +4,19 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.text.Editable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ClipboardUtils
-import com.blankj.utilcode.util.SnackbarUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import net.zhuruoling.omms.client.util.Util
 import net.zhuruoling.omms.connect.databinding.ActivitySettingsBinding
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
-import kotlin.system.exitProcess
+import net.zhuruoling.omms.connect.util.importDataFromJson
+import net.zhuruoling.omms.connect.util.toExportDataJson
 
 class SettingsActivity : AppCompatActivity() {
 

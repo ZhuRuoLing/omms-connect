@@ -49,10 +49,13 @@ class AnnouncementFragment : Fragment() {
             ensureActive()
             if (Connection.isConnected) {
                 try {
-                    val ret = Connection.getClientSession().fetchAnnouncementFromServer()
-                    if (ret != Result.OK) {
-                        showAlertAndDismissDialog("Central Server returned error code $ret", showDialog)
-                        return@launch
+                    Connection.getClientSession().fetchAnnouncementFromServer {
+                        launch(Dispatchers.Main) {
+                            binding.announcementList.removeAllViews()
+                            val map = it
+                            this@AnnouncementFragment.binding.announcementTitle.text = "${map.count()} announcements added to this server."
+                            dismissLoadDialog(showDialog)
+                        }
                     }
                 } catch (e: Exception) {
                     showAlertAndDismissDialog("Error in fetching announcement.\n$e", showDialog)
@@ -62,15 +65,7 @@ class AnnouncementFragment : Fragment() {
                 showAlertAndDismissDialog("Disconnected from server.", showDialog)
                 return@launch
             }
-            launch(Dispatchers.Main) {
-                binding.announcementList.removeAllViews()
-                val map = Connection.getClientSession().announcementMap;
-                this@AnnouncementFragment.binding.announcementTitle.text = "${map.count()} announcements added to this server."
-                map.forEach {
-                    Log.i("OMMS Connect", it.toString())
-                }
-                dismissLoadDialog(showDialog)
-            }
+
         }
     }
 

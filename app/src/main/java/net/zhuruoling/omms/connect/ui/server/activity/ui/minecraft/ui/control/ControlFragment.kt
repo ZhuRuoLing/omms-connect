@@ -1,5 +1,6 @@
 package net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.control
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -18,12 +19,11 @@ import kotlinx.coroutines.*
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.client.controller.ControllerTypes
 import net.zhuruoling.omms.client.controller.Status
+import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.FragmentMcControlBinding
-import net.zhuruoling.omms.connect.ui.util.fromJson
-import net.zhuruoling.omms.connect.ui.util.getUtilCommands
-import net.zhuruoling.omms.connect.ui.util.showErrorDialog
-import net.zhuruoling.omms.connect.ui.util.toJson
+import net.zhuruoling.omms.connect.ui.util.*
+import net.zhuruoling.omms.connect.util.awaitExecute
 import java.util.*
 
 class ControlFragment : Fragment() {
@@ -87,7 +87,8 @@ class ControlFragment : Fragment() {
                 .setPositiveButton("OK") { _, _ ->
                     if (index == -1)
                         return@setPositiveButton
-                    this@ControlFragment.binding.mcCommandText.text = Editable.Factory.getInstance().newEditable(utilCommands[index])
+                    this@ControlFragment.binding.mcCommandText.text =
+                        Editable.Factory.getInstance().newEditable(utilCommands[index])
                 }
                 .setNegativeButton("Back") { _, _ ->
 
@@ -97,6 +98,7 @@ class ControlFragment : Fragment() {
         return root
     }
 
+    @SuppressLint("SetTextI18n")
     private fun sendCommandForFeedback(command: String) {
         binding.mcOutputText.text = "> "
         if (!status.isAlive) {
@@ -111,14 +113,29 @@ class ControlFragment : Fragment() {
             launch(Dispatchers.Main) {
                 binding.mcOutputText.text = binding.mcOutputText.text.toString() + command + "\n"
                 binding.mcOutputText.text =
-                    binding.mcOutputText.text.toString() + "[Waiting For Response: "
+                    binding.mcOutputText.text.toString() + "[Waiting For Response]\n"
             }
-            val ret = Connection.getClientSession()
-                .sendCommandToController(this@ControlFragment.controller.name, command)
-            launch(Dispatchers.Main) {
-                binding.mcOutputText.text =
-                    binding.mcOutputText.text.toString() + ret.a.name + "]\n"
-                binding.mcOutputText.text = binding.mcOutputText.text.toString() + ret.b + "\n"
+            awaitExecute { latch ->
+                Connection.getClientSession().setOnPermissionDeniedCallback {
+                    binding.mcOutputText.text = requireContext().getText(R.string.error_permission_denied)
+                    latch.countDown()
+                }
+                Connection.getClientSession()
+                    .sendCommandToController(this@ControlFragment.controller.name, command, { ret ->
+                        launch(Dispatchers.Main) {
+                            binding.mcOutputText.text = "\n"+
+                                binding.mcOutputText.text.toString() + ret.b.joinToString("\n") + "\n"
+                            latch.countDown()
+                        }
+                    }, {
+                        binding.mcOutputText.text = binding.mcOutputText.text.toString()+ "\n" + formatResString(
+                            R.string.error_controller_not_exist, it, context = requireContext())
+                        latch.countDown()
+                    }, {
+                        //showErrorDialog(formatResString())
+                        binding.mcOutputText.text = requireContext().getText(R.string.error_server_controller_auth_error)
+                        latch.countDown()
+                    })
             }
         }
     }
