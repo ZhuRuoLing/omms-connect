@@ -70,4 +70,9 @@
     <string name="hint_console_exists">[控制台已在别处启动]</string>
     <string name="hint_console_not_exist">[找不到指定的控制台]</string>
     <string name="hint_console_stopped">[控制台已断开连接]</string>
+    <string name="label_console_auto_roll">当日志输出时自动滚动到底部</string>
+    <string name="console">控制台</string>
+    <string name="general">通用</string>
+    <string name="text_size">字体大小</string>
+    <string name="data">设置数据</string>
 </resources>

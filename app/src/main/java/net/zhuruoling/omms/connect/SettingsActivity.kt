@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.widget.addTextChangedListener
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ClipboardUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import net.zhuruoling.omms.connect.databinding.ActivitySettingsBinding
+import net.zhuruoling.omms.connect.storage.PreferencesStorage
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.util.importDataFromJson
 import net.zhuruoling.omms.connect.util.toExportDataJson
@@ -30,6 +32,21 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+        binding.autoRoll.isChecked = PreferencesStorage.withContext(this, "console")
+            .getBoolean("autoRoll", true)
+        binding.autoRoll.setOnCheckedChangeListener { _, isChecked ->
+            PreferencesStorage.withContext(this, "console")
+                .putBoolean("autoRoll", isChecked).commit()
+        }
+        binding.textSize.setText(
+            PreferencesStorage.withContext(this, "console").getFloat("textSize", 10f).toString()
+        )
+        binding.textSize.addTextChangedListener {
+            if (it.isNullOrEmpty()) return@addTextChangedListener
+            val size = it.toString().toFloat()
+            PreferencesStorage.withContext(this, "console")
+                .putFloat("textSize", if (size < 1) 1f else size).commit()
+        }
         binding.toolbar.setNavigationOnClickListener {
             this.finish()
         }
@@ -39,7 +56,8 @@ class SettingsActivity : AppCompatActivity() {
         binding.exportData.setOnClickListener {
             val content = toExportDataJson(this)
             ClipboardUtils.copyText(content)
-            Snackbar.make(this, this.binding.root, "Copied to Clipboard!", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(this, this.binding.root, "Copied to Clipboard!", Snackbar.LENGTH_LONG)
+                .show()
         }
         binding.importData.setOnClickListener {
             val textView = TextInputEditText(this)
@@ -49,15 +67,26 @@ class SettingsActivity : AppCompatActivity() {
                 .setTitle("Import Data")
                 .setPositiveButton("Done") { _, _ ->
                     Log.i("omms-crystal", "Back ${textView.text}")
-                    try{
+                    try {
                         importDataFromJson(this, textView.text.toString())
-                        Snackbar.make(this, this.binding.root, "Done! App will restart.", Snackbar.LENGTH_LONG).show()
-                        val intent = packageManager.getLaunchIntentForPackage(application.packageName)
-                        val restartIntent = PendingIntent.getActivity(applicationContext, 0, intent, FLAG_IMMUTABLE)
+                        Snackbar.make(
+                            this,
+                            this.binding.root,
+                            "Done! App will restart.",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        val intent =
+                            packageManager.getLaunchIntentForPackage(application.packageName)
+                        val restartIntent =
+                            PendingIntent.getActivity(applicationContext, 0, intent, FLAG_IMMUTABLE)
                         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis()+1000, restartIntent)
+                        alarmManager.set(
+                            AlarmManager.RTC,
+                            System.currentTimeMillis() + 1000,
+                            restartIntent
+                        )
                         android.os.Process.killProcess(android.os.Process.myPid())
-                    }catch (e: Exception){
+                    } catch (e: Exception) {
                         showErrorDialog("Exception occurred while parsing data. $e", this)
                     }
                 }

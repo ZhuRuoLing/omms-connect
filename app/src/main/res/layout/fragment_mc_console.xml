@@ -11,16 +11,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/console_connect_state_button"
-            style="@style/Widget.Material3.FloatingActionButton.Primary"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/label_connect_console"
-            app:icon="@drawable/baseline_link_24">
+            android:layout_margin="2dp"
+            android:orientation="horizontal">
 
-        </com.google.android.material.button.MaterialButton>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/console_connect_state_button"
+                style="@style/Widget.Material3.FloatingActionButton.Primary"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="@string/label_connect_console"
+                app:icon="@drawable/baseline_link_24" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/ic_baseline_management"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Material3.CardView.Elevated"
@@ -47,8 +62,8 @@
                         android:id="@+id/mc_output_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:autoLink="all" />
+                        android:textSize="10sp"
+                        android:textIsSelectable="true" />
                 </ScrollView>
 
             </com.google.android.material.card.MaterialCardView>
@@ -91,7 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="8dp"
-                    app:srcCompat="@android:drawable/ic_menu_send" />
+                    app:srcCompat="@android:drawable/ic_menu_send"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

@@ -1,6 +1,7 @@
 package net.zhuruoling.omms.connect.ui.server.activity.ui.minecraft.ui.management
 
 import android.annotation.SuppressLint
+import android.graphics.Region
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +10,16 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.connect.R
+import net.zhuruoling.omms.connect.SettingsActivity
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.FragmentMcConsoleBinding
+import net.zhuruoling.omms.connect.storage.PreferencesStorage
 import net.zhuruoling.omms.connect.ui.util.fromJson
 import net.zhuruoling.omms.connect.util.awaitExecute
 
@@ -25,6 +30,8 @@ class ConsoleFragment : Fragment() {
     private val binding get() = _binding!!
     private var consoleConnected = false
     private lateinit var controller: Controller
+    private var autoRoll = false
+    private var consoleTextSize = 12.00f
     private var consoleId = ""
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
@@ -55,15 +62,34 @@ class ConsoleFragment : Fragment() {
             }
         }
         binding.send.setOnClickListener {
-            if (consoleConnected){
+            if (consoleConnected) {
                 val line = binding.consoleCommandText.text.toString()
                 consoleInput(line)
                 binding.consoleCommandText.setText("")
             }
         }
+        binding.more.setOnClickListener {
+            ActivityUtils.startActivity(SettingsActivity::class.java)
+        }
         val data = requireActivity().intent.getStringExtra("data")!!
         controller = fromJson(data, Controller::class.java)
+        autoRoll = PreferencesStorage.withContext(requireContext(), "console")
+            .getBoolean("autoRoll", true)
+        consoleTextSize =
+            PreferencesStorage.withContext(requireContext(), "console")
+                .getFloat("textSize", 10f)
+        binding.mcOutputText.textSize = consoleTextSize
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        autoRoll = PreferencesStorage.withContext(requireContext(), "console")
+            .getBoolean("autoRoll", true)
+        consoleTextSize =
+            PreferencesStorage.withContext(requireContext(), "console")
+                .getFloat("textSize", 10f)
+        binding.mcOutputText.textSize = consoleTextSize
     }
 
     override fun onDestroyView() {
@@ -95,19 +121,20 @@ class ConsoleFragment : Fragment() {
                         latch.countDown()
                         Connection.getClientSession().setOnPermissionDeniedCallback(null)
                     }
-                    Connection.getClientSession().startControllerConsole(controller.name, {//launched
-                        consoleId = it.a
-                        callback()
-                        latch.countDown()
-                    }, {//log recv
-                        print(it.b)
-                    }, {//controller not exist
-                        binding.mcOutputText.setText(R.string.error_permission_denied)
-                        latch.countDown()
-                    }, {//console already started
-                        binding.mcOutputText.setText(R.string.hint_console_exists)
-                        latch.countDown()
-                    })
+                    Connection.getClientSession()
+                        .startControllerConsole(controller.name, {//launched
+                            consoleId = it.a
+                            callback()
+                            latch.countDown()
+                        }, {//log recv
+                            print(it.b)
+                        }, {//controller not exist
+                            binding.mcOutputText.setText(R.string.error_permission_denied)
+                            latch.countDown()
+                        }, {//console already started
+                            binding.mcOutputText.setText(R.string.hint_console_exists)
+                            latch.countDown()
+                        })
                 }
             }
         }
@@ -115,7 +142,7 @@ class ConsoleFragment : Fragment() {
     }
 
     private fun disconnect(callback: () -> Unit) {
-        if (consoleId.isEmpty())return
+        if (consoleId.isEmpty()) return
         externalScope.launch(Dispatchers.IO) {
             awaitExecute { latch ->
                 Connection.getClientSession().stopControllerConsole(consoleId, {
@@ -134,7 +161,9 @@ class ConsoleFragment : Fragment() {
     private fun print(line: String) {
         externalScope.launch(Dispatchers.Main) {
             binding.mcOutputText.text = binding.mcOutputText.text.toString() + "\n$line"
-            scrollToEnd()
+            if (autoRoll) {
+                scrollToEnd()
+            }
         }
     }
 
@@ -150,12 +179,12 @@ class ConsoleFragment : Fragment() {
                         latch.countDown()
                     })
             }
-           scrollToEnd()
+            scrollToEnd()
         }
     }
 
-    private fun scrollToEnd(){
-        externalScope.launch (Dispatchers.Main){
+    private fun scrollToEnd() {
+        externalScope.launch(Dispatchers.Main) {
             binding.scroll.fullScroll(ScrollView.FOCUS_DOWN)
         }
     }

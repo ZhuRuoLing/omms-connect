@@ -83,6 +83,11 @@
     <string name="hint_console_exists">[Console Already Started]</string>
     <string name="hint_console_not_exist">[Console Not Exist]</string>
     <string name="hint_console_stopped">[Console Disconnected]</string>
+    <string name="label_console_auto_roll">Auto Roll to end when log prints</string>
+    <string name="console">Console</string>
+    <string name="general">General</string>
+    <string name="text_size">Text Size</string>
+    <string name="data">Data</string>
 
 
 </resources>

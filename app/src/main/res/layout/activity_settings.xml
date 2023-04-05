@@ -40,19 +40,57 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="3dp"
                     android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="@string/console"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
                     <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/autoRoll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:backgroundTintMode="add"
-                        android:text="Some Option"/>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:backgroundTintMode="add"
-                        android:text="Another Option"/>
+                        android:text="@string/label_console_auto_roll" />
+
+                        <LinearLayout
+                            android:id="@+id/parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_margin="5dp"
+                                android:gravity="center|start"
+                                android:text="@string/text_size"
+                                android:textSize="15sp" />
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/text_size_layout"
+                                style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:hint="@string/text_size">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/text_size"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:inputType="numberDecimal"
+                                    android:maxLines="1"
+                                    android:textSize="12sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/util_command_button"
@@ -62,18 +100,31 @@
                         android:layout_margin="10dp"
                         android:text="@string/label_util_commands"
                         app:cornerRadius="17dp" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="@string/data"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/export_data"
                             style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_margin="10dp"
-                            android:text="@string/label_export_data"
                             android:layout_weight="1"
+                            android:text="@string/label_export_data"
                             app:cornerRadius="17dp" />
 
                         <com.google.android.material.button.MaterialButton
@@ -82,11 +133,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_margin="10dp"
-                            android:text="@string/import_data"
                             android:layout_weight="1"
+                            android:text="@string/import_data"
                             app:cornerRadius="17dp" />
                     </LinearLayout>
-
 
 
                 </LinearLayout>
