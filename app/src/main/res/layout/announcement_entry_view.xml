@@ -3,8 +3,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     app:layout_constrainedHeight="true"
     android:layout_margin="20dp"
     android:layout_gravity="center_vertical">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        android:layout_margin="10dp"
+        style="@style/Widget.Material3.CardView.Elevated"
+        app:layout_constrainedHeight="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp"
+            app:layout_constrainedHeight="true">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:contentDescription="@string/whitelist_icon_desp"
+                app:srcCompat="@drawable/baseline_announcement_24" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_constrainedHeight="true"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/announcement_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:text="@string/wdnmd"/>
+
+                <TextView
+                    android:id="@+id/announcement_in_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@string/wdnmd"
+                    android:textColor="@color/gray_600"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
