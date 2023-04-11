@@ -15,6 +15,7 @@ import net.zhuruoling.omms.client.util.Result
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.ui.util.showErrorDialog
 import net.zhuruoling.omms.connect.databinding.FragmentAnnouncementBinding
+import net.zhuruoling.omms.connect.ui.view.Placeholder68dpView
 import net.zhuruoling.omms.connect.util.awaitExecute
 
 class AnnouncementFragment : Fragment() {
@@ -55,7 +56,18 @@ class AnnouncementFragment : Fragment() {
                             launch(Dispatchers.Main) {
                                 binding.announcementList.removeAllViews()
                                 val map = it
-                                this@AnnouncementFragment.binding.announcementTitle.text = "${map.count()} announcements added to this server."
+                                this@AnnouncementFragment.binding.announcementTitle.text =
+                                    "${map.count()} announcements added to this server."
+                                this@AnnouncementFragment.binding.announcementList.removeAllViews()
+                                map.forEach {
+                                    binding.announcementList
+                                        .addView(
+                                            AnnouncementEntryView(
+                                                this@AnnouncementFragment.requireContext()
+                                            ).withAnnouncement(it.value)
+                                        )
+                                }
+                                binding.announcementList.addView(Placeholder68dpView(requireContext()))
                                 dismissLoadDialog(showDialog)
                                 latch.countDown()
                             }
