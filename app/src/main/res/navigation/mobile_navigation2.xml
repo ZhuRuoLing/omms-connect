@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="net.zhuruoling.omms.connect.ui.server.ServerFragment"
+        android:name="net.zhuruoling.omms.connect.server.ServerFragment"
         android:label="@string/title_server"
         tools:layout="@layout/fragment_server" />
 
     <fragment
         android:id="@+id/navigation_whitelist"
-        android:name="net.zhuruoling.omms.connect.ui.whitelist.WhitelistFragment"
+        android:name="net.zhuruoling.omms.connect.whitelist.WhitelistFragment"
         android:label="@string/title_whitelist"
         tools:layout="@layout/fragment_whitelist" />
 
     <fragment
         android:id="@+id/announcement"
-        android:name="net.zhuruoling.omms.connect.ui.announcement.AnnouncementFragment"
+        android:name="net.zhuruoling.omms.connect.announcement.AnnouncementFragment"
         android:label="@string/title_broadcast"
         tools:layout="@layout/fragment_announcement" />
 </navigation>

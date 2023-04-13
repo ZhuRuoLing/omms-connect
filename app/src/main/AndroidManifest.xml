@@ -36,7 +36,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.server.activity.ui.system.ServerOSControlActivity"
+            android:name=".server.activity.system.ServerOSControlActivity"
             android:exported="false"
             android:label="@string/title_activity_server_oscontrol"
             android:theme="@style/Theme.OMMSConnect.NoActionBar">
@@ -45,14 +45,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.server.activity.ui.minecraft.MinecraftServerControlActivity"
+            android:name=".server.activity.minecraft.MinecraftServerControlActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.whitelist.activity.WhitelistEditActivity"
+            android:name=".whitelist.activity.WhitelistEditActivity"
             android:exported="false"
             android:label="@string/title_activity_whitelist_edit"
             android:theme="@style/Theme.OMMSConnect" />

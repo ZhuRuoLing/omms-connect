@@ -5,7 +5,6 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import net.zhuruoling.omms.client.session.ClientInitialSession
 import net.zhuruoling.omms.client.session.ClientSession
-import net.zhuruoling.omms.connect.util.awaitExecute
 import java.net.InetAddress
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.FutureTask

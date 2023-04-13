@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import net.zhuruoling.omms.connect.databinding.ActivitySettingsBinding
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
-import net.zhuruoling.omms.connect.ui.util.showErrorDialog
+import net.zhuruoling.omms.connect.util.showErrorDialog
 import net.zhuruoling.omms.connect.util.importDataFromJson
 import net.zhuruoling.omms.connect.util.toExportDataJson
 

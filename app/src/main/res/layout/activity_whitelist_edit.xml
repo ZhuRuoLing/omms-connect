@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="net.zhuruoling.omms.connect.ui.whitelist.activity.WhitelistEditActivity">
+    tools:context="net.zhuruoling.omms.connect.whitelist.activity.WhitelistEditActivity">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,38 +15,62 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        android:contentDescription="add button" />
+        android:contentDescription="add button"
+        app:srcCompat="@drawable/ic_baseline_add_24" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/whitelistNameTitle"
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/wdnmd"
-            android:textSize="20sp"
             android:layout_margin="10dp">
-        </com.google.android.material.textview.MaterialTextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/whitelistNameTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/wdnmd"
+                    android:textStyle="bold"
+                    android:textSize="30sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/whitelist_info_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/wdnmd"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp">
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:id="@+id/whitelistCompoentContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:orientation="vertical"/>
             </ScrollView>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

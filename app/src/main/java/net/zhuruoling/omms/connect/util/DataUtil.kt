@@ -3,8 +3,6 @@ package net.zhuruoling.omms.connect.util
 import android.content.Context
 import java.util.Base64
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
-import net.zhuruoling.omms.connect.ui.util.fromJson
-import net.zhuruoling.omms.connect.ui.util.toJson
 
 private data class ExportDataStorage(
     val loginData: LoginData?,

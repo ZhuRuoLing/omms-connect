@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.zhuruoling.omms.connect.ui.server.activity.ui.system.control.ControlFragment">
+    tools:context="net.zhuruoling.omms.connect.server.activity.system.control.ControlFragment">
 
     <TextView
         android:id="@+id/text_slideshow"

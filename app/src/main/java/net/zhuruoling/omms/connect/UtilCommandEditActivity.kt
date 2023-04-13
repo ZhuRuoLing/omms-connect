@@ -9,8 +9,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import net.zhuruoling.omms.connect.databinding.ActivityUtilCommandEditBinding
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
-import net.zhuruoling.omms.connect.ui.util.showErrorDialog
-import net.zhuruoling.omms.connect.ui.view.CommandTextCard
+import net.zhuruoling.omms.connect.util.showErrorDialog
+import net.zhuruoling.omms.connect.view.CommandTextCard
 
 class UtilCommandEditActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUtilCommandEditBinding
