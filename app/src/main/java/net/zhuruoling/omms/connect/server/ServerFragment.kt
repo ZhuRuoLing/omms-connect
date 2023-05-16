@@ -160,6 +160,9 @@ class ServerFragment : Fragment() {
                     if (hasController) {
                         controllers.forEach {
                             val text = genControllerText(it.value)
+                            if (it.value.type == null){
+                                it.value.type = ""
+                            }
                             val controllerEntryView =
                                 ServerEntryView(this@ServerFragment.requireContext()).setValue(
                                     it.value.name, text, it.value.type, requireActivity()
@@ -182,7 +185,7 @@ class ServerFragment : Fragment() {
                             context = requireContext()
                         ), this@ServerFragment.requireContext()
                     )
-                    Log.e("omms", "err", e)
+                    Log.e("omms", "Exception at ServerFragment", e)
                     if (showDialog) {
                         alertDialog.dismiss()
                     } else {
