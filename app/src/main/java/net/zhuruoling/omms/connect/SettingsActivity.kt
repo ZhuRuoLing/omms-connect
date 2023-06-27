@@ -4,17 +4,31 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.marginLeft
+import androidx.core.view.marginStart
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ClipboardUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.zhuruoling.omms.connect.databinding.ActivitySettingsBinding
+import net.zhuruoling.omms.connect.resource.ServerIconManageActivity
+import net.zhuruoling.omms.connect.resource.ServerIconResourceManager
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
 import net.zhuruoling.omms.connect.util.showErrorDialog
 import net.zhuruoling.omms.connect.util.importDataFromJson
@@ -23,6 +37,7 @@ import net.zhuruoling.omms.connect.util.toExportDataJson
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -59,6 +74,10 @@ class SettingsActivity : AppCompatActivity() {
             Snackbar.make(this, this.binding.root, "Copied to Clipboard!", Snackbar.LENGTH_LONG)
                 .show()
         }
+        binding.addServerIcon.setOnClickListener {
+            ActivityUtils.startActivity(ServerIconManageActivity::class.java)
+        }
+
         binding.importData.setOnClickListener {
             val textView = TextInputEditText(this)
             val dialog = MaterialAlertDialogBuilder(this)

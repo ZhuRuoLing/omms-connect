@@ -4,6 +4,7 @@
     package="net.zhuruoling.omms.connect">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OMMSConnect"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".resource.ServerIconManageActivity"
+            android:exported="false" />
         <activity
             android:name=".announcement.AnnouncementEditActivity"
             android:exported="false"

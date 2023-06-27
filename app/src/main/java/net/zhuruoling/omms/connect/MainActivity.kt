@@ -22,6 +22,7 @@ import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.client.Connection.Result
 import net.zhuruoling.omms.connect.client.Response
 import net.zhuruoling.omms.connect.databinding.ActivityMainBinding
+import net.zhuruoling.omms.connect.resource.ServerIconResourceManager
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
 
 class MainActivity : AppCompatActivity() {
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     private lateinit var alertDialog: AlertDialog
     override fun onCreate(savedInstanceState: Bundle?) {
+        ServerIconResourceManager.load(this)
         alertDialog = MaterialAlertDialogBuilder(this)
             .setCancelable(false)
             .setTitle("Loading")

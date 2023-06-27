@@ -137,7 +137,15 @@
                             android:text="@string/import_data"
                             app:cornerRadius="17dp" />
                     </LinearLayout>
-
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/add_server_icon"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/label_add_custom_server_icon"
+                        app:cornerRadius="17dp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 
-class PreferencesStorage private constructor(context: Context, region: String) {
+class PreferencesStorage private constructor(context: Context, region: String): AutoCloseable {
     val sharedPreferences: SharedPreferences = context.getSharedPreferences(
         "omms-connect:$region",
         AppCompatActivity.MODE_PRIVATE
@@ -77,5 +77,9 @@ class PreferencesStorage private constructor(context: Context, region: String) {
         fun withContext(context: Context, region: String): PreferencesStorage {
             return PreferencesStorage(context, region)
         }
+    }
+
+    override fun close() {
+        commit()
     }
 }
