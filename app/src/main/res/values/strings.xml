@@ -91,6 +91,7 @@
     <string name="title_activity_announcement_edit" translatable="false">AnnouncementEditActivity</string>
 
     <string name="label_add_custom_server_icon">Manage Custom Controller Icon</string>
+    <string name="title_custom_controller_icon">Custom Server Icon</string>
 
 
 </resources>

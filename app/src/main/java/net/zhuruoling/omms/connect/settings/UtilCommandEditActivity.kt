@@ -1,4 +1,4 @@
-package net.zhuruoling.omms.connect
+package net.zhuruoling.omms.connect.settings
 
 import android.os.Bundle
 import android.text.Editable

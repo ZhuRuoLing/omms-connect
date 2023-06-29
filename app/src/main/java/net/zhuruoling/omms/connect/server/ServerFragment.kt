@@ -160,12 +160,9 @@ class ServerFragment : Fragment() {
                     if (hasController) {
                         controllers.forEach {
                             val text = genControllerText(it.value)
-                            if (it.value.type == null){
-                                it.value.type = ""
-                            }
                             val controllerEntryView =
                                 ServerEntryView(this@ServerFragment.requireContext()).setValue(
-                                    it.value.name, text, it.value.type, requireActivity()
+                                    it.value.name, text, it.value.type ?: "", requireActivity()
                                 ).withController(it.value).prepare(this@ServerFragment)
                             this@ServerFragment.binding.serverList.addView(controllerEntryView)
                         }

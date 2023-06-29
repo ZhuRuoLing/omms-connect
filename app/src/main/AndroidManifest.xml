@@ -19,7 +19,7 @@
         android:theme="@style/Theme.OMMSConnect"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".resource.ServerIconManageActivity"
+            android:name=".settings.ServerIconManageActivity"
             android:exported="false" />
         <activity
             android:name=".announcement.AnnouncementEditActivity"
@@ -27,7 +27,7 @@
             android:label="@string/title_activity_announcement_edit"
             android:theme="@style/Theme.OMMSConnect" />
         <activity
-            android:name=".UtilCommandEditActivity"
+            android:name=".settings.UtilCommandEditActivity"
             android:exported="false"
             android:label="@string/title_activity_util_command_edit"
             android:theme="@style/Theme.OMMSConnect">
@@ -36,7 +36,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.OMMSConnect">

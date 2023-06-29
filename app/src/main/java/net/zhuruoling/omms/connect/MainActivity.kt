@@ -23,6 +23,7 @@ import net.zhuruoling.omms.connect.client.Connection.Result
 import net.zhuruoling.omms.connect.client.Response
 import net.zhuruoling.omms.connect.databinding.ActivityMainBinding
 import net.zhuruoling.omms.connect.resource.ServerIconResourceManager
+import net.zhuruoling.omms.connect.settings.SettingsActivity
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
 
 class MainActivity : AppCompatActivity() {

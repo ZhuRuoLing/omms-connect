@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.google.android.material.button.MaterialButton
 import net.zhuruoling.omms.connect.R
-import net.zhuruoling.omms.connect.UtilCommandEditActivity
+import net.zhuruoling.omms.connect.settings.UtilCommandEditActivity
 
 class CommandTextCard: LinearLayout {
     private val button: MaterialButton

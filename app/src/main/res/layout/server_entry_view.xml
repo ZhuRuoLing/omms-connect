@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_gravity="center"
                 android:contentDescription="@string/todo"
                 app:srcCompat="@drawable/ic_server_default" />
 

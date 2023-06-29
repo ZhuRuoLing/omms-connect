@@ -9,7 +9,12 @@ class PreferencesStorage private constructor(context: Context, region: String): 
         "omms-connect:$region",
         AppCompatActivity.MODE_PRIVATE
     )
+
     private val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
+    operator fun minusAssign(id:String){
+        editor.remove(id)
+    }
 
     fun putString(key: String, value: String): PreferencesStorage{
         editor.putString(key, value)
@@ -40,7 +45,7 @@ class PreferencesStorage private constructor(context: Context, region: String): 
         return this
     }
 
-    fun contains(key: String): Boolean{
+    operator fun contains(key: String): Boolean{
         return sharedPreferences.contains(key)
     }
 

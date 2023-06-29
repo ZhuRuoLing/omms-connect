@@ -58,7 +58,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp">
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <TextView
                         android:id="@+id/mc_output_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

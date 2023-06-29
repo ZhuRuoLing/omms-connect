@@ -75,5 +75,6 @@
     <string name="general">通用</string>
     <string name="text_size">字体大小</string>
     <string name="data">设置数据</string>
-    <string name="label_add_custom_server_icon">管理自定义被控端图标</string>
+    <string name="label_add_custom_server_icon">管理自定义受控端图标</string>
+    <string name="title_custom_controller_icon">自定义受控端图标</string>
 </resources>

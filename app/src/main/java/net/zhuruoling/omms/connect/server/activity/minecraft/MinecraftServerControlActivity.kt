@@ -61,7 +61,7 @@ class MinecraftServerControlActivity : AppCompatActivity() {
             }
         )
         mcText.text = "${controller.name} (${controller.type.lowercase().replaceFirstChar { char -> char + ('A'.code - 'a'.code) }} Server)"
-        mcText2.text = controller.workingDir
+        mcText2.text = ""
         CacheDiskUtils.getInstance().put("mcinfo", intent.getStringExtra("data"))
     }
 

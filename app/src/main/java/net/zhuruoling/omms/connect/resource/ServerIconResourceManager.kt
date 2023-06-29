@@ -22,7 +22,7 @@ object ServerIconResourceManager {
         val dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         if (dir.exists() || dir.mkdir()) {
             dir.resolve("${id}_icon").run {
-                if (exists())delete()
+                if (exists()) delete()
                 if (!exists()) createNewFile()
                 Log.i("OMMS", "Import icon from file: ${id}_icon <= ${dir.absolutePath}")
                 outputStream().with {
@@ -88,6 +88,32 @@ object ServerIconResourceManager {
             context,
             R.drawable.ic_server_default
         )!!
+    }
+
+    fun removeIcon(context: Context, id: String): Boolean {
+        if (id in this.storage) return false
+        PreferencesStorage.withContext(context, "server_icon").with {
+            if (id in this) {
+                this -= id
+                commit()
+            }
+            if ("icons" in this) {
+                val newSet = getStringSet("icons", mutableSetOf())
+                if (id in newSet) {
+                    newSet -= id
+                }
+                this.putStringSet("icons", newSet)
+                commit()
+            }
+        }
+        val dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        if (dir.exists() || dir.mkdir()) {
+            dir.resolve(id).run {
+                if (exists())delete()
+            }
+        }
+        load(context)
+        return true
     }
 
     fun forEach(function: String.(Drawable) -> Unit) {

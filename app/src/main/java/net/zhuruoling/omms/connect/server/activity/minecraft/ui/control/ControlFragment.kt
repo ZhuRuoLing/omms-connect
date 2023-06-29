@@ -50,7 +50,11 @@ class ControlFragment : Fragment() {
         val data = requireActivity().intent.getStringExtra("data")!!
         controller = fromJson(data, Controller::class.java)
         val defaultStatus = Status(
-            ControllerTypes.valueOf(controller.type.uppercase(Locale.getDefault())),
+            try {
+                ControllerTypes.valueOf(controller.type.uppercase(Locale.getDefault()))
+            } catch (ignored: Exception) {
+                ControllerTypes.FABRIC
+            },
             0,
             0,
             mutableListOf()
@@ -117,23 +121,27 @@ class ControlFragment : Fragment() {
             }
             awaitExecute { latch ->
                 Connection.getClientSession().setOnPermissionDeniedCallback {
-                    binding.mcOutputText.text = requireContext().getText(R.string.error_permission_denied)
+                    binding.mcOutputText.text =
+                        requireContext().getText(R.string.error_permission_denied)
                     latch.countDown()
                 }
                 Connection.getClientSession()
                     .sendCommandToController(this@ControlFragment.controller.name, command, { ret ->
                         launch(Dispatchers.Main) {
-                            binding.mcOutputText.text = "\n"+
-                                binding.mcOutputText.text.toString() + ret.b.joinToString("\n") + "\n"
+                            binding.mcOutputText.text = "\n" +
+                                    binding.mcOutputText.text.toString() + ret.b.joinToString("\n") + "\n"
                             latch.countDown()
                         }
                     }, {
-                        binding.mcOutputText.text = binding.mcOutputText.text.toString()+ "\n" + formatResString(
-                            R.string.error_controller_not_exist, it, context = requireContext())
+                        binding.mcOutputText.text =
+                            binding.mcOutputText.text.toString() + "\n" + formatResString(
+                                R.string.error_controller_not_exist, it, context = requireContext()
+                            )
                         latch.countDown()
                     }, {
                         //showErrorDialog(formatResString())
-                        binding.mcOutputText.text = requireContext().getText(R.string.error_server_controller_auth_error)
+                        binding.mcOutputText.text =
+                            requireContext().getText(R.string.error_server_controller_auth_error)
                         latch.countDown()
                     })
             }

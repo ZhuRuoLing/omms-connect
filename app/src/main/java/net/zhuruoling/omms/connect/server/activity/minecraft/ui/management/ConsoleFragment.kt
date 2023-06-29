@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ActivityUtils
@@ -13,9 +15,10 @@ import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
 import net.zhuruoling.omms.client.controller.Controller
 import net.zhuruoling.omms.connect.R
-import net.zhuruoling.omms.connect.SettingsActivity
+import net.zhuruoling.omms.connect.settings.SettingsActivity
 import net.zhuruoling.omms.connect.client.Connection
 import net.zhuruoling.omms.connect.databinding.FragmentMcConsoleBinding
+import net.zhuruoling.omms.connect.server.activity.minecraft.ConsoleWorker
 import net.zhuruoling.omms.connect.storage.PreferencesStorage
 import net.zhuruoling.omms.connect.util.fromJson
 import net.zhuruoling.omms.connect.util.awaitExecute
@@ -30,6 +33,7 @@ class ConsoleFragment : Fragment() {
     private var autoRoll = false
     private var consoleTextSize = 12.00f
     private var consoleId = ""
+    private lateinit var consoleWorker: ConsoleWorker
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
     }
@@ -51,6 +55,7 @@ class ConsoleFragment : Fragment() {
                 binding.consoleConnectStateButton.isEnabled = false
                 connect {
                     setButtonState(true)
+                    consoleWorker.clear()
                     externalScope.launch {
                         this@ConsoleFragment.binding.mcOutputText.text = ""
                     }
@@ -76,7 +81,22 @@ class ConsoleFragment : Fragment() {
             PreferencesStorage.withContext(requireContext(), "console")
                 .getFloat("textSize", 10f)
         binding.mcOutputText.textSize = consoleTextSize
+        consoleWorker = ConsoleWorker(this)
+        consoleWorker.start()
         return binding.root
+    }
+
+    fun retrieveTextMetricsParams() =
+        TextViewCompat.getTextMetricsParams(binding.mcOutputText)
+
+
+    fun displayLog(precomputedTextCompat: PrecomputedTextCompat) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            TextViewCompat.setPrecomputedText(binding.mcOutputText, precomputedTextCompat)
+            if (autoRoll){
+                scrollToEnd()
+            }
+        }
     }
 
     override fun onResume() {
@@ -91,6 +111,7 @@ class ConsoleFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        consoleWorker.shutdown()
         if (consoleConnected) disconnect { }
         _binding = null
     }
@@ -123,13 +144,13 @@ class ConsoleFragment : Fragment() {
                             consoleId = it.a
                             callback()
                             latch.countDown()
-                        }, {//log recv
+                        }, {//log callback
                             print(it.b)
                         }, {//controller not exist
-                            binding.mcOutputText.setText(R.string.error_permission_denied)
+                            consoleWorker.append(getString(R.string.error_permission_denied))
                             latch.countDown()
                         }, {//console already started
-                            binding.mcOutputText.setText(R.string.hint_console_exists)
+                            consoleWorker.append(getString(R.string.hint_console_exists))
                             latch.countDown()
                         })
                 }
@@ -143,7 +164,7 @@ class ConsoleFragment : Fragment() {
         externalScope.launch(Dispatchers.IO) {
             awaitExecute { latch ->
                 Connection.getClientSession().stopControllerConsole(consoleId, {
-                    print(requireContext().getText(R.string.hint_console_stopped))
+                    this@ConsoleFragment.print(getString(R.string.hint_console_stopped))
                     latch.countDown()
                 }, {
                     binding.mcOutputText.setText(R.string.hint_console_not_exist)
@@ -156,11 +177,8 @@ class ConsoleFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun print(line: String) {
-        externalScope.launch(Dispatchers.Main) {
-            binding.mcOutputText.text = binding.mcOutputText.text.toString() + "\n$line"
-            if (autoRoll) {
-                scrollToEnd()
-            }
+        externalScope.launch(Dispatchers.IO) {
+            consoleWorker.append(line)
         }
     }
 
