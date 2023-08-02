@@ -42,8 +42,12 @@ class ConsoleWorker(private val consoleFragment: ConsoleFragment) : Thread("Cons
             dropFirstLine()
             dropFirstLine()
         }
-        cachedLogLines += string.split("\n").map { it.removeSuffix("\r").removeSuffix("\n").removeSuffix("\r\n") }
+        cachedLogLines += string.split("\n").map {
+            it.replace("\r", "")
+                .replace("\n", "")
+        }
     }
+
     private fun dropFirstLine() {
         cachedLogLines.removeAt(0)
     }
@@ -68,5 +72,11 @@ class ConsoleWorker(private val consoleFragment: ConsoleFragment) : Thread("Cons
     fun shutdown() {
         running.set(false)
         while (!stopped.get()) sleep(10)
+    }
+
+    fun dumpLogs() {
+        for (s in cachedLogLines) {
+            Log.i("OMMS", s)
+        }
     }
 }

@@ -73,6 +73,10 @@ class ConsoleFragment : Fragment() {
         binding.more.setOnClickListener {
             ActivityUtils.startActivity(SettingsActivity::class.java)
         }
+        binding.send.setOnLongClickListener {
+            consoleWorker.dumpLogs()
+            true
+        }
         val data = requireActivity().intent.getStringExtra("data")!!
         controller = fromJson(data, Controller::class.java)
         autoRoll = PreferencesStorage.withContext(requireContext(), "console")
