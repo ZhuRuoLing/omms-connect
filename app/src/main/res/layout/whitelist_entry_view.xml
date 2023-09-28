@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
+
                 android:contentDescription="@string/whitelist_icon_desp"
                 app:srcCompat="@drawable/ic_baseline_whitelist_icon" />
 
