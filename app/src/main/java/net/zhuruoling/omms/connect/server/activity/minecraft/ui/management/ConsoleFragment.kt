@@ -153,6 +153,7 @@ class ConsoleFragment : Fragment() {
                         }, {//controller not exist
                             consoleWorker.append(getString(R.string.error_permission_denied))
                             latch.countDown()
+                            setButtonState(false)
                         }, {//console already started
                             consoleWorker.append(getString(R.string.hint_console_exists))
                             latch.countDown()

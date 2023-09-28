@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OMMSConnect"
-        tools:targetApi="tiramisu">
+        tools:targetApi="33">
         <activity
             android:name=".settings.ServerIconManageActivity"
             android:exported="false" />
