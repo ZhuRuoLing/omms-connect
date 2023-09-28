@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constrainedHeight="true"
-    android:layout_margin="20dp"
     android:layout_gravity="center_vertical">
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
@@ -17,13 +16,14 @@
         android:layout_margin="10dp"
         style="@style/Widget.Material3.CardView.Elevated"
         app:layout_constrainedHeight="true">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
+            app:layout_constrainedHeight="true"
             tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp"
-            app:layout_constrainedHeight="true">
+            tools:layout_editor_absoluteY="1dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -35,25 +35,25 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                app:layout_constrainedHeight="true"
-                android:layout_gravity="center">
+                app:layout_constrainedHeight="true">
 
                 <TextView
                     android:id="@+id/whitelistNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:text="@string/wdnmd"/>
+                    android:text="@string/wdnmd"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/whitelistIntroductionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
                     android:text="@string/wdnmd"
-                    android:textColor="@color/gray_600"/>
+                    android:textColor="@color/gray_600"
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
