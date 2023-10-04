@@ -11,8 +11,8 @@ android {
         applicationId "net.zhuruoling.omms.connect"
         minSdk 29
         targetSdk 33
-        versionCode 150
-        versionName '0.15.0'
+        versionCode 151
+        versionName '0.15.1'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

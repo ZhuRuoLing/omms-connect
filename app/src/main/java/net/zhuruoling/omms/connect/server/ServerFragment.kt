@@ -162,7 +162,7 @@ class ServerFragment : Fragment() {
                             val text = genControllerText(it.value)
                             val controllerEntryView =
                                 ServerEntryView(this@ServerFragment.requireContext()).setValue(
-                                    it.value.name, text, it.value.type ?: "", requireActivity()
+                                    it.value.displayName, text, it.value.type ?: "", requireActivity()
                                 ).withController(it.value).prepare(this@ServerFragment)
                             this@ServerFragment.binding.serverList.addView(controllerEntryView)
                         }

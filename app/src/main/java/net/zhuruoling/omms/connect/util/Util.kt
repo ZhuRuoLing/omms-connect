@@ -21,11 +21,7 @@ import kotlin.contracts.contract
 private val gson = GsonBuilder().serializeNulls().create()
 
 fun genControllerText(controller: Controller): String {
-    val stringBuilder = StringBuilder()
-    stringBuilder.append("Type:")
-    stringBuilder.append(controller.type)
-    stringBuilder.append(" ")
-    return stringBuilder.toString()
+    return "${controller.name} Type: ${controller.type} "
 }
 
 fun getSystemType(origin: String): String {
