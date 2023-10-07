@@ -2,6 +2,7 @@ package net.zhuruoling.omms.connect.whitelist.activity
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.window.OnBackInvokedDispatcher
@@ -29,7 +30,7 @@ class WhitelistEditActivity : AppCompatActivity() {
     var requireRefresh = false
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
-        Log.e("wdnmd", "FUCK", e)
+        Log.e("OMMS", "Failed connect to server", e)
     }
     private var externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
     override fun  onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +45,7 @@ class WhitelistEditActivity : AppCompatActivity() {
         binding.whitelistNameTitle.text = fromWhitelist
         binding.whitelistInfoText.text = "${players.size} players were added to this whitelist."
         refreshPlayerList()
-        @androidx.annotation.OptIn(BuildCompat.PrereleaseSdkCheck::class)
-        if (BuildCompat.isAtLeastT()) {
+        if (Build.VERSION.SDK_INT >= 33) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
                 setResult(114514, Intent().putExtra("requireRefresh", requireRefresh))
                 finish()

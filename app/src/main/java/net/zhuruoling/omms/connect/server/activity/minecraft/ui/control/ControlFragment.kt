@@ -13,7 +13,6 @@ import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import net.zhuruoling.omms.client.controller.Controller
-import net.zhuruoling.omms.client.controller.ControllerTypes
 import net.zhuruoling.omms.client.controller.Status
 import net.zhuruoling.omms.connect.R
 import net.zhuruoling.omms.connect.client.Connection
@@ -50,11 +49,7 @@ class ControlFragment : Fragment() {
         val data = requireActivity().intent.getStringExtra("data")!!
         controller = fromJson(data, Controller::class.java)
         val defaultStatus = Status(
-            try {
-                ControllerTypes.valueOf(controller.type.uppercase(Locale.getDefault()))
-            } catch (ignored: Exception) {
-                ControllerTypes.FABRIC
-            },
+            controller.type,
             0,
             0,
             mutableListOf()
