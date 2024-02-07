@@ -1,4 +1,4 @@
-package net.zhuruoling.ommsconnect
+package icu.takeneko.ommsconnect
 
 import org.junit.Test
 

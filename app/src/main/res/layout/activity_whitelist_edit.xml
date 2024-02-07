@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="net.zhuruoling.omms.connect.whitelist.activity.WhitelistEditActivity">
+    tools:context="icu.takeneko.omms.connect.icu.takeneko.omms.connect.whitelist.activity.WhitelistEditActivity">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -18,15 +18,15 @@
         android:theme="@style/Theme.OMMSConnect"
         tools:targetApi="33">
         <activity
-            android:name=".settings.ServerIconManageActivity"
+            android:name="icu.takeneko.omms.connect.settings.ServerIconManageActivity"
             android:exported="false" />
         <activity
-            android:name=".announcement.AnnouncementEditActivity"
+            android:name="icu.takeneko.omms.connect.announcement.AnnouncementEditActivity"
             android:exported="false"
             android:label="@string/title_activity_announcement_edit"
             android:theme="@style/Theme.OMMSConnect" />
         <activity
-            android:name=".settings.UtilCommandEditActivity"
+            android:name="icu.takeneko.omms.connect.settings.UtilCommandEditActivity"
             android:exported="false"
             android:label="@string/title_activity_util_command_edit"
             android:theme="@style/Theme.OMMSConnect">
@@ -35,7 +35,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name="icu.takeneko.omms.connect.settings.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.OMMSConnect">
@@ -44,7 +44,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".server.activity.system.ServerOSControlActivity"
+            android:name="icu.takeneko.omms.connect.server.activity.system.ServerOSControlActivity"
             android:exported="false"
             android:label="@string/title_activity_server_oscontrol"
             android:theme="@style/Theme.OMMSConnect.NoActionBar">
@@ -53,23 +53,23 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".server.activity.minecraft.MinecraftServerControlActivity"
+            android:name="icu.takeneko.omms.connect.server.activity.minecraft.ui.MinecraftServerControlActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".whitelist.activity.WhitelistEditActivity"
+            android:name="icu.takeneko.omms.connect.whitelist.activity.WhitelistEditActivity"
             android:exported="false"
             android:label="@string/title_activity_whitelist_edit"
             android:theme="@style/Theme.OMMSConnect" />
         <activity
-            android:name=".SessionActivity"
+            android:name="icu.takeneko.omms.connect.SessionActivity"
             android:exported="false"
             android:label="@string/title_activity_session0" />
         <activity
-            android:name=".MainActivity"
+            android:name="icu.takeneko.omms.connect.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.OMMSConnect"

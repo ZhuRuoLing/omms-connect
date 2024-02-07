@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
-    tools:context="net.zhuruoling.omms.connect.server.ServerFragment">
+    tools:context="icu.takeneko.omms.connect.icu.takeneko.omms.connect.server.ServerFragment">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/server_swipe_refresh"
         android:layout_width="match_parent"

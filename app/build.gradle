@@ -8,7 +8,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "net.zhuruoling.omms.connect"
+        applicationId "icu.takeneko.omms.connect"
         minSdk 29
         targetSdk 34
         versionCode 151
@@ -62,7 +62,7 @@ android {
             version '3.22.1'
         }
     }
-    namespace 'net.zhuruoling.omms.connect'
+    namespace 'icu.takeneko.omms.connect'
 }
 
 

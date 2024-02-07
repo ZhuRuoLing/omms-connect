@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.zhuruoling.omms.connect.announcement.AnnouncementFragment">
+    tools:context="icu.takeneko.omms.connect.icu.takeneko.omms.connect.announcement.AnnouncementFragment">
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
