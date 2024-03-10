@@ -21,6 +21,7 @@ import icu.takeneko.omms.connect.util.genControllerText
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.view.Placeholder68dpView
 import icu.takeneko.omms.connect.util.awaitExecute
+import icu.takeneko.omms.connect.util.getSystemType
 
 class ServerFragment : Fragment() {
 

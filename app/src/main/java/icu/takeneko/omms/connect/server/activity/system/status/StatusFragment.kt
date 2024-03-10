@@ -15,10 +15,11 @@ import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentOsStatusBinding
 import icu.takeneko.omms.connect.server.activity.system.view.OsStorageStatusEntryView
-import icu.takeneko.omms.connect.util.Assets
-import icu.takeneko.omms.connect.server.getSystemType
+import icu.takeneko.omms.connect.util.AssetsUtil
+import icu.takeneko.omms.connect.util.getSystemType
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.util.awaitExecute
+import icu.takeneko.omms.connect.util.determineSystemType
 import icu.takeneko.omms.connect.util.format
 import kotlin.math.ceil
 class StatusFragment : Fragment() {
@@ -75,8 +76,7 @@ class StatusFragment : Fragment() {
             }
             launch(Dispatchers.Main) {
                 ensureActive()
-                val icon = Assets.getServerIcon(getSystemType(systemInfo.osName), requireActivity())
-                binding.osIcon.setImageDrawable(icon)
+                binding.osIcon.setImageResource(determineSystemType(systemInfo.osName).iconId)
                 binding.osStatusTitle.text = systemInfo.networkInfo.hostName
                 binding.osStatusScrollRefresh.isRefreshing = false
 

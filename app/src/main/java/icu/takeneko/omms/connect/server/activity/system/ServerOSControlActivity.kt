@@ -17,8 +17,9 @@ import com.google.android.material.navigation.NavigationView
 import icu.takeneko.omms.client.data.system.SystemInfo
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.databinding.ActivityServerOscontrolBinding
-import icu.takeneko.omms.connect.util.Assets
-import icu.takeneko.omms.connect.server.getSystemType
+import icu.takeneko.omms.connect.util.AssetsUtil
+import icu.takeneko.omms.connect.util.determineSystemType
+import icu.takeneko.omms.connect.util.getSystemType
 
 class ServerOSControlActivity : AppCompatActivity() {
 
@@ -39,14 +40,11 @@ class ServerOSControlActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_server_oscontrol)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
             ), drawerLayout
         )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -55,10 +53,8 @@ class ServerOSControlActivity : AppCompatActivity() {
         osText = header.findViewById(R.id.control_server_os)
         osText2 = header.findViewById(R.id.control_os_server_intro)
 
-
         osText2.text = intent.getStringExtra("data")
-        val type = getSystemType(info.osName)
-        osImage.setImageDrawable(Assets.getServerIcon(type, this))
+        osImage.setImageResource(determineSystemType(info.osName).iconId)
         osText.text = "${info.networkInfo.hostName}"
         osText2.text = "${info.osName} ${info.osVersion} ${info.osArch}"
 

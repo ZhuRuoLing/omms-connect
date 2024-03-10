@@ -15,8 +15,8 @@ import icu.takeneko.omms.client.data.system.SystemInfo
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.server.activity.minecraft.ui.MinecraftServerControlActivity
 import icu.takeneko.omms.connect.server.activity.system.ServerOSControlActivity
-import icu.takeneko.omms.connect.util.Assets
 import icu.takeneko.omms.connect.util.ServerEntryType
+import icu.takeneko.omms.connect.util.getIconFromDesc
 import java.lang.Exception
 
 class ServerEntryView : ConstraintLayout {
@@ -48,7 +48,7 @@ class ServerEntryView : ConstraintLayout {
             this.serverNameTextView.text = name
             this.serverIntroTextView.text = introText
             this.entryType = type
-            this.imageView.setImageDrawable(Assets.getServerIcon(type, parent))
+            this.imageView.setImageDrawable(parent.getIconFromDesc(type))
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -86,7 +86,7 @@ object ServerIconResourceManager {
         storage += "LINUX" to AppCompatResources.getDrawable(context, R.drawable.ic_server_linux)!!
         storage += "DEFAULT" to AppCompatResources.getDrawable(
             context,
-            R.drawable.ic_server_default
+            R.drawable.ic_baseline_question_24
         )!!
     }
 

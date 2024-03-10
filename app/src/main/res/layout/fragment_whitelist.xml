@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="icu.takeneko.omms.connect.icu.takeneko.omms.connect.whitelist.WhitelistFragment">
+    tools:context="icu.takeneko.omms.connect.whitelist.WhitelistFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/whitelist_swipe_refresh"
