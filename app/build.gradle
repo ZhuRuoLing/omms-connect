@@ -11,17 +11,12 @@ android {
         applicationId "icu.takeneko.omms.connect"
         minSdk 29
         targetSdk 34
-        versionCode 151
-        versionName '0.15.1'
+        versionCode 165
+        versionName '0.16.5'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
-        }
-        externalNativeBuild {
-            cmake {
-                cppFlags ''
-            }
         }
     }
     android.applicationVariants.configureEach {
@@ -54,12 +49,6 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.22.1'
         }
     }
     namespace 'icu.takeneko.omms.connect'

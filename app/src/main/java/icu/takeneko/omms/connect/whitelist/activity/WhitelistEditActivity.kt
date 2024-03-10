@@ -94,7 +94,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                 externalScope.launch(Dispatchers.IO) {
                     val session = Connection.getClientSession()
                     awaitExecute { latch ->
-                        session.setOnPermissionDeniedCallback {
+                        session.setOnPermissionDeniedCallback { session ->
                             dialog.dismiss()
                             MaterialAlertDialogBuilder(this@WhitelistEditActivity)
                                 .setIcon(R.drawable.ic_baseline_error_24)
@@ -105,7 +105,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                             latch.countDown()
                             session.setOnPermissionDeniedCallback(null)
                         }
-                        session.addToWhitelist(fromWhitelist, textView.text.toString(), {
+                        session.addToWhitelist(fromWhitelist, textView.text.toString(), { _, _ ->
                             launch(Dispatchers.Main) {
                                 dialog.dismiss()
                                 MaterialAlertDialogBuilder(this@WhitelistEditActivity)
@@ -118,7 +118,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                                 refreshPlayerList()
                                 latch.countDown()
                             }
-                        }, {
+                        }, { _, _ ->
                             launch(Dispatchers.Main) {
                                 dialog.dismiss()
                                 MaterialAlertDialogBuilder(this@WhitelistEditActivity)

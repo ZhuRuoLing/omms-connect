@@ -15,7 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.CacheDiskUtils
 import com.blankj.utilcode.util.GsonUtils
-import icu.takeneko.omms.client.controller.Controller
+import icu.takeneko.omms.client.data.controller.Controller
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.databinding.ActivityMinecraftServerControlBinding
 import icu.takeneko.omms.connect.util.Assets

@@ -14,11 +14,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.blankj.utilcode.util.CacheDiskUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.google.android.material.navigation.NavigationView
-import icu.takeneko.omms.client.system.SystemInfo
+import icu.takeneko.omms.client.data.system.SystemInfo
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.databinding.ActivityServerOscontrolBinding
 import icu.takeneko.omms.connect.util.Assets
-import icu.takeneko.omms.connect.util.getSystemType
+import icu.takeneko.omms.connect.server.getSystemType
 
 class ServerOSControlActivity : AppCompatActivity() {
 

@@ -10,16 +10,16 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
-import icu.takeneko.omms.client.system.SystemInfo
+import icu.takeneko.omms.client.data.system.SystemInfo
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentOsStatusBinding
 import icu.takeneko.omms.connect.server.activity.system.view.OsStorageStatusEntryView
 import icu.takeneko.omms.connect.util.Assets
-import icu.takeneko.omms.connect.util.formatResString
-import icu.takeneko.omms.connect.util.getSystemType
+import icu.takeneko.omms.connect.server.getSystemType
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.util.awaitExecute
+import icu.takeneko.omms.connect.util.format
 import kotlin.math.ceil
 class StatusFragment : Fragment() {
 
@@ -70,7 +70,7 @@ class StatusFragment : Fragment() {
                         }
                     }
                 }catch (e:java.lang.Exception){
-                    showErrorDialog(formatResString(R.string.error_system_info_fetch_error,e.toString(), context = requireContext()), requireContext())
+                    showErrorDialog(format(R.string.error_system_info_fetch_error,e.toString()), requireContext())
                 }
             }
             launch(Dispatchers.Main) {

@@ -7,7 +7,7 @@ import android.provider.MediaStore
 import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
-import icu.takeneko.omms.client.controller.Controller
+import icu.takeneko.omms.client.data.controller.Controller
 import icu.takeneko.omms.client.util.Result
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.storage.PreferencesStorage
@@ -22,16 +22,10 @@ fun genControllerText(controller: Controller): String {
     return "(${controller.name}) Type: ${controller.type} "
 }
 
-fun getSystemType(origin: String): String {
-    return if (origin.contains("Windows")) "WINDOWS" else (if (origin.contains("Linux") || origin.contains(
-            "linux"
-        )
-    ) "LINUX" else "")
-}
-
 enum class ServerEntryType {
     OS, MINECRAFT, UNDEFINED
 }
+
 
 fun showErrorDialog(info: String, context: Context) {
     val alertDialog = context.let {
@@ -60,30 +54,10 @@ fun toJson(obj: Any): String {
     return gson.toJson(obj)
 }
 
-fun toHumanReadableErrorMessage(base: String, result: Result, context: Context): String {
-    val errorString = when (result) {
-        Result.PERMISSION_DENIED -> context.getString(R.string.error_permission_denied)
-        Result.FAIL -> context.getString(R.string.error_unknown_error)
-        else -> result.name
-    }
-    return String.format(base, errorString)
-}
 
-fun toHumanReadableErrorMessageResId(
-    @StringRes base: Int,
-    result: Result,
-    context: Context
-): String {
-    return toHumanReadableErrorMessage(context.getString(base), result, context)
-}
-
-//fun toHumanReadableErrorMessageResId(@StringRes base: Int, message: String, context: Context):String{
-//    return toHumanReadableErrorMessage(context.getString(base), message, context)
+//fun (@StringRes format: Int, vararg objects: Any?, context: Context): String {
+//    return context.getString(format).format(*objects)
 //}
-
-fun formatResString(@StringRes format: Int, vararg objects: Any?, context: Context): String {
-    return context.getString(format).format(*objects)
-}
 
 fun awaitExecute(block: (CountDownLatch) -> Unit) {
     val latch = CountDownLatch(1)

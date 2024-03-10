@@ -20,12 +20,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.client.Connection.Result
-import icu.takeneko.omms.connect.client.Response
+import icu.takeneko.omms.connect.client.ConnectionStatus
 import icu.takeneko.omms.connect.databinding.ActivityMainBinding
 import icu.takeneko.omms.connect.resource.ServerIconResourceManager
 import icu.takeneko.omms.connect.settings.SettingsActivity
 import icu.takeneko.omms.connect.storage.PreferencesStorage
-import icu.takeneko.omms.connect.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -111,8 +110,8 @@ class MainActivity : AppCompatActivity() {
     private fun login(ip: String, port: Int, code: Int) {
         externalScope.launch(defaultDispatcher) {
             ensureActive()
-            when (val result = Connection.init(ip, port, code, true)) {
-                is Result.Success<Response> -> {
+            when (val result = Connection.connect(ip, port, code, true)) {
+                is Result.Success<ConnectionStatus> -> {
                     ToastUtils.showLong(R.string.success)
                     startActivity(Intent(this@MainActivity, SessionActivity::class.java))
                     runOnUiThread {
