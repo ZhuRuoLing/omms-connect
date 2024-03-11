@@ -16,7 +16,7 @@ fun determineSystemType(desc: String): SystemType {
         return SystemType.WINDOWS
     if ("linux" in d)
         return SystemType.LINUX
-    if ("darwin" in d)
+    if ("darwin" in d || "mac os x" in d)
         return SystemType.MACOS
     return SystemType.UNKNOWN
 }

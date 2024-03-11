@@ -96,7 +96,7 @@
     <string name="error_version_mismatch_no_server_version">Client Version Mismatch, current version: %d</string>
     <string name="error_operation_timeout">Operation Timeout</string>
     <string name="error_unknown">Unknown Error: %s</string>
-    <string name="error_io_exception">IO Error</string>
+    <string name="error_io_exception">IO Error: %s</string>
     <string name="error_security_exception">Security Error: Check your system time or try reconnect</string>
     <string name="error_connect_fail">Connect fail, cause: %s</string>
     <string name="label_fs_status">"%s left, %s total, "</string>

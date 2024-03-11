@@ -77,11 +77,13 @@
     <string name="data">设置数据</string>
     <string name="label_add_custom_server_icon">管理自定义受控端图标</string>
     <string name="title_custom_controller_icon">自定义受控端图标</string>
-    <string name="error_version_mismatch">Client Version Mismatch, required: %d, current: %d</string>
-    <string name="error_version_mismatch_no_server_version">Client Version Mismatch, current version: %d</string>
-    <string name="error_operation_timeout">Operation Timeout</string>
-    <string name="error_unknown">Unknown Error: %s</string>
-    <string name="error_io_exception">IO Error</string>
-    <string name="error_security_exception">Security Error: Check your system time or try reconnect</string>
-    <string name="error_connect_fail">Connect fail, cause: %s</string>
+    <string name="error_version_mismatch">客户端版本不匹配, 需求版本: %d, 当前版本: %d</string>
+    <string name="error_version_mismatch_no_server_version">客户端版本不匹配, 当前版本: %d</string>
+    <string name="error_operation_timeout">操作超时</string>
+    <string name="error_unknown">未知错误: %s</string>
+    <string name="error_io_exception">IO错误：%s</string>
+    <string name="error_security_exception">安全错误: 检查你的系统时间或者重试操作</string>
+    <string name="error_connect_fail">链接失败, 原因: %s</string>
+
+    <string name="label_fs_status">"剩余：%s, 总量： %s, "</string>
 </resources>

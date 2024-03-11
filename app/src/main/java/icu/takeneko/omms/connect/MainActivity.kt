@@ -25,6 +25,7 @@ import icu.takeneko.omms.connect.databinding.ActivityMainBinding
 import icu.takeneko.omms.connect.resource.ServerIconResourceManager
 import icu.takeneko.omms.connect.settings.SettingsActivity
 import icu.takeneko.omms.connect.storage.PreferencesStorage
+import icu.takeneko.omms.connect.util.toErrorMessage
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -32,13 +33,6 @@ class MainActivity : AppCompatActivity() {
         ToastUtils.showLong("Failed connect to server\nreason:$e")
         alertDialog.dismiss()
     }
-
-    companion object {
-        init {
-            System.loadLibrary("connect")
-        }
-    }
-
 
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -124,13 +118,14 @@ class MainActivity : AppCompatActivity() {
                         alertDialog.dismiss()
                         val dialog = MaterialAlertDialogBuilder(this@MainActivity)
                             .setCancelable(true)
-                            .setTitle("Loading")
-                            .setMessage(
-                                String.format(
-                                    "Cannot connect to server, reason %s",
-                                    (result as Result.Error).exception.toString()
-                                )
-                            )
+                            .setTitle(R.string.fail)
+                            .setMessage(this@MainActivity.toErrorMessage((result as Result.Error).exception))
+//                            .setMessage(
+//                                String.format(
+//                                    "Cannot connect to server, reason %s",
+//                                    (result as Result.Error).exception.toString()
+//                                )
+//                            )
                             .create()
                         dialog.show()
                         ToastUtils.showLong(R.string.fail)
