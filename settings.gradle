@@ -10,6 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            name = "NekoMavenRelease"
+            url = uri("https://maven.takeneko.icu/releases")
+        }
     }
 }
 rootProject.name = "OMMS Connect"

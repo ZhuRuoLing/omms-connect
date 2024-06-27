@@ -12,8 +12,8 @@ android {
         applicationId "icu.takeneko.omms.connect"
         minSdk 29
         targetSdk 34
-        versionCode 165
-        versionName '0.16.5'
+        versionCode 1000
+        versionName '1.0.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -58,7 +58,7 @@ android {
 
 dependencies {
     implementation 'com.blankj:utilcodex:1.31.0'
-    implementation(fileTree(dir: 'libs', includes: ['*.jar']))
+    implementation('icu.takeneko:omms-client-core:1.1.0')
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
