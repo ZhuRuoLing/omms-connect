@@ -13,12 +13,12 @@ object AssetsUtil {
     fun getServerIcon(type: String, parent: Activity): Drawable? =
         when (type.uppercase(Locale.ROOT)) {
             "FABRIC" -> AppCompatResources.getDrawable(parent, R.mipmap.ic_server_fabric)
-            else -> ServerIconResourceManager[type + "_icon"]
+            else -> ServerIconResourceManager[type]
         }
 }
 
 fun Context.getIconFromDesc(desc: String):Drawable? =
     when (desc.uppercase(Locale.ROOT)) {
     "FABRIC" -> AppCompatResources.getDrawable(this, R.mipmap.ic_server_fabric)
-    else -> ServerIconResourceManager[desc + "_icon"]
+    else -> ServerIconResourceManager[desc]
 }

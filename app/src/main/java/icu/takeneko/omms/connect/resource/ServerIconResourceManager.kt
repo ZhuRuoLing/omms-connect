@@ -21,10 +21,10 @@ object ServerIconResourceManager {
     fun importImageFromUri(context: Context, id: String, uri: Uri) {
         val dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         if (dir.exists() || dir.mkdir()) {
-            dir.resolve("${id}_icon").run {
+            dir.resolve(id).run {
                 if (exists()) delete()
                 if (!exists()) createNewFile()
-                Log.i("OMMS", "Import icon from file: ${id}_icon <= ${dir.absolutePath}")
+                Log.i("OMMS", "Import icon from file: ${id} <= ${dir.absolutePath}")
                 outputStream().with {
                     FileUtils.copy(context.contentResolver.openInputStream(uri)!!, this)
                     this.flush()
@@ -43,14 +43,15 @@ object ServerIconResourceManager {
     private fun addImage(context: Context, id: String, path: String) {
         PreferencesStorage.withContext(context, "server_icon").with {
             if (!contains("icons")) {
-                putStringSet("icons", mutableSetOf("${id}_icon"))
+                putStringSet("icons", mutableSetOf(id))
             } else {
                 val set = getStringSet("icons", mutableSetOf()).apply {
-                    add("${id}_icon")
+                    add(id)
                 }
                 putStringSet("icons", set)
             }
-            putString("${id}_icon", path)
+            putString(id, path)
+            commit()
         }
         load(context)
     }
