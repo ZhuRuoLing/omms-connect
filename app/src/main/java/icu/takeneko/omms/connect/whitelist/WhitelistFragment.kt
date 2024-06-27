@@ -13,18 +13,19 @@ import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentWhitelistBinding
 import icu.takeneko.omms.connect.util.ResultContract
-import icu.takeneko.omms.connect.util.formatResString
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.view.Placeholder68dpView
 import icu.takeneko.omms.connect.whitelist.view.WhitelistEntryView
 import icu.takeneko.omms.connect.util.awaitExecute
+import icu.takeneko.omms.connect.util.format
+import icu.takeneko.omms.connect.util.toErrorMessage
 
 
 class WhitelistFragment : Fragment() {
 
     private var _binding: FragmentWhitelistBinding? = null
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
-        ToastUtils.showLong("Failed connect to server\nreason:$e")
+        ToastUtils.showLong(requireContext().toErrorMessage(e))
     }
     private val externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
 
@@ -40,7 +41,7 @@ class WhitelistFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private var whitelistMap = HashMap<String, ArrayList<String>>()
+    private var whitelistMap = mutableMapOf<String, MutableList<String>>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -112,10 +113,9 @@ class WhitelistFragment : Fragment() {
 //                            it
 //                        )
 //                    })
-                    this@WhitelistFragment.binding.whitelistTitle.text = formatResString(
+                    this@WhitelistFragment.binding.whitelistTitle.text = this@WhitelistFragment.format(
                         R.string.label_whitelists_count,
-                        whitelistMap.count(),
-                        context = requireContext()
+                        whitelistMap.count()
                     )
                     if (showDialog) {
                         alertDialog?.dismiss()

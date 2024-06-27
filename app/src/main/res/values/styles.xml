@@ -2,7 +2,5 @@
 
     <style name="Widget.Theme.OMMSConnect.MyView" parent="">
         <item name="android:background">@color/gray_400</item>
-        <item name="android:colorPrimary">#7C4DFF</item>
-        <item name="android:colorPrimaryDark">#6200EA</item>
     </style>
 </resources>

@@ -10,18 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
-import icu.takeneko.omms.client.controller.Controller
-import icu.takeneko.omms.client.system.SystemInfo
+import icu.takeneko.omms.client.data.controller.Controller
+import icu.takeneko.omms.client.data.system.SystemInfo
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentServerBinding
 import icu.takeneko.omms.connect.server.view.ServerEntryView
-import icu.takeneko.omms.connect.util.formatResString
+import icu.takeneko.omms.connect.util.format;
 import icu.takeneko.omms.connect.util.genControllerText
-import icu.takeneko.omms.connect.util.getSystemType
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.view.Placeholder68dpView
 import icu.takeneko.omms.connect.util.awaitExecute
+import icu.takeneko.omms.connect.util.getSystemType
 
 class ServerFragment : Fragment() {
 
@@ -79,14 +79,12 @@ class ServerFragment : Fragment() {
                                 awaitExecute { latch ->
                                     this@launch.launch(Dispatchers.Main) {
                                         this@ServerFragment.binding.serverText.text =
-                                            formatResString(
+                                            requireContext().format(
                                                 R.string.label_controller_count,
-                                                controllers.count(),
-                                                context = requireContext()
+                                                controllers.count()
                                             )
                                         latch.countDown()
                                     }
-
                                 }
                                 hasController = true
                                 it.countDown()
@@ -102,10 +100,10 @@ class ServerFragment : Fragment() {
                                 this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
                             }
                             showErrorDialog(
-                                formatResString(
+                                requireContext().format(
                                     R.string.error_controller_fetch_error,
                                     e.message,
-                                    context =  requireContext()
+                                    
                                 ),
                                 this@ServerFragment.requireContext()
                             )
@@ -127,10 +125,9 @@ class ServerFragment : Fragment() {
                                     this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
                                 }
                                 showErrorDialog(
-                                    formatResString(
+                                    requireContext().format(
                                         R.string.error_system_info_fetch_error,
                                         e.message,
-                                        context = requireContext()
                                     ),
                                     this@ServerFragment.requireContext()
                                 )
@@ -176,10 +173,10 @@ class ServerFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     showErrorDialog(
-                        formatResString(
-                            R.string.error_unknown_error,
+                        requireContext().format(
+                            R.string.error_server_internal_error,
                             e.toString(),
-                            context = requireContext()
+                            
                         ), this@ServerFragment.requireContext()
                     )
                     Log.e("omms", "Exception at ServerFragment", e)

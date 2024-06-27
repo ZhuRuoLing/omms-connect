@@ -62,14 +62,14 @@
     <string name="error_system_info_fetch_error">Cannot fetch system info from server.\nCaused By: %s</string>
 
     <string name="error_permission_denied">Permission denied</string>
-    <string name="error_unknown_error">An unexpected error occurred in server internal logic.</string>
-    <string name="error_code_error">This permission code was not registered in server.</string>
-    <string name="label_util_commands">Util Commands</string>
+    <string name="error_server_internal_error">An unexpected error occurred in server internal logic: %s</string>
+    <string name="error_unknown_permission_code">This permission code was not registered in server.</string>
+    <string name="label_util_commands">Utility Commands</string>
     <string name="hint_server_ip_port">Enter your server ip and port here</string>
     <string name="hint_permission_code">Enter your permission code here.</string>
     <string name="label_state_running">Running</string>
     <string name="label_state_stopped">Stopped</string>
-    <string name="label_state_not_queryable">not_queryable</string>
+    <string name="label_state_not_queryable">Not Queryable</string>
     <string name="label_no_player">Nobody was here :(</string>
     <string name="error_exception">Encountered exception while %s:%s</string>
     <string name="label_whitelist_player_count">%s player was added to this whitelist</string>
@@ -92,6 +92,14 @@
 
     <string name="label_add_custom_server_icon">Manage Custom Controller Icon</string>
     <string name="title_custom_controller_icon">Custom Server Icon</string>
+    <string name="error_version_mismatch">Client Version Mismatch, required: %d, current: %d</string>
+    <string name="error_version_mismatch_no_server_version">Client Version Mismatch, current version: %d</string>
+    <string name="error_operation_timeout">Operation Timeout</string>
+    <string name="error_unknown">Unknown Error: %s</string>
+    <string name="error_io_exception">IO Error: %s</string>
+    <string name="error_security_exception">Security Error: Check your system time or try reconnect</string>
+    <string name="error_connect_fail">Connect fail, cause: %s</string>
+    <string name="label_fs_status">"%s left, %s total, "</string>
 
 
 </resources>

@@ -15,10 +15,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.CacheDiskUtils
 import com.blankj.utilcode.util.GsonUtils
-import icu.takeneko.omms.client.controller.Controller
+import icu.takeneko.omms.client.data.controller.Controller
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.databinding.ActivityMinecraftServerControlBinding
-import icu.takeneko.omms.connect.util.Assets
+import icu.takeneko.omms.connect.util.AssetsUtil
+import icu.takeneko.omms.connect.util.getIconFromDesc
 
 class MinecraftServerControlActivity : AppCompatActivity() {
 
@@ -57,7 +58,7 @@ class MinecraftServerControlActivity : AppCompatActivity() {
 
         mcImage.setImageDrawable(
             intent.getStringExtra("server_type")?.let {
-                Assets.getServerIcon(it, this)
+                this.getIconFromDesc(it)
             }
         )
         mcText.text = "${controller.name} (${controller.type.lowercase().replaceFirstChar { char -> char + ('A'.code - 'a'.code) }} Server)"

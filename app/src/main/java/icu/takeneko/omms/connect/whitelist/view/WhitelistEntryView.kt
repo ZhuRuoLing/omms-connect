@@ -15,7 +15,7 @@ class WhitelistEntryView : ConstraintLayout {
     private var nameText: TextView
     private var introText: TextView
     private var name = ""
-    private var content = ArrayList<String>()
+    private var content = emptyList<String>()
     private lateinit var activityResultLauncher: ActivityResultLauncher<Int>
 
     constructor(context: Context) : super(context) {
@@ -40,7 +40,7 @@ class WhitelistEntryView : ConstraintLayout {
     }
 
     @SuppressLint("DefaultLocale")
-    fun setAttribute(name: String, content: ArrayList<String>, activityResultLauncher: ActivityResultLauncher<Int>): WhitelistEntryView {
+    fun setAttribute(name: String, content: List<String>, activityResultLauncher: ActivityResultLauncher<Int>): WhitelistEntryView {
         this.name = name
         this.content = content
         this.activityResultLauncher = activityResultLauncher

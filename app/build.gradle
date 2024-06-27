@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
+    id("dev.rikka.tools.materialthemebuilder") version "1.3.3"
 }
 
 android {
@@ -11,17 +12,12 @@ android {
         applicationId "icu.takeneko.omms.connect"
         minSdk 29
         targetSdk 34
-        versionCode 151
-        versionName '0.15.1'
+        versionCode 165
+        versionName '0.16.5'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
-        }
-        externalNativeBuild {
-            cmake {
-                cppFlags ''
-            }
         }
     }
     android.applicationVariants.configureEach {
@@ -56,12 +52,6 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.22.1'
-        }
-    }
     namespace 'icu.takeneko.omms.connect'
 }
 
@@ -92,3 +82,16 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 }
 
+
+materialThemeBuilder {
+    themes {
+        create("AmazingOrange") {
+            lightThemeParent = "Theme.Material3.DayNight.NoActionBar"
+            darkThemeParent = "Theme.Material3.DayNight.NoActionBar"
+            lightThemeFormat = "Theme.Light.%s"
+            darkThemeFormat = "Theme.Dark.%s"
+            secondaryColor = "#FF8A80"
+            primaryColor = "#FF1744"
+        }
+    }
+}

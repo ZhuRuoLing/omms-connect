@@ -12,14 +12,16 @@ import java.util.concurrent.TimeUnit
 
 object Connection {
     private lateinit var clientSession: ClientSession
-    var isConnected = false
+    val isConnected
+        get() = connectionStatus == ConnectionStatus.CONNECTED
+    private var connectionStatus = ConnectionStatus.DISCONNECTED
 
     sealed class Result<out R> {
         data class Success<out T>(val data: T) : Result<T>()
-        data class Error(val exception: Exception) : Result<Nothing>()
+        data class Error(val exception: Throwable) : Result<Nothing>()
     }
 
-    suspend fun init(ip: String, port: Int, code: Int, forceConnect: Boolean): Result<Response> {
+    suspend fun connect(ip: String, port: Int, code: Int, forceConnect: Boolean): Result<ConnectionStatus> {
         if (forceConnect) {
             if (isConnected) {
                 end()
@@ -34,14 +36,15 @@ object Connection {
                 this.ensureActive()
                 val task = FutureTask {
                     val session = clientInitialSession.init(code)
-                    isConnected = true
+                    connectionStatus = ConnectionStatus.CONNECTED
                     return@FutureTask session
                 }
                 task.run()
                 val res = task[5000, TimeUnit.MILLISECONDS]
                 clientSession = res
-                return@withContext Result.Success(Response.SUCCESS)
-            } catch (e: Exception) {
+                return@withContext Result.Success(connectionStatus)
+            } catch (e: Throwable) {
+                connectionStatus = ConnectionStatus.ERROR
                 return@withContext Result.Error(e)
             }
         }
@@ -51,17 +54,19 @@ object Connection {
         return clientSession
     }
 
-    suspend fun end() {
+    suspend fun end(): Result<ConnectionStatus> {
         return withContext(Dispatchers.IO) {
             try {
                 val latch = CountDownLatch(1)
                 clientSession.close {
-                    isConnected = false
+                    connectionStatus = ConnectionStatus.DISCONNECTED
                     latch.countDown()
                 }
                 latch.await(1000, TimeUnit.MILLISECONDS)
-            } catch (_: java.lang.Exception) {
-
+                return@withContext Result.Success(connectionStatus)
+            } catch (e: Throwable) {
+                connectionStatus = ConnectionStatus.ERROR
+                Result.Error(e)
             }
         }
     }

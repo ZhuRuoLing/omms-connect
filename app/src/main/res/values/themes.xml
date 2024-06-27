@@ -1,9 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.OMMSConnect" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.OMMSConnect" parent="Theme.Light.AmazingOrange">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
     </style>
 
     <style name="Theme.OMMSConnect" parent="Base.Theme.OMMSConnect" />
@@ -13,7 +12,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.OMMSConnect.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.OMMSConnect.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 </resources>

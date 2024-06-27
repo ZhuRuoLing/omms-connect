@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import icu.takeneko.omms.client.announcement.Announcement
+import icu.takeneko.omms.client.data.announcement.Announcement
 import icu.takeneko.omms.connect.R
 
 

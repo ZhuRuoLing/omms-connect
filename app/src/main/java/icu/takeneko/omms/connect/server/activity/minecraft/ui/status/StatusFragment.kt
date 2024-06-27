@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.CacheMemoryUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
-import icu.takeneko.omms.client.controller.Controller
-import icu.takeneko.omms.client.controller.Status
+import icu.takeneko.omms.client.data.controller.Controller
+import icu.takeneko.omms.client.data.controller.Status
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentMcStatusBinding

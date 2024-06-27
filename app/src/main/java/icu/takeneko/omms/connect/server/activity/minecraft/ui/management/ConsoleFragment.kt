@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
-import icu.takeneko.omms.client.controller.Controller
+import icu.takeneko.omms.client.data.controller.Controller
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.settings.SettingsActivity
 import icu.takeneko.omms.connect.client.Connection
@@ -144,12 +144,12 @@ class ConsoleFragment : Fragment() {
                         Connection.getClientSession().setOnPermissionDeniedCallback(null)
                     }
                     Connection.getClientSession()
-                        .startControllerConsole(controller.name, {//launched
-                            consoleId = it.a
+                        .startControllerConsole(controller.name, { id,b ->
+                            consoleId = id
                             callback()
                             latch.countDown()
-                        }, {//log callback
-                            print(it.b)
+                        }, {id, log ->
+                            print(log)
                         }, {//controller not exist
                             consoleWorker.append(getString(R.string.error_permission_denied))
                             latch.countDown()

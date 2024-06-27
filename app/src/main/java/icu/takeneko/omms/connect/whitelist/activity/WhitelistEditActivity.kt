@@ -25,7 +25,7 @@ class WhitelistEditActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWhitelistEditBinding
 
     private var fromWhitelist: String = ""
-    private var players: ArrayList<String> = arrayListOf()
+    private var players: List<String> = mutableListOf()
     var requireRefresh = false
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
         ToastUtils.showLong("Failed connect to server\nreason:$e")
@@ -53,7 +53,7 @@ class WhitelistEditActivity : AppCompatActivity() {
     }
 
     fun refreshPlayerList() {
-        players.sort()
+        players.sorted()
         externalScope.launch(Dispatchers.Main) {
             this@WhitelistEditActivity.binding.whitelistCompoentContainer.removeAllViews()
             if (players.isNotEmpty()) players.forEach {
@@ -69,13 +69,13 @@ class WhitelistEditActivity : AppCompatActivity() {
     }
 
     private fun addPlayer(player: String) {
-        players.add(player)
-        players.sort()
+        players += player
+        players.sorted()
     }
 
     fun removePlayer(player: String) {
-        players.remove(player)
-        players.sort()
+        players -= player
+        players.sorted()
     }
 
 
@@ -94,7 +94,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                 externalScope.launch(Dispatchers.IO) {
                     val session = Connection.getClientSession()
                     awaitExecute { latch ->
-                        session.setOnPermissionDeniedCallback {
+                        session.setOnPermissionDeniedCallback { session ->
                             dialog.dismiss()
                             MaterialAlertDialogBuilder(this@WhitelistEditActivity)
                                 .setIcon(R.drawable.ic_baseline_error_24)
@@ -105,7 +105,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                             latch.countDown()
                             session.setOnPermissionDeniedCallback(null)
                         }
-                        session.addToWhitelist(fromWhitelist, textView.text.toString(), {
+                        session.addToWhitelist(fromWhitelist, textView.text.toString(), { _, _ ->
                             launch(Dispatchers.Main) {
                                 dialog.dismiss()
                                 MaterialAlertDialogBuilder(this@WhitelistEditActivity)
@@ -118,7 +118,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                                 refreshPlayerList()
                                 latch.countDown()
                             }
-                        }, {
+                        }, { _, _ ->
                             launch(Dispatchers.Main) {
                                 dialog.dismiss()
                                 MaterialAlertDialogBuilder(this@WhitelistEditActivity)
@@ -149,7 +149,7 @@ class WhitelistEditActivity : AppCompatActivity() {
     fun init(from: String, players: ArrayList<String>) {
         this.fromWhitelist = from
         this.players = players
-        this.players.sort()
+        this.players.sorted()
     }
 
 }

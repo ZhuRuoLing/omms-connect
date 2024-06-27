@@ -15,8 +15,8 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
-import icu.takeneko.omms.connect.util.formatResString
 import icu.takeneko.omms.connect.util.awaitExecute
+import icu.takeneko.omms.connect.util.format
 
 class WhitelistPlayerView : ConstraintLayout {
     private lateinit var playerNameText: TextView
@@ -58,10 +58,9 @@ class WhitelistPlayerView : ConstraintLayout {
                                 .setIcon(R.drawable.ic_baseline_error_24)
                                 .setTitle("Error")
                                 .setMessage(
-                                    formatResString(
+                                    activity.format(
                                         R.string.hint_whitelist_remove_permission_denied,
-                                        playerNameText.text,
-                                        context = context
+                                        playerNameText.text
                                     )
                                 )
                                 .setMessage("Failed to remove ${playerNameText.text} from whitelist: Permission Denied")
@@ -70,16 +69,15 @@ class WhitelistPlayerView : ConstraintLayout {
                             latch.countDown()
                             session.setOnPermissionDeniedCallback(null)
                         }
-                        session.removeFromWhitelist(fromWhitelist, playerName, {
+                        session.removeFromWhitelist(fromWhitelist, playerName, {wl, p ->
                             this.launch(Dispatchers.Main) {
                                 MaterialAlertDialogBuilder(activity)
                                     .setPositiveButton("Ok", null)
                                     .setTitle("Success")
                                     .setMessage(
-                                        formatResString(
+                                        activity.format(
                                             R.string.hint_whitelist_player_removed,
-                                            it.b,
-                                            context = this@WhitelistPlayerView.context
+                                            p
                                         )
                                     ).show()
                                 activity.requireRefresh = true
@@ -87,15 +85,14 @@ class WhitelistPlayerView : ConstraintLayout {
                                 activity.refreshPlayerList()
                                 latch.countDown()
                             }
-                        }, {
+                        }, {wl, p ->
                             MaterialAlertDialogBuilder(activity)
                                 .setPositiveButton("Ok", null)
                                 .setTitle("Fail")
                                 .setMessage(
-                                    formatResString(
+                                    activity.format(
                                         R.string.hint_whitelist_remove_player_not_exist,
-                                        it.b,
-                                        context = this@WhitelistPlayerView.context
+                                        p
                                     )
                                 ).show()
                             latch.countDown()

@@ -12,13 +12,13 @@ import com.blankj.utilcode.util.CacheMemoryUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
-import icu.takeneko.omms.client.controller.Controller
-import icu.takeneko.omms.client.controller.Status
+import icu.takeneko.omms.client.data.controller.Controller
+import icu.takeneko.omms.client.data.controller.Status
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentMcControlBinding
 import icu.takeneko.omms.connect.util.awaitExecute
-import icu.takeneko.omms.connect.util.formatResString
+import icu.takeneko.omms.connect.util.format
 import icu.takeneko.omms.connect.util.fromJson
 import icu.takeneko.omms.connect.util.getUtilCommands
 import icu.takeneko.omms.connect.util.showErrorDialog
@@ -120,16 +120,16 @@ class ControlFragment : Fragment() {
                     latch.countDown()
                 }
                 Connection.getClientSession()
-                    .sendCommandToController(this@ControlFragment.controller.name, command, { ret ->
+                    .sendCommandToController(this@ControlFragment.controller.name, command, { a,b ->
                         launch(Dispatchers.Main) {
                             binding.mcOutputText.text = "\n" +
-                                    binding.mcOutputText.text.toString() + ret.b.joinToString("\n") + "\n"
+                                    binding.mcOutputText.text.toString() + b.joinToString("\n") + "\n"
                             latch.countDown()
                         }
                     }, {
                         binding.mcOutputText.text =
-                            binding.mcOutputText.text.toString() + "\n" + formatResString(
-                                R.string.error_controller_not_exist, it, context = requireContext()
+                            binding.mcOutputText.text.toString() + "\n" + format(
+                                R.string.error_controller_not_exist, it
                             )
                         latch.countDown()
                     }, {
