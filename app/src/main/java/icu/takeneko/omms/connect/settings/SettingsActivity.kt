@@ -1,5 +1,8 @@
 package icu.takeneko.omms.connect.settings
 
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
+import android.animation.ObjectAnimator
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
@@ -111,7 +114,21 @@ class SettingsActivity : AppCompatActivity() {
             if (isChecked) {
                 clickCount++
                 if (clickCount > 2) {
-                    binding.autoUpdate.visibility = View.GONE
+                    binding.autoUpdate.isChecked = false
+                    val fadeOut = ObjectAnimator.ofFloat(binding.autoUpdate,"alpha", 1f, 0f )
+                    fadeOut.setDuration(250)
+                    fadeOut.addListener(object :AnimatorListener{
+                        override fun onAnimationStart(animation: Animator) {
+                        }
+                        override fun onAnimationEnd(animation: Animator) {
+                            binding.autoUpdate.visibility = View.GONE
+                        }
+                        override fun onAnimationCancel(animation: Animator) {
+                        }
+                        override fun onAnimationRepeat(animation: Animator) {
+                        }
+                    })
+                    fadeOut.start()
                 }
                 lifecycleScope.launch(Dispatchers.IO) {
                     delay(250)

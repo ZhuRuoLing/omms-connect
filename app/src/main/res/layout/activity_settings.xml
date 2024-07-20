@@ -163,40 +163,43 @@
                         android:text="@string/update"
                         android:textSize="25sp"
                         android:textStyle="bold" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="10dp">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <com.google.android.material.textview.MaterialTextView
-                            style = "?textAppearanceTitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:gravity="center|start"
-                            android:text="@string/auto_update_core_lib" />
-                        <com.google.android.material.textview.MaterialTextView
-                            style = "?textAppearanceDisplaySmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:gravity="center|start"
-                            android:text="@string/it_will_not_work"
-                            android:textSize="15sp" />
-                    </LinearLayout>
 
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/auto_update"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingHorizontal="5dp"
-                        android:layout_gravity="end">
-                    </com.google.android.material.materialswitch.MaterialSwitch>
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="?textAppearanceTitleMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:gravity="center|start"
+                                android:text="@string/auto_update_core_lib" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="?textAppearanceDisplaySmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:gravity="center|start"
+                                android:text="@string/it_will_not_work"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/auto_update"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:paddingHorizontal="5dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
