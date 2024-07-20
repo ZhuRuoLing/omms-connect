@@ -100,6 +100,10 @@
     <string name="error_security_exception">Security Error: Check your system time or try reconnect</string>
     <string name="error_connect_fail">Connect fail, cause: %s</string>
     <string name="label_fs_status">"%s left, %s total, "</string>
+    <string name="autoupdate">Auto Update</string>
+    <string name="auto_update_core_lib">Auto Update Client Library</string>
+    <string name="it_will_not_work">It will not work</string>
+    <string name="update">Update</string>
 
 
 </resources>

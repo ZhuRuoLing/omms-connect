@@ -6,9 +6,12 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.postOnAnimationDelayed
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ClipboardUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -19,11 +22,14 @@ import icu.takeneko.omms.connect.storage.PreferencesStorage
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.util.importDataFromJson
 import icu.takeneko.omms.connect.util.toExportDataJson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
-
+    private var clickCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -99,6 +105,21 @@ class SettingsActivity : AppCompatActivity() {
                     Log.i("omms-crystal", "Back ${textView.text}")
                 }
             dialog.show()
+        }
+        binding.autoUpdate.setOnCheckedChangeListener { buttonView, isChecked ->
+            println("isChecked = $isChecked, clickCount = $clickCount")
+            if (isChecked) {
+                clickCount++
+                if (clickCount > 2) {
+                    binding.autoUpdate.visibility = View.GONE
+                }
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(250)
+                    launch(Dispatchers.Main) {
+                        binding.autoUpdate.isChecked = false
+                    }
+                }
+            }
         }
     }
 

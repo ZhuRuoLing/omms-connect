@@ -86,4 +86,8 @@
     <string name="error_connect_fail">链接失败, 原因: %s</string>
 
     <string name="label_fs_status">"剩余：%s, 总量： %s, "</string>
+    <string name="autoupdate">自动更新</string>
+    <string name="auto_update_core_lib">自动更新客户端库</string>
+    <string name="it_will_not_work">他不管用</string>
+    <string name="update">更新</string>
 </resources>
