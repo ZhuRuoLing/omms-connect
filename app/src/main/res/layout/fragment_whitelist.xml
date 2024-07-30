@@ -6,56 +6,90 @@
     android:layout_height="match_parent"
     tools:context="icu.takeneko.omms.connect.whitelist.WhitelistFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/whitelist_swipe_refresh"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ScrollView
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="false">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                style="?collapsingToolbarLayoutMediumStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="?collapsingToolbarLayoutMediumSize"
+                android:fitsSystemWindows="false"
+                app:collapsedTitleTextColor="?colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleCollapseMode="scale">
 
-                <com.google.android.material.textview.MaterialTextView
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@string/whitelist"
-                    android:textSize="50sp" />
+                    android:layout_height="?actionBarSize"
+                    android:elevation="0dp"
+                    app:layout_collapseMode="pin"
+                    app:title="@string/whitelist"
+                    app:navigationIcon="@drawable/ic_baseline_whitelist_navigation_24"
+                    app:navigationIconTint="?colorPrimary"
+                    app:titleTextAppearance="?textAppearanceTitleLarge"
+                    app:titleMarginStart="16dp" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/whitelistTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@string/wdnmd"
-                    android:textSize="20sp" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.Material3.CardView.Elevated"
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:ignore="MissingPrefix">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/whitelist_swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <rikka.widget.borderview.BorderNestedScrollView
+                    android:id="@+id/nestedScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    app:borderBottomVisibility="never"
+                    app:borderTopDrawable="@null"
+                    app:borderTopVisibility="whenTop">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical"
-                        app:layout_constrainedHeight="true"
-                        tools:layout_editor_absoluteY="1dp" />
+                        android:orientation="vertical">
 
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/whitelistTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/wdnmd"
+                            android:textAppearance="?textAppearanceTitleMedium"/>
 
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-        </ScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                        <LinearLayout
+                            android:id="@+id/linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical"
+                            app:layout_constrainedHeight="true"
+                            tools:layout_editor_absoluteY="1dp" />
+                    </LinearLayout>
 
+                </rikka.widget.borderview.BorderNestedScrollView>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </FrameLayout>
 
-
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

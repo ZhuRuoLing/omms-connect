@@ -56,7 +56,6 @@ class ServerEntryView : ConstraintLayout {
     }
 
     fun withController(controller: Controller): ServerEntryView {
-
         this.controller = controller
         this.serverEntryType = ServerEntryType.MINECRAFT
         return this

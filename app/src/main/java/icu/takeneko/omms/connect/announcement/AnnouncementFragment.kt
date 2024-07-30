@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import icu.takeneko.omms.connect.R
 import kotlinx.coroutines.*
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.util.showErrorDialog
@@ -55,14 +56,14 @@ class AnnouncementFragment : Fragment() {
                                 binding.announcementList.removeAllViews()
                                 val map = it
                                 this@AnnouncementFragment.binding.announcementTitle.text =
-                                    "${map.count()} announcements added to this server."
+                                    requireContext().getString(R.string.label_announcement_nav_info, map.count())
                                 this@AnnouncementFragment.binding.announcementList.removeAllViews()
                                 map.forEach {
                                     binding.announcementList
                                         .addView(
                                             AnnouncementEntryView(
                                                 this@AnnouncementFragment.requireContext()
-                                            ).withAnnouncement(it.value)
+                                            ).withAnnouncement(requireContext(), it.value)
                                         )
                                 }
                                 binding.announcementList.addView(Placeholder68dpView(requireContext()))

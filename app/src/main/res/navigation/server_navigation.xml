@@ -2,24 +2,24 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_gallery">
+    android:id="@+id/server_navigation"
+    app:startDestination="@+id/nav_status">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="icu.takeneko.omms.connect.server.activity.system.management.ManagementFragment"
-        android:label="Management"
-        tools:layout="@layout/fragment_os_management" />
+        android:id="@+id/nav_chatbridge"
+        android:name="icu.takeneko.omms.connect.server.activity.system.chatbridge.ChatbridgeFragment"
+        android:label="@string/chatbridge"
+        tools:layout="@layout/fragment_os_chatbridge" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_status"
         android:name="icu.takeneko.omms.connect.server.activity.system.status.StatusFragment"
-        android:label="Status"
+        android:label="@string/status"
         tools:layout="@layout/fragment_os_status" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_control"
         android:name="icu.takeneko.omms.connect.server.activity.system.control.ControlFragment"
-        android:label="Control"
+        android:label="@string/control"
         tools:layout="@layout/fragment_os_control" />
 </navigation>

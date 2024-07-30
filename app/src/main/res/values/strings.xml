@@ -52,7 +52,7 @@
     <string name="label_controller_count">%d controllers added to this server.</string>
     <string name="label_whitelists_count">%d whitelists added to this server.</string>
     <string name="label_announcements_count">%d announcements added to this server.</string>
-    <string name="label_server_os" translatable="false">Server OS</string>
+    <string name="label_server_os">Server</string>
     <string name="label_loading">Loading</string>
     <string name="label_wait">Please Wait…</string>
 
@@ -104,6 +104,16 @@
     <string name="auto_update_core_lib">Auto Update Client Library</string>
     <string name="it_will_not_work">It will not work</string>
     <string name="update">Update</string>
-
+    <string name="controller_text">(%s) Type: %s</string>
+    <string name="hint_whitelist_fetch_failed">Cannot fetch whitelists from server, reason: %s</string>
+    <string name="hint_whitelist_player_count">%d players</string>
+    <string name="label_announcement_brief">id: %s, size: %d</string>
+    <string name="label_announcement_nav_info">%d announcements added to this server.</string>
+    <string name="label_announcement">Announcement</string>
+    <string name="label_players_added_whitelist">%1$s players were added to this whitelist.</string>
+    <string name="management">Management</string>
+    <string name="control">Control</string>
+    <string name="status">Status</string>
+    <string name="chatbridge">Chatbridge</string>
 
 </resources>

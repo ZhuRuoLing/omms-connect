@@ -20,16 +20,14 @@ class AnnouncementEntryView : LinearLayout {
         this.introText = findViewById(R.id.announcement_in_text)
     }
 
-    @SuppressLint("SetTextI18n")
-    fun withAnnouncement(announcement: Announcement): AnnouncementEntryView {
+    fun withAnnouncement(context: Context,announcement: Announcement): AnnouncementEntryView {
         titleText.text = announcement.title
-        introText.text = "id: ${announcement.id}, size: ${
-            announcement.content.run {
-                var size = 0
-                this.forEach { size += it.length }
-                size
-            }
-        }"
+        val size = announcement.content.run {
+            var size = 0
+            this.forEach { size += it.length }
+            size
+        }
+        introText.text = context.getString(R.string.label_announcement_brief, announcement.id, size)
         return this
     }
 

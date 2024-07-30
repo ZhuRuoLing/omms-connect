@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_status"
+            android:icon="@android:drawable/stat_notify_sync"
+            android:iconTint="?colorPrimaryContainer"
+            android:title="@string/status" />
+        <item
+            android:id="@+id/nav_console"
+            android:icon="@drawable/ic_baseline_server_navigation_24"
+            android:iconTint="?colorPrimaryContainer"
+            android:title="@string/console" />
+        <item
+            android:id="@+id/nav_control"
+            android:icon="@drawable/ic_baseline_control"
+            android:iconTint="?colorPrimaryContainer"
+            android:title="@string/command" />
+    </group>
+</menu>

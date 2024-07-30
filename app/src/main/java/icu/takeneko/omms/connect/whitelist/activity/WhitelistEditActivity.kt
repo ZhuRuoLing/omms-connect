@@ -42,7 +42,8 @@ class WhitelistEditActivity : AppCompatActivity() {
         fromWhitelist = CacheMemoryUtils.getInstance().get("from_whitelist")
         players = CacheMemoryUtils.getInstance().get("whitelist_content")
         binding.whitelistNameTitle.text = fromWhitelist
-        binding.whitelistInfoText.text = "${players.size} players were added to this whitelist."
+        binding.whitelistInfoText.text =
+            getString(R.string.label_players_added_whitelist, players.size)
         refreshPlayerList()
         if (Build.VERSION.SDK_INT >= 33) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
@@ -109,7 +110,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                             launch(Dispatchers.Main) {
                                 dialog.dismiss()
                                 MaterialAlertDialogBuilder(this@WhitelistEditActivity)
-                                    .setIcon(R.drawable.ic_notifications_black_24dp)
+                                    .setIcon(R.drawable.ic_announcement_navigation_24dp)
                                     .setTitle("Success")
                                     .setMessage("Added ${textView.text.toString()} to whitelist.")
                                     .setPositiveButton("OK", null)

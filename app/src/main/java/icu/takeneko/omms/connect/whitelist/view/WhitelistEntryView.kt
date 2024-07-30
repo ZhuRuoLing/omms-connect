@@ -40,12 +40,17 @@ class WhitelistEntryView : ConstraintLayout {
     }
 
     @SuppressLint("DefaultLocale")
-    fun setAttribute(name: String, content: List<String>, activityResultLauncher: ActivityResultLauncher<Int>): WhitelistEntryView {
+    fun setAttribute(
+        context: Context,
+        name: String,
+        content: List<String>,
+        activityResultLauncher: ActivityResultLauncher<Int>
+    ): WhitelistEntryView {
         this.name = name
         this.content = content
         this.activityResultLauncher = activityResultLauncher
         nameText.text = this.name
-        introText.text = String.format("%d players", this.content.size)
+        introText.text = context.getString(R.string.hint_whitelist_player_count, this.content.size)
         return this
     }
 }

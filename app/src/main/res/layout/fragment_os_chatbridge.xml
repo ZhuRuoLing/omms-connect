@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="icu.takeneko.omms.connect.server.activity.system.management.ManagementFragment">
+    tools:context="icu.takeneko.omms.connect.server.activity.system.chatbridge.ChatbridgeFragment">
 
     <TextView
-        android:id="@+id/text_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

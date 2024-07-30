@@ -18,8 +18,8 @@ import kotlin.contracts.contract
 
 private val gson = GsonBuilder().serializeNulls().create()
 
-fun genControllerText(controller: Controller): String {
-    return "(${controller.name}) Type: ${controller.type} "
+fun Context.genControllerText(controller: Controller): String {
+    return getString(R.string.controller_text,controller.name, controller.type)
 }
 
 enum class ServerEntryType {

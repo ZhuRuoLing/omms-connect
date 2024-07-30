@@ -42,7 +42,7 @@ class ServerOSControlActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_server_oscontrol)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_status, R.id.nav_chatbridge, R.id.nav_control
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -59,12 +59,6 @@ class ServerOSControlActivity : AppCompatActivity() {
         osText2.text = "${info.osName} ${info.osVersion} ${info.osArch}"
 
         CacheDiskUtils.getInstance().put("sysinfo", intent.getStringExtra("data"))
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.server_o_s_control, menu)
-        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -45,16 +45,16 @@ class MinecraftServerControlActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_status, R.id.nav_console, R.id.nav_control
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         val header = navView.inflateHeaderView(R.layout.nav_header_minecraft_server_control)
-        mcImage = header.findViewById(R.id.mcImage)
-        mcText = header.findViewById(R.id.mcText)
-        mcText2 = header.findViewById(R.id.mcText2)
+        mcImage = header.findViewById(R.id.mc_image)
+        mcText = header.findViewById(R.id.mc_text)
+        mcText2 = header.findViewById(R.id.mc_text2)
 
         mcImage.setImageDrawable(
             intent.getStringExtra("server_type")?.let {
@@ -64,12 +64,6 @@ class MinecraftServerControlActivity : AppCompatActivity() {
         mcText.text = "${controller.name} (${controller.type.lowercase().replaceFirstChar { char -> char + ('A'.code - 'a'.code) }} Server)"
         mcText2.text = ""
         CacheDiskUtils.getInstance().put("mcinfo", intent.getStringExtra("data"))
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.minecraft_server_control, menu)
-        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -88,7 +88,7 @@ class WhitelistFragment : Fragment() {
                 } else {
                     this@WhitelistFragment.binding.whitelistSwipeRefresh.isRefreshing = false
                 }
-                showErrorDialog("Cannot fetch whitelists from server, reason: $e", requireContext())
+                showErrorDialog(requireContext().getString(R.string.hint_whitelist_fetch_failed,"$e"), requireContext())
             }
             launch(Dispatchers.Main) {
                 ensureActive()
@@ -97,22 +97,13 @@ class WhitelistFragment : Fragment() {
                     this@WhitelistFragment.whitelistMap.forEach {
                         val view =
                             WhitelistEntryView(requireContext()).setAttribute(
+                                requireContext(),
                                 it.key,
                                 it.value,
                                 activityResultLauncher
                             )
                         this@WhitelistFragment.binding.linearLayout.addView(view)
                     }
-                    this@WhitelistFragment.binding.linearLayout.addView(
-                        Placeholder68dpView(
-                            requireContext()
-                        )
-                    )
-//                    this@WhitelistFragment.binding.linearLayout.addView(this@WhitelistFragment.context?.let {
-//                        Placeholder68dpView(
-//                            it
-//                        )
-//                    })
                     this@WhitelistFragment.binding.whitelistTitle.text = this@WhitelistFragment.format(
                         R.string.label_whitelists_count,
                         whitelistMap.count()

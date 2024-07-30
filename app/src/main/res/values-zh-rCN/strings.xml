@@ -15,18 +15,19 @@
     <string name="blank_line">" "</string>
     <string name="title_server">服务器</string>
     <string name="title_whitelist">白名单</string>
-    <string name="title_broadcast">公告</string>
+    <string name="title_broadcast">广播</string>
     <string name="title_activity_whitelist_edit">白名单编辑</string>
     <string name="wdnmd">" "</string>
     <string name="player_name">玩家名</string>
-    <string name="whitelist">白名单</string>
+    <string name="whitelist">白名单管理</string>
     <string name="todo">正在开发中</string>
-    <string name="server">服务器</string>
+    <string name="server">服务器管理</string>
     <string name="title_activity_server_oscontrol">服务器控制</string>
     <string name="meme">狼狗头</string>
     <string name="action_settings">设置</string>
     <string name="whitelist_icon_desp">白名单图标</string>
     <string name="announcement">公告</string>
+    <string name="label_announcement">公告</string>
     <string name="setting_button">设置按钮</string>
     <string name="title_activity_settings">设置</string>
     <string name="title_activity_util_command_edit">编辑快速命令</string>
@@ -43,7 +44,8 @@
     <string name="label_controller_count">服务器正在管理%s个控制器</string>
     <string name="label_whitelists_count">服务器添加了%s个白名单</string>
     <string name="label_announcements_count">服务器添加了%s个公告</string>
-    <string name="label_loading">加载</string>
+    <string name="label_server_os">服务器</string>
+    <string name="label_loading">加载中</string>
     <string name="label_wait">请稍等</string>
     <string name="error_unknown_exception">未知的错误发生了，更多信息:%s</string>
     <string name="error_controller_fetch_error">无法从服务器获取控制器列表，原因：</string>
@@ -90,4 +92,13 @@
     <string name="auto_update_core_lib">自动更新客户端库</string>
     <string name="it_will_not_work">这个选项没有用</string>
     <string name="update">更新</string>
+    <string name="controller_text">(%s) 类型: %s</string>
+    <string name="hint_whitelist_fetch_failed">无法获取白名单信息，原因: %s</string>
+    <string name="hint_whitelist_player_count">%d 个玩家</string>
+    <string name="label_announcement_brief">id: %s, 长度: %d</string>
+    <string name="label_announcement_nav_info">服务器添加了%d个公告</string>
+    <string name="label_players_added_whitelist">%1$s players were added to this whitelist.</string>
+    <string name="management">管理</string>
+    <string name="control">控制</string>
+    <string name="status">状态</string>
 </resources>

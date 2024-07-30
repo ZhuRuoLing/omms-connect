@@ -156,7 +156,7 @@ class ServerFragment : Fragment() {
                     }
                     if (hasController) {
                         controllers.forEach {
-                            val text = genControllerText(it.value)
+                            val text = requireContext().genControllerText(it.value)
                             val controllerEntryView =
                                 ServerEntryView(this@ServerFragment.requireContext()).setValue(
                                     it.value.displayName, text, it.value.type ?: "", requireActivity()
