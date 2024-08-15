@@ -21,7 +21,12 @@ object Connection {
         data class Error(val exception: Throwable) : Result<Nothing>()
     }
 
-    suspend fun connect(ip: String, port: Int, code: String, forceConnect: Boolean): Result<ConnectionStatus> {
+    suspend fun connect(
+        ip: String,
+        port: Int,
+        code: String,
+        forceConnect: Boolean
+    ): Result<ConnectionStatus> {
         if (forceConnect) {
             if (isConnected) {
                 end()
@@ -55,19 +60,11 @@ object Connection {
         return clientSession
     }
 
-    suspend fun end(): Result<ConnectionStatus> {
+    suspend fun end() {
         return withContext(Dispatchers.IO) {
-            try {
-                val latch = CountDownLatch(1)
-                clientSession.close {
-                    connectionStatus = ConnectionStatus.DISCONNECTED
-                    latch.countDown()
-                }
-                latch.await(1000, TimeUnit.MILLISECONDS)
-                return@withContext Result.Success(connectionStatus)
-            } catch (e: Throwable) {
-                connectionStatus = ConnectionStatus.ERROR
-                Result.Error(e)
+            connectionStatus = ConnectionStatus.DISCONNECTED
+            clientSession.close {
+                connectionStatus = ConnectionStatus.DISCONNECTED
             }
         }
     }

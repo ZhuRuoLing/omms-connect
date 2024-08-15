@@ -29,16 +29,19 @@ class SessionActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_session0)
         navView.setupWithNavController(navController)
     }
+
     override fun onStop() {
-        if (!ActivityUtils.isActivityAlive(this)){
+        if (!ActivityUtils.isActivityAlive(this)) {
             end()
         }
         super.onStop()
     }
+
     override fun onDestroy() {
         end()
         super.onDestroy()
     }
+
     private fun end() {
         externalScope.launch(defaultDispatcher) {
             ensureActive()
