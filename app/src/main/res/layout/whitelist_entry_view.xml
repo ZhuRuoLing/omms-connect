@@ -4,40 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_constrainedHeight="true"
-    android:layout_gravity="center_vertical">
+    android:layout_gravity="center_vertical"
+    app:layout_constrainedHeight="true">
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="8dp"
-        android:layout_margin="10dp"
         style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginVertical="10dp"
+        app:cardElevation="5dp"
         app:layout_constrainedHeight="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constrainedHeight="true"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
-
-                android:contentDescription="@string/whitelist_icon_desp"
-                app:srcCompat="@drawable/ic_baseline_whitelist_icon" />
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/whitelist_icon"
+                app:tint="?colorPrimary"
+                tools:ignore="ContentDescription" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_margin="15dp"
                 android:orientation="vertical"
                 app:layout_constrainedHeight="true">
 
@@ -45,16 +45,18 @@
                     android:id="@+id/whitelistNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="@string/wdnmd"
-                    android:textSize="24sp" />
+                    android:textAppearance="?textAppearanceTitleMedium" />
 
                 <TextView
                     android:id="@+id/whitelistIntroductionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="@string/wdnmd"
-                    android:textColor="@color/gray_600"
-                    android:textSize="20sp" />
+                    android:textAppearance="?textAppearanceBodySmall"
+                    android:textColor="@color/gray_600" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

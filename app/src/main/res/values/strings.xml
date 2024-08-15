@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name" translatable="false">OMMS Connect</string>
-    <string name="code">Code</string>
+    <string name="code">Password</string>
     <string name="ip" translatable="false">IP</string>
     <string name="go">LINK START</string>
     <string name="port">Port</string>
-    <string name="login_hint">Please login to continue.</string>
+    <string name="login_hint">Login</string>
     <string name="login">LOGIN</string>
     <string name="welcome">Welcome to OMMS Connect!</string>
     <string name="blank_line" />
-    <string name="remember_server">Remember this server</string>
-    <string name="remember_code">Remember this code</string>
+    <string name="remember_server">Remember server</string>
+    <string name="remember_code">Remember password</string>
     <string name="success">Connected.</string>
     <string name="fail">Cannot connect to server.</string>
     <string name="empty">Please fill in all those text boxes.</string>
@@ -98,7 +98,7 @@
     <string name="error_unknown">Unknown Error: %s</string>
     <string name="error_io_exception">IO Error: %s</string>
     <string name="error_security_exception">Security Error: Check your system time or try reconnect</string>
-    <string name="error_connect_fail">Connect fail, cause: %s</string>
+    <string name="error_connect_fail">Connect failed, cause: %s</string>
     <string name="label_fs_status">"%s left, %s total, "</string>
     <string name="autoupdate">Auto Update</string>
     <string name="auto_update_core_lib">Auto Update Client Library</string>
@@ -115,5 +115,8 @@
     <string name="control">Control</string>
     <string name="status">Status</string>
     <string name="chatbridge">Chatbridge</string>
+    <string name="error_exception_connect">An exception was thrown while attempting to establish a connection with server.</string>
+    <string name="label_powered_by" translatable="false">Powered by</string>
+    <string name="label_with_heart_and_fishcake" translatable="false">with ❤️</string>
 
 </resources>

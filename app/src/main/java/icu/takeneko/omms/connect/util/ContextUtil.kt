@@ -3,7 +3,7 @@ package icu.takeneko.omms.connect.util
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import icu.takeneko.omms.client.exception.ConnectionFailException
+import icu.takeneko.omms.client.exception.ConnectionFailedException
 import icu.takeneko.omms.client.exception.PermissionDeniedException
 import icu.takeneko.omms.client.exception.ServerInternalErrorException
 import icu.takeneko.omms.client.exception.VersionNotMatchException
@@ -51,7 +51,7 @@ fun Context.toErrorMessage(e:Throwable):String{
             format(R.string.error_security_exception)
         }
 
-        is ConnectionFailException -> {
+        is ConnectionFailedException -> {
             format(R.string.error_connect_fail, e.message)
         }
 

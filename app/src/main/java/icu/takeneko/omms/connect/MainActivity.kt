@@ -1,7 +1,6 @@
 package icu.takeneko.omms.connect
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
@@ -11,13 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.client.Connection.Result
 import icu.takeneko.omms.connect.client.ConnectionStatus
@@ -26,6 +18,13 @@ import icu.takeneko.omms.connect.resource.ServerIconResourceManager
 import icu.takeneko.omms.connect.settings.SettingsActivity
 import icu.takeneko.omms.connect.storage.PreferencesStorage
 import icu.takeneko.omms.connect.util.toErrorMessage
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             preferencesStorage.commit()
-            login(ip, Integer.valueOf(port), Integer.valueOf(code))
+            login(ip, Integer.valueOf(port), code)
             alertDialog.show()
         }
         if (preferencesStorage.contains("server_ip") and preferencesStorage.contains("server_port")) {
@@ -94,14 +93,9 @@ class MainActivity : AppCompatActivity() {
         binding.settingButton.setOnClickListener {
             ActivityUtils.startActivity(SettingsActivity::class.java)
         }
-        binding.ommsIcon.setOnClickListener {
-            val intent =
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/OhMyMinecraftServer"))
-            startActivity(intent)
-        }
     }
 
-    private fun login(ip: String, port: Int, code: Int) {
+    private fun login(ip: String, port: Int, code: String) {
         externalScope.launch(defaultDispatcher) {
             ensureActive()
             when (val result = Connection.connect(ip, port, code, true)) {
@@ -112,25 +106,18 @@ class MainActivity : AppCompatActivity() {
                         alertDialog.dismiss()
                     }
                 }
-
-                else -> {
+                is Result.Error -> {
+                    val error = result.exception
                     runOnUiThread {
                         alertDialog.dismiss()
                         val dialog = MaterialAlertDialogBuilder(this@MainActivity)
                             .setCancelable(true)
-                            .setTitle(R.string.fail)
-                            .setMessage(this@MainActivity.toErrorMessage((result as Result.Error).exception))
-//                            .setMessage(
-//                                String.format(
-//                                    "Cannot connect to server, reason %s",
-//                                    (result as Result.Error).exception.toString()
-//                                )
-//                            )
+                            .setTitle(R.string.error_exception_connect)
+                            .setMessage(this@MainActivity.toErrorMessage(error))
+                            .setIcon(R.drawable.ic_baseline_error_24)
                             .create()
                         dialog.show()
-                        ToastUtils.showLong(R.string.fail)
                     }
-
                 }
             }
         }

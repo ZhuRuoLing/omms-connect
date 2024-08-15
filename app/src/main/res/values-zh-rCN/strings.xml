@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="code">权限代码</string>
+    <string name="code">权限密码</string>
     <string name="go">连接！</string>
     <string name="port">端口</string>
     <string name="login_hint">登录到服务器</string>
     <string name="login">登录</string>
     <string name="welcome">欢迎使用</string>
     <string name="remember_server">记住服务器地址</string>
-    <string name="remember_code">记住权限代码</string>
+    <string name="remember_code">记住密码</string>
     <string name="success">已连接</string>
     <string name="fail">无法连接至服务器</string>
     <string name="empty">请填写完整登录信息</string>
@@ -97,8 +97,10 @@
     <string name="hint_whitelist_player_count">%d 个玩家</string>
     <string name="label_announcement_brief">id: %s, 长度: %d</string>
     <string name="label_announcement_nav_info">服务器添加了%d个公告</string>
-    <string name="label_players_added_whitelist">%1$s players were added to this whitelist.</string>
+    <string name="label_players_added_whitelist">白名单中添加了 %1$s 个玩家</string>
     <string name="management">管理</string>
     <string name="control">控制</string>
     <string name="status">状态</string>
+    <string name="chatbridge">跨服聊天</string>
+    <string name="error_exception_connect">在尝试与服务器建立链接时发生了错误</string>
 </resources>

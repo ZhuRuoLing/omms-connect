@@ -21,7 +21,7 @@ object Connection {
         data class Error(val exception: Throwable) : Result<Nothing>()
     }
 
-    suspend fun connect(ip: String, port: Int, code: Int, forceConnect: Boolean): Result<ConnectionStatus> {
+    suspend fun connect(ip: String, port: Int, code: String, forceConnect: Boolean): Result<ConnectionStatus> {
         if (forceConnect) {
             if (isConnected) {
                 end()
@@ -35,7 +35,8 @@ object Connection {
                 val clientInitialSession = ClientInitialSession(InetAddress.getByName(ip), port)
                 this.ensureActive()
                 val task = FutureTask {
-                    val session = clientInitialSession.init(code)
+                    val tok = ClientInitialSession.generateToken(code)
+                    val session = clientInitialSession.init(tok)
                     connectionStatus = ConnectionStatus.CONNECTED
                     return@FutureTask session
                 }
