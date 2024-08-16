@@ -118,6 +118,6 @@
     <string name="error_exception_connect">An exception was thrown while attempting to establish a connection with server.</string>
     <string name="label_powered_by" translatable="false">Powered by</string>
     <string name="label_with_heart_and_fishcake" translatable="false">with ❤️</string>
-    <string name="label_chat">Chat</string>
+    <string name="label_chat">Chat Message</string>
 
 </resources>
