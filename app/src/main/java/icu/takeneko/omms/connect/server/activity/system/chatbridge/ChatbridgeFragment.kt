@@ -12,6 +12,15 @@ class ChatbridgeFragment : Fragment() {
     private var _binding: FragmentOsChatbridgeBinding? = null
 
     private val binding get() = _binding!!
+    private var chatText
+        get() = binding.chatText.text?.toString() ?: ""
+        set(value) = binding.chatText.setText(value)
+
+    private var isRefreshing
+        get() = binding.chatSwipeRefresh.isRefreshing
+        set(value) {
+            binding.chatSwipeRefresh.isRefreshing = value
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,6 +29,14 @@ class ChatbridgeFragment : Fragment() {
     ): View {
         _binding = FragmentOsChatbridgeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        binding.chatSend.setOnClickListener {
+            val message = chatText
+            chatText = ""
+        }
+        binding.chatSwipeRefresh.setOnRefreshListener {
+            isRefreshing = false
+        }
+        binding.chatScroll.fullScroll(View.FOCUS_DOWN)
         return root
     }
 

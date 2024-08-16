@@ -1,5 +1,6 @@
 package icu.takeneko.omms.connect.client
 
+import icu.takeneko.omms.client.data.chatbridge.Broadcast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -15,6 +16,8 @@ object Connection {
     val isConnected
         get() = connectionStatus == ConnectionStatus.CONNECTED
     private var connectionStatus = ConnectionStatus.DISCONNECTED
+    val chatMessageCache = mutableListOf<Broadcast>()
+    var chatPassthroughState = true
 
     sealed class Result<out R> {
         data class Success<out T>(val data: T) : Result<T>()
@@ -48,6 +51,10 @@ object Connection {
                 task.run()
                 val res = task[5000, TimeUnit.MILLISECONDS]
                 clientSession = res
+                clientSession.setOnNewBroadcastReceivedCallback(chatMessageCache::add)
+                clientSession.setChatMessagePassthroughState(true) {
+                    chatPassthroughState = it
+                }
                 return@withContext Result.Success(connectionStatus)
             } catch (e: Throwable) {
                 connectionStatus = ConnectionStatus.ERROR
