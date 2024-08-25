@@ -97,7 +97,7 @@ class ConsoleFragment : Fragment() {
     fun displayLog(precomputedTextCompat: PrecomputedTextCompat) {
         lifecycleScope.launch(Dispatchers.Main) {
             TextViewCompat.setPrecomputedText(binding.mcOutputText, precomputedTextCompat)
-            if (autoRoll){
+            if (autoRoll) {
                 scrollToEnd()
             }
         }
@@ -144,11 +144,11 @@ class ConsoleFragment : Fragment() {
                         Connection.getClientSession().setOnPermissionDeniedCallback(null)
                     }
                     Connection.getClientSession()
-                        .startControllerConsole(controller.name, { id,b ->
+                        .startControllerConsole(controller.name, { _, id ->
                             consoleId = id
                             callback()
                             latch.countDown()
-                        }, {id, log ->
+                        }, { _, log ->
                             print(log)
                         }, {//controller not exist
                             consoleWorker.append(getString(R.string.error_permission_denied))
