@@ -17,6 +17,9 @@ fun Context.format(@StringRes format: Int, vararg objects: Any?):String{
     return getString(format).format(*objects)
 }
 
+fun Int.asColor(context: Context) = context.getColor(this)
+
+
 fun Fragment.format(@StringRes format: Int, vararg objects: Any?):String = requireContext().format(format, *objects)
 
 fun Context.toErrorMessage(e:Throwable):String{

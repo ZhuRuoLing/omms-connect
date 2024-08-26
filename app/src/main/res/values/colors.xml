@@ -7,4 +7,8 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="gray_400">#FFBDBDBD</color>
     <color name="gray_600">#FF757575</color>
+
+    <color name="player_chat_background">#FDFCFD</color>
+    <color name="server_chat_background">#AEEA00</color>
+    <color name="client_chat_background">#80D8FF</color>
 </resources>

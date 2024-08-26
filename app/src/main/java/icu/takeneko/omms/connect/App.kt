@@ -8,4 +8,8 @@ class App: Application() {
         super.onCreate()
         DynamicColors.applyToActivitiesIfAvailable(this)
     }
+
+    companion object{
+        const val TAG = "OMMS_CONNECT"
+    }
 }

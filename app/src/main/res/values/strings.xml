@@ -119,5 +119,8 @@
     <string name="label_powered_by" translatable="false">Powered by</string>
     <string name="label_with_heart_and_fishcake" translatable="false">with ❤️</string>
     <string name="label_chat">Chat Message</string>
+    <string name="label_server">-Server-</string>
+    <string name="label_server_wrapped">[Server]</string>
+    <string name="label_placeholder">PLACEHOLDER</string>
 
 </resources>
