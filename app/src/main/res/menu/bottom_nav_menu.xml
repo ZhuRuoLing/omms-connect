@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_baseline_server_navigation_24"
+        android:icon="@drawable/ic_server_24"
         android:title="@string/title_server" />
 
     <item
         android:id="@+id/navigation_whitelist"
-        android:icon="@drawable/ic_baseline_whitelist_navigation_24"
+        android:icon="@drawable/ic_whitelist_24"
         android:title="@string/title_whitelist" />
 
     <item
-        android:id="@+id/announcement"
-        android:icon="@drawable/ic_announcement_navigation_24dp"
-        android:title="@string/title_broadcast" />
+        android:id="@+id/chatbridge"
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:title="@string/chatbridge" />
 
 </menu>

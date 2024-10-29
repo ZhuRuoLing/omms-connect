@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_whitelist" />
 
     <fragment
-        android:id="@+id/announcement"
-        android:name="icu.takeneko.omms.connect.announcement.AnnouncementFragment"
-        android:label="@string/title_broadcast"
-        tools:layout="@layout/fragment_announcement" />
+        android:id="@+id/chatbridge"
+        android:name="icu.takeneko.omms.connect.chatbridge.ChatbridgeFragment"
+        android:label="@string/chatbridge"
+        tools:layout="@layout/fragment_chatbridge" />
 </navigation>

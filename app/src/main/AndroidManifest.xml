@@ -22,7 +22,7 @@
             android:name="icu.takeneko.omms.connect.settings.ServerIconManageActivity"
             android:exported="false" />
         <activity
-            android:name="icu.takeneko.omms.connect.announcement.AnnouncementEditActivity"
+            android:name="icu.takeneko.omms.connect.chatbridge.AnnouncementEditActivity"
             android:exported="false"
             android:label="@string/title_activity_announcement_edit"
             android:theme="@style/Theme.OMMSConnect" />

@@ -33,7 +33,7 @@
                     android:layout_height="?actionBarSize"
                     android:elevation="0dp"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_baseline_server_navigation_24"
+                    app:navigationIcon="@drawable/ic_server_24"
                     app:title="@string/server"
                     app:titleMarginStart="16dp"
                     app:navigationIconTint="?colorPrimary"

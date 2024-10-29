@@ -104,4 +104,6 @@
     <string name="chatbridge">跨服聊天</string>
     <string name="error_exception_connect">在尝试与服务器建立链接时发生了错误</string>
     <string name="label_chat">聊天消息</string>
+    <string name="label_server">-服务器-</string>
+    <string name="label_server_wrapped">[服务器]</string>
 </resources>

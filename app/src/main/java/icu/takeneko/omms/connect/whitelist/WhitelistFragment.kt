@@ -62,6 +62,7 @@ class WhitelistFragment : Fragment() {
         val alertDialog = this.context?.let {
             MaterialAlertDialogBuilder(it)
                 .setCancelable(false)
+                .setIcon(R.drawable.ic_wait_24)
                 .setTitle(R.string.label_loading)
                 .setMessage(R.string.label_wait)
                 .create()

@@ -110,7 +110,7 @@ class WhitelistEditActivity : AppCompatActivity() {
                             launch(Dispatchers.Main) {
                                 dialog.dismiss()
                                 MaterialAlertDialogBuilder(this@WhitelistEditActivity)
-                                    .setIcon(R.drawable.ic_announcement_navigation_24dp)
+                                    .setIcon(R.drawable.ic_baseline_check_24)
                                     .setTitle("Success")
                                     .setMessage("Added ${textView.text.toString()} to whitelist.")
                                     .setPositiveButton("OK", null)

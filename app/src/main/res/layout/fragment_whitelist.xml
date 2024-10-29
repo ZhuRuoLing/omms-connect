@@ -33,7 +33,7 @@
                     android:elevation="0dp"
                     app:layout_collapseMode="pin"
                     app:title="@string/whitelist"
-                    app:navigationIcon="@drawable/ic_baseline_whitelist_navigation_24"
+                    app:navigationIcon="@drawable/ic_whitelist_24"
                     app:navigationIconTint="?colorPrimary"
                     app:titleTextAppearance="?textAppearanceTitleLarge"
                     app:titleMarginStart="16dp" />

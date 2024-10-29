@@ -58,6 +58,7 @@ class ServerFragment : Fragment() {
         var systemInfo: SystemInfo? = null
         val alertDialog = MaterialAlertDialogBuilder(requireContext())
             .setCancelable(false)
+            .setIcon(R.drawable.ic_wait_24)
             .setTitle(R.string.label_loading)
             .setMessage(R.string.label_wait)
             .create()

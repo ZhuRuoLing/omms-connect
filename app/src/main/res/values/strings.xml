@@ -58,8 +58,8 @@
 
     <string name="error_unknown_exception">Unexpected Error occurred, more information: %s</string>
 
-    <string name="error_controller_fetch_error">Cannot fetch controllers from server.\nCaused By: %s</string>
-    <string name="error_system_info_fetch_error">Cannot fetch system info from server.\nCaused By: %s</string>
+    <string name="error_controller_fetch_error">Could not fetch controllers from server, check your internet connection or restart app.\nCaused By: %s</string>
+    <string name="error_system_info_fetch_error">Could not fetch system info from server, check your internet connection or restart app.\nCaused By: %s</string>
 
     <string name="error_permission_denied">Permission denied</string>
     <string name="error_server_internal_error">An unexpected error occurred in server internal logic: %s</string>
@@ -77,7 +77,7 @@
     <string name="hint_whitelist_remove_player_not_exist">Failed to remove %s \\n: Player Not Exist</string>
     <string name="hint_whitelist_remove_permission_denied">Failed to remove %s from whitelist: Permission Denied</string>
     <string name="error_controller_not_exist">Controller %s not exist, it might be removed from server.</string>
-    <string name="error_server_controller_auth_error">Central server cannot auth with controller, make sure that controller exists or it`s name correct.</string>
+    <string name="error_server_controller_auth_error">Central server could not auth with controller, make sure that controller exists or it`s name correct.</string>
     <string name="label_connect_console">Connect Console</string>
     <string name="label_disconnect_console">Disconnect</string>
     <string name="hint_console_exists">[Console Already Started]</string>
@@ -105,7 +105,7 @@
     <string name="it_will_not_work">It will not work</string>
     <string name="update">Update</string>
     <string name="controller_text">(%s) Type: %s</string>
-    <string name="hint_whitelist_fetch_failed">Cannot fetch whitelists from server, reason: %s</string>
+    <string name="hint_whitelist_fetch_failed">Could not fetch whitelists from server, check your internet connection or restart app.\n reason: %s</string>
     <string name="hint_whitelist_player_count">%d players</string>
     <string name="label_announcement_brief">id: %s, size: %d</string>
     <string name="label_announcement_nav_info">%d announcements added to this server.</string>
@@ -121,6 +121,6 @@
     <string name="label_chat">Chat Message</string>
     <string name="label_server">-Server-</string>
     <string name="label_server_wrapped">[Server]</string>
-    <string name="label_placeholder">PLACEHOLDER</string>
+    <string name="label_placeholder" translatable="false">PLACEHOLDER</string>
 
 </resources>

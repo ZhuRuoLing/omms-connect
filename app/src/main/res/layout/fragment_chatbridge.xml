@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="icu.takeneko.omms.connect.announcement.AnnouncementFragment">
+    tools:context="icu.takeneko.omms.connect.chatbridge.ChatbridgeFragment">
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -33,8 +33,8 @@
                     android:layout_height="?actionBarSize"
                     android:elevation="0dp"
                     app:layout_collapseMode="pin"
-                    app:title="@string/label_announcement"
-                    app:navigationIcon="@drawable/ic_announcement_navigation_24dp"
+                    app:title="@string/chatbridge"
+                    app:navigationIcon="@drawable/ic_baseline_chat_24"
                     app:navigationIconTint="?colorPrimary"
                     app:titleTextAppearance="?textAppearanceTitleLarge"
                     app:titleMarginStart="16dp" />
@@ -69,23 +69,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/announcement_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:fontFamily="sans-serif-light"
-                            android:text="@string/wdnmd"
-                            android:textAppearance="?textAppearanceBody1" />
-
-                        <LinearLayout
-                            android:id="@+id/announcement_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="vertical"
-                            app:layout_constrainedHeight="true"
-                            tools:layout_editor_absoluteY="1dp" />
                     </LinearLayout>
 
                 </rikka.widget.borderview.BorderNestedScrollView>

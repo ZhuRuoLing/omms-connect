@@ -9,7 +9,7 @@ class App: Application() {
         DynamicColors.applyToActivitiesIfAvailable(this)
     }
 
-    companion object{
+    companion object {
         const val TAG = "OMMS_CONNECT"
     }
 }
