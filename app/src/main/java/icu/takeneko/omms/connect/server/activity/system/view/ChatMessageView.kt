@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
-import icu.takeneko.omms.client.data.chatbridge.Broadcast
+import icu.takeneko.omms.client.data.chatbridge.ChatMessage
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.util.asColor
 
@@ -36,7 +36,7 @@ class ChatMessageView : LinearLayout {
         chatContent = findViewById(R.id.text_chat_content)
     }
 
-    fun updateContent(br: Broadcast, context: Context) {
+    fun updateContent(br: ChatMessage, context: Context) {
         card.setCardBackgroundColor(br.findExactBackgroundResource().asColor(context))
         chatName.text = br.player
         chatServer.text = "[${br.server}]"
@@ -44,7 +44,7 @@ class ChatMessageView : LinearLayout {
         chatContent.text = br.content
     }
 
-    private fun Broadcast.findExactBackgroundResource():Int{
+    private fun ChatMessage.findExactBackgroundResource():Int{
         if (this.player == "Server" || this.player == "-Server-")
             return R.color.server_chat_background
         if (this.server == "OMMS CENTRAL")

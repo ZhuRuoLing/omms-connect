@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.CacheMemoryUtils
 import com.blankj.utilcode.util.ToastUtils
-import kotlinx.coroutines.*
 import icu.takeneko.omms.client.data.controller.Controller
 import icu.takeneko.omms.client.data.controller.Status
 import icu.takeneko.omms.connect.R
@@ -20,7 +19,11 @@ import icu.takeneko.omms.connect.databinding.FragmentMcStatusBinding
 import icu.takeneko.omms.connect.util.fromJson
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.util.toJson
-import icu.takeneko.omms.connect.util.awaitExecute
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 
 class StatusFragment : Fragment() {
@@ -59,48 +62,42 @@ class StatusFragment : Fragment() {
         externalScope.launch(Dispatchers.IO) {
             showLoadDialog()
             try {
-                awaitExecute { latch ->
-                    Connection.getClientSession().fetchControllerStatus(controller.name, {
-                        launch(Dispatchers.Main) {
-                            status = it
-                            latch.countDown()
-                            putStatusToCache()
-                            binding.statusIcon.setImageIcon(
-                                Icon.createWithResource(
-                                    requireContext(),
-                                    getStatusIconId(status)
-                                )
+                val status = Connection.getClientSession().fetchControllerStatus(controller.name).get()
+                launch(Dispatchers.Main) {
+                    this@StatusFragment.status = status
+                    putStatusToCache()
+                    binding.statusIcon.setImageIcon(
+                        Icon.createWithResource(
+                            requireContext(),
+                            getStatusIconId(status)
+                        )
+                    )
+                    binding.statusCard.setCardBackgroundColor(
+                        ColorStateList.valueOf(
+                            getStatusColor(status)
+                        ).withAlpha(0xff)
+                    )
+                    binding.mcStatusTitle.setText(if (status.isQueryable)
+                        if (status.isAlive)
+                            R.string.label_state_running
+                        else
+                            R.string.label_state_stopped
+                    else R.string.label_state_not_queryable)
+
+                    if (status.isQueryable and status.isAlive) {
+                        binding.mcTextPlayerCount.text =
+                            "${status.playerCount}/${status.maxPlayerCount}"
+                        binding.mcTextPlayerList.text =
+                            if (status.players.isEmpty()) requireContext().getText(R.string.label_no_player) else status.players.joinToString(
+                                separator = "\n"
                             )
-                            binding.statusCard.setCardBackgroundColor(
-                                ColorStateList.valueOf(
-                                    getStatusColor(status)
-                                ).withAlpha(0xff)
-                            )
-                            binding.mcStatusTitle.setText(if (status.isQueryable)
-                                if (status.isAlive)
-                                    R.string.label_state_running
-                                else
-                                    R.string.label_state_stopped
-                            else R.string.label_state_not_queryable)
-
-                            if (status.isQueryable and status.isAlive) {
-                                binding.mcTextPlayerCount.text =
-                                    "${status.playerCount}/${status.maxPlayerCount}"
-                                binding.mcTextPlayerList.text =
-                                    if (status.players.isEmpty()) requireContext().getText(R.string.label_no_player) else status.players.joinToString(
-                                        separator = "\n"
-                                    )
-                            } else {
-                                binding.mcTextPlayerCount.setText(R.string.unavailable)
-                                binding.mcTextPlayerList.setText(R.string.unavailable)
-                            }
-                            dismissLoadAnim()
-                        }
-
-                    }, {
-
-                    })
+                    } else {
+                        binding.mcTextPlayerCount.setText(R.string.unavailable)
+                        binding.mcTextPlayerList.setText(R.string.unavailable)
+                    }
+                    dismissLoadAnim()
                 }
+
             } catch (e: Exception) {
                 showAlertAndDismissDialog("Exception occurred while loading status: $e")
             }

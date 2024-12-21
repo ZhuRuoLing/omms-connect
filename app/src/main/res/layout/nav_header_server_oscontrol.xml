@@ -26,12 +26,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/wdnmd"
+        android:text="@string/placeholder"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/control_os_server_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/wdnmd" />
+        android:text="@string/placeholder" />
 </LinearLayout>

@@ -10,7 +10,7 @@
     <string name="blank_line" />
     <string name="remember_server">Remember server</string>
     <string name="remember_code">Remember password</string>
-    <string name="success">Connected.</string>
+    <string name="hint_connected">Connected.</string>
     <string name="fail">Cannot connect to server.</string>
     <string name="empty">Please fill in all those text boxes.</string>
     <string name="title_activity_session" translatable="false">OMMS Client Session</string>
@@ -122,5 +122,19 @@
     <string name="label_server">-Server-</string>
     <string name="label_server_wrapped">[Server]</string>
     <string name="label_placeholder" translatable="false">PLACEHOLDER</string>
+    <string name="error">Error</string>
+    <string name="hint_whitelist_add_failed">Failed to add %s to whitelist: this player already exists。</string>
+    <string name="hint_whitelist_player_added">Added %s to whitelist.</string>
+    <string name="ok">OK</string>
+    <string name="label_working">Working…</string>
+    <string name="hint_whitelist_remove_confirm">Are you sure to remove %s from %s</string>
+    <string name="negative">No</string>
+    <string name="positive">Yes</string>
+    <string name="confirm">Confirm</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="success">Success</string>
+    <string name="label_add_player">Add Player</string>
+    <string name="label_nothing_here">¯\\\\_(ツ)_\/¯\nNothing Here</string>
+    <string name="label_manage_whitelist">Manage %s</string>
 
 </resources>

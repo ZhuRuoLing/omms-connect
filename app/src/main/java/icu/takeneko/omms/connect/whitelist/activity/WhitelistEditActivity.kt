@@ -5,7 +5,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.window.OnBackInvokedDispatcher
+import androidx.appcompat.app.ActionBar.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -13,12 +17,17 @@ import com.blankj.utilcode.util.CacheMemoryUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.*
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.ActivityWhitelistEditBinding
+import icu.takeneko.omms.connect.util.format
 import icu.takeneko.omms.connect.whitelist.view.WhitelistPlayerView
-import icu.takeneko.omms.connect.util.awaitExecute
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
+import java.util.concurrent.ExecutionException
 
 class WhitelistEditActivity : AppCompatActivity() {
 
@@ -32,7 +41,7 @@ class WhitelistEditActivity : AppCompatActivity() {
         Log.e("OMMS", "Failed connect to server", e)
     }
     private var externalScope: CoroutineScope = lifecycleScope.plus(coroutineExceptionHandler)
-    override fun  onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
@@ -41,9 +50,14 @@ class WhitelistEditActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { showActions() }
         fromWhitelist = CacheMemoryUtils.getInstance().get("from_whitelist")
         players = CacheMemoryUtils.getInstance().get("whitelist_content")
-        binding.whitelistNameTitle.text = fromWhitelist
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationOnClickListener {
+            setResult(114514, Intent().putExtra("requireRefresh", requireRefresh))
+            finish()
+        }
+        binding.toolbar.setTitle(getString(R.string.label_manage_whitelist, fromWhitelist))
         binding.whitelistInfoText.text =
-            getString(R.string.label_players_added_whitelist, players.size)
+            getString(R.string.label_players_added_whitelist, players.size.toString())
         refreshPlayerList()
         if (Build.VERSION.SDK_INT >= 33) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
@@ -57,14 +71,19 @@ class WhitelistEditActivity : AppCompatActivity() {
         players.sorted()
         externalScope.launch(Dispatchers.Main) {
             this@WhitelistEditActivity.binding.whitelistCompoentContainer.removeAllViews()
-            if (players.isNotEmpty()) players.forEach {
-                this@WhitelistEditActivity.binding.whitelistCompoentContainer.addView(
-                    WhitelistPlayerView(this@WhitelistEditActivity).setAttribute(
-                        it,
-                        fromWhitelist,
-                        this@WhitelistEditActivity
+            if (players.isNotEmpty()) {
+                players.forEach {
+                    this@WhitelistEditActivity.binding.whitelistCompoentContainer.addView(
+                        WhitelistPlayerView(this@WhitelistEditActivity).setAttribute(
+                            it,
+                            fromWhitelist,
+                            this@WhitelistEditActivity
+                        )
                     )
-                )
+                }
+                binding.textNothing.visibility = View.GONE
+            }else{
+                binding.textNothing.visibility = View.VISIBLE
             }
         }
     }
@@ -82,58 +101,73 @@ class WhitelistEditActivity : AppCompatActivity() {
 
     private fun showActions() {
         val textView = TextInputEditText(this)
+        val linearLayout = LinearLayout(this)
+        linearLayout.setPadding(
+            24,
+            24,
+            24,
+            24
+        )
+        linearLayout.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        textView.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        linearLayout.addView(textView)
         val dialog = MaterialAlertDialogBuilder(this)
-            .setIcon(R.drawable.ic_baseline_more_horiz_24)
-            .setTitle("Add to whitelist")
-            .setView(textView)
-            .setPositiveButton("OK") { _: DialogInterface, _: Int ->
+            .setIcon(R.drawable.ic_baseline_add_24)
+            .setTitle(R.string.label_add_player)
+            .setView(linearLayout)
+            .setPositiveButton(R.string.ok) { _: DialogInterface, _: Int ->
                 val alertDialogBuilder = MaterialAlertDialogBuilder(this)
                     .setIcon(R.drawable.ic_baseline_more_horiz_24)
-                    .setTitle("Working...")
-                    .setPositiveButton("OK", null)
+                    .setTitle(R.string.label_working)
+                    .setPositiveButton(R.string.ok, null)
                 val dialog = alertDialogBuilder.show()
+                val player = textView.text.toString()
                 externalScope.launch(Dispatchers.IO) {
                     val session = Connection.getClientSession()
-                    awaitExecute { latch ->
-                        session.setOnPermissionDeniedCallback { session ->
+                    session.onPermissionDeniedCallback.setCallback {
+                        dialog.dismiss()
+                        MaterialAlertDialogBuilder(this@WhitelistEditActivity)
+                            .setIcon(R.drawable.ic_baseline_error_24)
+                            .setTitle(R.string.error)
+                            .setMessage(format(
+                                R.string.hint_whitelist_remove_permission_denied,
+                                player
+                            ))
+                            .setPositiveButton(R.string.ok, null)
+                            .show()
+                        session.onPermissionDeniedCallback.setCallback { }
+                    }
+                    try {
+                        session.addToWhitelist(fromWhitelist, textView.text.toString()).get()
+                        launch(Dispatchers.Main) {
+                            dialog.dismiss()
+                            MaterialAlertDialogBuilder(this@WhitelistEditActivity)
+                                .setIcon(R.drawable.ic_baseline_check_24)
+                                .setTitle(R.string.success)
+                                .setMessage(format(R.string.hint_whitelist_player_added, player))
+                                .setPositiveButton(R.string.ok, null)
+                                .show()
+                            addPlayer(textView.text.toString())
+                            refreshPlayerList()
+                        }
+                    } catch (ex: ExecutionException) {
+                        launch(Dispatchers.Main) {
                             dialog.dismiss()
                             MaterialAlertDialogBuilder(this@WhitelistEditActivity)
                                 .setIcon(R.drawable.ic_baseline_error_24)
-                                .setTitle("Error")
-                                .setMessage("Failed to add ${textView.text.toString()} to whitelist: Permission Denied")
-                                .setPositiveButton("OK", null)
+                                .setTitle(R.string.error)
+                                .setMessage(getString(R.string.hint_whitelist_add_failed, player))
+                                .setPositiveButton(R.string.ok, null)
                                 .show()
-                            latch.countDown()
-                            session.setOnPermissionDeniedCallback(null)
                         }
-                        session.addToWhitelist(fromWhitelist, textView.text.toString(), { _, _ ->
-                            launch(Dispatchers.Main) {
-                                dialog.dismiss()
-                                MaterialAlertDialogBuilder(this@WhitelistEditActivity)
-                                    .setIcon(R.drawable.ic_baseline_check_24)
-                                    .setTitle("Success")
-                                    .setMessage("Added ${textView.text.toString()} to whitelist.")
-                                    .setPositiveButton("OK", null)
-                                    .show()
-                                addPlayer(textView.text.toString())
-                                refreshPlayerList()
-                                latch.countDown()
-                            }
-                        }, { _, _ ->
-                            launch(Dispatchers.Main) {
-                                dialog.dismiss()
-                                MaterialAlertDialogBuilder(this@WhitelistEditActivity)
-                                    .setIcon(R.drawable.ic_baseline_error_24)
-                                    .setTitle("Error")
-                                    .setMessage("Failed to add ${textView.text.toString()} to whitelist, this player already exists.")
-                                    .setPositiveButton("OK", null)
-                                    .show()
-                                latch.countDown()
-                            }
-                        })
-                        requireRefresh = true
                     }
-
+                    requireRefresh = true
                 }
             }.setOnCancelListener {
                 requireRefresh = false

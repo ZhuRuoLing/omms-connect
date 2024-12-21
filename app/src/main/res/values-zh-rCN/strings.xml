@@ -8,7 +8,7 @@
     <string name="welcome">欢迎使用</string>
     <string name="remember_server">记住服务器地址</string>
     <string name="remember_code">记住密码</string>
-    <string name="success">已连接</string>
+    <string name="hint_connected">已连接</string>
     <string name="fail">无法连接至服务器</string>
     <string name="empty">请填写完整登录信息</string>
     <string name="working">正在连接</string>
@@ -106,4 +106,18 @@
     <string name="label_chat">聊天消息</string>
     <string name="label_server">-服务器-</string>
     <string name="label_server_wrapped">[服务器]</string>
+    <string name="error">错误</string>
+    <string name="hint_whitelist_add_failed">无法将%s添加至白名单，这个玩家已存在。</string>
+    <string name="hint_whitelist_player_added">已将%s添加至白名单</string>
+    <string name="ok">好</string>
+    <string name="label_working">请稍后</string>
+    <string name="hint_whitelist_remove_confirm">你确定要将%s从白名单%s中移除吗，此操作不可撤销。</string>
+    <string name="negative">否</string>
+    <string name="positive">是</string>
+    <string name="confirm">确认</string>
+    <string name="placeholder">我是占位符——</string>
+    <string name="success">成功</string>
+    <string name="label_add_player">添加玩家</string>
+    <string name="label_manage_whitelist">管理 %s</string>
+    <string name="label_nothing_here">¯\\\\_(ツ)_\\/¯\\n什么都没有</string>
 </resources>

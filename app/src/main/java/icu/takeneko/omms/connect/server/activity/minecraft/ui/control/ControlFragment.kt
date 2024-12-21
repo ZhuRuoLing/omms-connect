@@ -11,18 +11,19 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.CacheMemoryUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.*
 import icu.takeneko.omms.client.data.controller.Controller
 import icu.takeneko.omms.client.data.controller.Status
+import icu.takeneko.omms.client.exception.ControllerNotFoundException
+import icu.takeneko.omms.client.exception.RequestUnauthorisedException
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentMcControlBinding
-import icu.takeneko.omms.connect.util.awaitExecute
 import icu.takeneko.omms.connect.util.format
 import icu.takeneko.omms.connect.util.fromJson
 import icu.takeneko.omms.connect.util.getUtilCommands
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.util.toJson
+import kotlinx.coroutines.*
 
 class ControlFragment : Fragment() {
 
@@ -107,38 +108,36 @@ class ControlFragment : Fragment() {
             showErrorDialog("Disconnected from server.", requireContext())
             return
         }
+        binding.mcOutputText.text = binding.mcOutputText.text.toString() + command + "\n"
+        binding.mcOutputText.text = binding.mcOutputText.text.toString() + "[Waiting For Response]\n"
         externalScope.launch(Dispatchers.IO) {
-            launch(Dispatchers.Main) {
-                binding.mcOutputText.text = binding.mcOutputText.text.toString() + command + "\n"
+            Connection.getClientSession().onPermissionDeniedCallback.setCallback {
                 binding.mcOutputText.text =
-                    binding.mcOutputText.text.toString() + "[Waiting For Response]\n"
+                    requireContext().getText(R.string.error_permission_denied)
             }
-            awaitExecute { latch ->
-                Connection.getClientSession().setOnPermissionDeniedCallback {
-                    binding.mcOutputText.text =
-                        requireContext().getText(R.string.error_permission_denied)
-                    latch.countDown()
-                }
-                Connection.getClientSession()
-                    .sendCommandToController(this@ControlFragment.controller.name, command, { a,b ->
-                        launch(Dispatchers.Main) {
-                            binding.mcOutputText.text = "\n" +
-                                    binding.mcOutputText.text.toString() + b.joinToString("\n") + "\n"
-                            latch.countDown()
+            Connection.getClientSession().sendCommandToController(controller.name, command)
+                .whenComplete { t, u ->
+                    when (u) {
+                        null -> lifecycleScope.launch(Dispatchers.Main) {
+                            binding.mcOutputText.text = binding.mcOutputText.text.toString() +
+                                    t.joinToString("\n") +
+                                    "\n"
                         }
-                    }, {
-                        binding.mcOutputText.text =
+
+                        is ControllerNotFoundException -> lifecycleScope.launch(Dispatchers.Main) {
                             binding.mcOutputText.text.toString() + "\n" + format(
-                                R.string.error_controller_not_exist, it
+                                R.string.error_controller_not_exist, controller.name
                             )
-                        latch.countDown()
-                    }, {
-                        //showErrorDialog(formatResString())
-                        binding.mcOutputText.text =
-                            requireContext().getText(R.string.error_server_controller_auth_error)
-                        latch.countDown()
-                    })
-            }
+                        }
+
+                        is RequestUnauthorisedException -> lifecycleScope.launch(Dispatchers.Main) {
+                            binding.mcOutputText.text =
+                                requireContext().getText(R.string.error_server_controller_auth_error)
+                        }
+                    }
+
+
+                }
         }
     }
 

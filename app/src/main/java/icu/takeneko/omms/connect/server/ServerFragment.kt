@@ -20,7 +20,6 @@ import icu.takeneko.omms.connect.util.format;
 import icu.takeneko.omms.connect.util.genControllerText
 import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.view.Placeholder68dpView
-import icu.takeneko.omms.connect.util.awaitExecute
 import icu.takeneko.omms.connect.util.getSystemType
 
 class ServerFragment : Fragment() {
@@ -74,25 +73,18 @@ class ServerFragment : Fragment() {
                 try {
                     ensureActive()
                     try {
-                        awaitExecute {
-                            this.fetchControllersFromServer { map ->
-                                controllers = map
-                                awaitExecute { latch ->
-                                    this@launch.launch(Dispatchers.Main) {
-                                        this@ServerFragment.binding.serverText.text =
-                                            requireContext().format(
-                                                R.string.label_controller_count,
-                                                controllers.count()
-                                            )
-                                        latch.countDown()
-                                    }
-                                }
-                                hasController = true
-                                it.countDown()
-                            }
+                        controllers = fetchControllersFromServer().get()
+                        this@launch.launch(Dispatchers.Main) {
+                            this@ServerFragment.binding.serverText.text =
+                                requireContext().format(
+                                    R.string.label_controller_count,
+                                    controllers.count()
+                                )
                         }
-                    } catch (e: java.lang.Exception) {
-                        Log.e("OMMS", "wtf", e)
+                        hasController = true
+
+                    } catch (e: Exception) {
+                        Log.e("OMMS", "fetch controllers failed", e)
                         hasController = false
                         launch(Dispatchers.Main) {
                             if (showDialog) {
@@ -104,36 +96,30 @@ class ServerFragment : Fragment() {
                                 requireContext().format(
                                     R.string.error_controller_fetch_error,
                                     e.message,
-                                    
                                 ),
                                 this@ServerFragment.requireContext()
                             )
                         }
                     }
-                    awaitExecute{latch ->
-                        try{
-                            this.fetchSystemInfoFromServer {
-                                systemInfo = it
-                                hasSystemInfo = true
-                                latch.countDown()
+                    try {
+                        systemInfo = this.fetchSystemInfoFromServer().get()
+                        hasSystemInfo = true
+                    } catch (e: java.lang.Exception) {
+                        hasSystemInfo = false
+                        launch(Dispatchers.Main) {
+                            if (showDialog) {
+                                alertDialog.dismiss()
+                            } else {
+                                this@ServerFragment.binding.serverSwipeRefresh.isRefreshing =
+                                    false
                             }
-                        }catch (e:java.lang.Exception){
-                            hasSystemInfo = false
-                            launch(Dispatchers.Main) {
-                                if (showDialog) {
-                                    alertDialog.dismiss()
-                                } else {
-                                    this@ServerFragment.binding.serverSwipeRefresh.isRefreshing = false
-                                }
-                                showErrorDialog(
-                                    requireContext().format(
-                                        R.string.error_system_info_fetch_error,
-                                        e.message,
-                                    ),
-                                    this@ServerFragment.requireContext()
-                                )
-                            }
-                            latch.countDown()
+                            showErrorDialog(
+                                requireContext().format(
+                                    R.string.error_system_info_fetch_error,
+                                    e.message,
+                                ),
+                                this@ServerFragment.requireContext()
+                            )
                         }
                     }
                 } catch (e: Exception) {
@@ -160,7 +146,10 @@ class ServerFragment : Fragment() {
                             val text = requireContext().genControllerText(it.value)
                             val controllerEntryView =
                                 ServerEntryView(this@ServerFragment.requireContext()).setValue(
-                                    it.value.displayName, text, it.value.type ?: "", requireActivity()
+                                    it.value.displayName,
+                                    text,
+                                    it.value.type ?: "",
+                                    requireActivity()
                                 ).withController(it.value).prepare(this@ServerFragment)
                             this@ServerFragment.binding.serverList.addView(controllerEntryView)
                         }
@@ -177,8 +166,8 @@ class ServerFragment : Fragment() {
                         requireContext().format(
                             R.string.error_server_internal_error,
                             e.toString(),
-                            
-                        ), this@ServerFragment.requireContext()
+
+                            ), this@ServerFragment.requireContext()
                     )
                     Log.e("omms", "Exception at ServerFragment", e)
                     if (showDialog) {

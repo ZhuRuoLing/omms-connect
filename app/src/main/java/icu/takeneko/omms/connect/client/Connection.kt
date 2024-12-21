@@ -1,15 +1,14 @@
 package icu.takeneko.omms.connect.client
 
 import android.util.Log
-import icu.takeneko.omms.client.data.chatbridge.Broadcast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.withContext
+import icu.takeneko.omms.client.data.chatbridge.ChatMessage
 import icu.takeneko.omms.client.session.ClientInitialSession
 import icu.takeneko.omms.client.session.ClientSession
 import icu.takeneko.omms.connect.App.Companion.TAG
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 import java.net.InetAddress
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.FutureTask
 import java.util.concurrent.TimeUnit
 
@@ -18,9 +17,10 @@ object Connection {
     val isConnected
         get() = connectionStatus == ConnectionStatus.CONNECTED
     private var connectionStatus = ConnectionStatus.DISCONNECTED
-    val chatMessageCache = mutableListOf<Broadcast>()
+    val chatMessageCache = mutableListOf<ChatMessage>()
     var chatPassthroughState = true
-    private var broadcastListener: ((Broadcast) -> Unit)? = null
+    private var broadcastListener: ((ChatMessage) -> Unit)? = null
+
     sealed class Result<out R> {
         data class Success<out T>(val data: T) : Result<T>()
         data class Error(val exception: Throwable) : Result<Nothing>()
@@ -53,10 +53,12 @@ object Connection {
                 task.run()
                 val res = task[5000, TimeUnit.MILLISECONDS]
                 clientSession = res
-                clientSession.setOnNewBroadcastReceivedCallback(this@Connection::onNewBroadcast)
-                clientSession.setChatMessagePassthroughState(true) {
-                    chatPassthroughState = it
-                }
+                clientSession.setChatMessagePassthroughState(true)
+                    .thenAccept {
+                        clientSession.setOnNewChatMessageReceivedCallback {
+                            onNewBroadcast(it)
+                        }
+                    }
                 return@withContext Result.Success(connectionStatus)
             } catch (e: Throwable) {
                 connectionStatus = ConnectionStatus.ERROR
@@ -65,15 +67,15 @@ object Connection {
         }
     }
 
-    fun registerBroadcastListener(listener: (Broadcast) -> Unit){
+    fun registerBroadcastListener(listener: (ChatMessage) -> Unit) {
         this.broadcastListener = listener
     }
 
-    fun unregisterBroadcastListener(){
+    fun unregisterBroadcastListener() {
         this.broadcastListener = null
     }
 
-    private fun onNewBroadcast(br:Broadcast){
+    private fun onNewBroadcast(br: ChatMessage) {
         Log.i(TAG, "onNewBroadcast: $br")
         this.broadcastListener?.invoke(br)
         chatMessageCache.add(br)
@@ -86,9 +88,10 @@ object Connection {
     suspend fun end() {
         return withContext(Dispatchers.IO) {
             connectionStatus = ConnectionStatus.DISCONNECTED
-            clientSession.close {
-                connectionStatus = ConnectionStatus.DISCONNECTED
-            }
+            clientSession.close()
+                .thenAccept{
+                    connectionStatus = ConnectionStatus.DISCONNECTED
+                }
         }
     }
 }

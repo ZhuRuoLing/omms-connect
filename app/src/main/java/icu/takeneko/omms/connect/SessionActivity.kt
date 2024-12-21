@@ -8,10 +8,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.*
 import icu.takeneko.omms.connect.client.Connection
-import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.databinding.ActivitySession0Binding
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 class SessionActivity : AppCompatActivity() {
 

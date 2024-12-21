@@ -12,19 +12,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
-import kotlinx.coroutines.*
 import icu.takeneko.omms.client.data.controller.Controller
+import icu.takeneko.omms.client.exception.ConsoleExistsException
+import icu.takeneko.omms.client.session.ControllerConsoleClient
 import icu.takeneko.omms.connect.R
-import icu.takeneko.omms.connect.settings.SettingsActivity
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentMcConsoleBinding
 import icu.takeneko.omms.connect.server.activity.minecraft.ui.ConsoleWorker
+import icu.takeneko.omms.connect.settings.SettingsActivity
 import icu.takeneko.omms.connect.storage.PreferencesStorage
 import icu.takeneko.omms.connect.util.fromJson
-import icu.takeneko.omms.connect.util.awaitExecute
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 
-class ConsoleFragment : Fragment() {
+class ConsoleFragment : Fragment(), ControllerConsoleClient {
 
     private var _binding: FragmentMcConsoleBinding? = null
     private val binding get() = _binding!!
@@ -137,28 +142,23 @@ class ConsoleFragment : Fragment() {
     private fun connect(callback: () -> Unit) {
         if (Connection.getClientSession().isActive) {
             externalScope.launch(Dispatchers.IO) {
-                awaitExecute { latch ->
-                    Connection.getClientSession().setOnPermissionDeniedCallback {
-                        binding.mcOutputText.setText(R.string.error_permission_denied)
-                        latch.countDown()
-                        Connection.getClientSession().setOnPermissionDeniedCallback(null)
-                    }
-                    Connection.getClientSession()
-                        .startControllerConsole(controller.name, { _, id ->
-                            consoleId = id
-                            callback()
-                            latch.countDown()
-                        }, { _, log ->
-                            print(log)
-                        }, {//controller not exist
-                            consoleWorker.append(getString(R.string.error_permission_denied))
-                            latch.countDown()
-                            setButtonState(false)
-                        }, {//console already started
-                            consoleWorker.append(getString(R.string.hint_console_exists))
-                            latch.countDown()
-                        })
+                Connection.getClientSession().onPermissionDeniedCallback.setCallback {
+                    binding.mcOutputText.setText(R.string.error_permission_denied)
+                    Connection.getClientSession().onPermissionDeniedCallback.setCallback { }
                 }
+                Connection.getClientSession()
+                    .startControllerConsole(controller.name, this@ConsoleFragment)
+                    .whenComplete { t, u ->
+                        when (u) {
+                            is ConsoleExistsException -> {
+                                consoleWorker.append(getString(R.string.hint_console_exists))
+                            }
+                            null -> {
+                                consoleId = t
+                                callback()
+                            }
+                        }
+                    }
             }
         }
 
@@ -167,16 +167,16 @@ class ConsoleFragment : Fragment() {
     private fun disconnect(callback: () -> Unit) {
         if (consoleId.isEmpty()) return
         externalScope.launch(Dispatchers.IO) {
-            awaitExecute { latch ->
-                Connection.getClientSession().stopControllerConsole(consoleId, {
-                    this@ConsoleFragment.print(getString(R.string.hint_console_stopped))
-                    latch.countDown()
-                }, {
-                    binding.mcOutputText.setText(R.string.hint_console_not_exist)
-                    latch.countDown()
-                })
-            }
-            callback()
+            Connection.getClientSession().stopControllerConsole(consoleId)
+                .whenComplete { t, u ->
+                    if (u != null) {
+                        binding.mcOutputText.setText(R.string.hint_console_not_exist)
+                    } else {
+                        this@ConsoleFragment.print(getString(R.string.hint_console_stopped))
+                    }
+                    callback()
+                }
+
         }
     }
 
@@ -189,16 +189,14 @@ class ConsoleFragment : Fragment() {
 
     private fun consoleInput(line: String) {
         externalScope.launch(Dispatchers.IO) {
-            awaitExecute { latch ->
-                Connection.getClientSession().controllerConsoleInput(
-                    consoleId, line, {
+            Connection.getClientSession().controllerConsoleInput(consoleId, line)
+                .whenComplete { _, u ->
+                    if (u != null) {
                         binding.mcOutputText.setText(R.string.hint_console_not_exist)
-                        latch.countDown()
-                    }, {
+                    } else {
                         print("> $line")
-                        latch.countDown()
-                    })
-            }
+                    }
+                }
             scrollToEnd()
         }
     }
@@ -207,5 +205,17 @@ class ConsoleFragment : Fragment() {
         externalScope.launch(Dispatchers.Main) {
             binding.scroll.fullScroll(ScrollView.FOCUS_DOWN)
         }
+    }
+
+    override fun onLaunched(controllerId: String, consoleId: String) {
+
+    }
+
+    override fun onLogReceived(consoleId: String, log: String) {
+        print(log)
+    }
+
+    override fun onStopped(consoleId: String) {
+
     }
 }

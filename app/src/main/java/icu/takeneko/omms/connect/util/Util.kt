@@ -4,11 +4,9 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import icu.takeneko.omms.client.data.controller.Controller
-import icu.takeneko.omms.client.util.Result
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.storage.PreferencesStorage
 import java.util.concurrent.CountDownLatch
@@ -58,12 +56,6 @@ fun toJson(obj: Any): String {
 //fun (@StringRes format: Int, vararg objects: Any?, context: Context): String {
 //    return context.getString(format).format(*objects)
 //}
-
-fun awaitExecute(block: (CountDownLatch) -> Unit) {
-    val latch = CountDownLatch(1)
-    block(latch)
-    latch.await()
-}
 
 fun AutoCloseable?.closeFinally(cause: Throwable?) =
     when {

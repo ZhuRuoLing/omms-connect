@@ -44,7 +44,7 @@
                     android:id="@+id/announcement_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/wdnmd"
+                    android:text="@string/placeholder"
                     android:textAppearance="?textAppearanceTitleMedium"
                     android:singleLine="true"/>
 
@@ -52,7 +52,7 @@
                     android:id="@+id/announcement_in_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/wdnmd"
+                    android:text="@string/placeholder"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/gray_600"
                     android:textAppearance="?textAppearanceBodySmall" />

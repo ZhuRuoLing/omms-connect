@@ -7,71 +7,103 @@
     android:fitsSystemWindows="true"
     tools:context="icu.takeneko.omms.connect.whitelist.activity.WhitelistEditActivity">
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="add button"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
-
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Elevated"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-            <LinearLayout
+            android:fitsSystemWindows="false">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                style="?collapsingToolbarLayoutMediumStyle"
+                android:layout_width="match_parent"
+                android:layout_height="?collapsingToolbarLayoutMediumSize"
+                android:fitsSystemWindows="false"
+                app:collapsedTitleTextColor="?colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleCollapseMode="scale">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:elevation="0dp"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                    app:navigationIconTint="?colorPrimary"
+                    app:title="@string/placeholder"
+                    app:titleMarginStart="16dp"
+                    app:titleTextAppearance="?textAppearanceTitleLarge" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:ignore="MissingPrefix">
+
+
+            <rikka.widget.borderview.BorderNestedScrollView
+                android:id="@+id/nestedScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/whitelistNameTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@string/wdnmd"
-                    android:textStyle="bold"
-                    android:textSize="30sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/whitelist_info_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginVertical="5dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@string/wdnmd"
-                    android:textSize="15sp"/>
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Elevated"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:scrollbars="none"
+                app:borderBottomVisibility="never"
+                app:borderTopDrawable="@null"
+                app:borderTopVisibility="whenTop">
 
                 <LinearLayout
-                    android:id="@+id/whitelistCompoentContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"/>
-            </ScrollView>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/whitelistInfoText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@string/placeholder"
+                        android:textAppearance="?textAppearanceTitleMedium" />
+
+                    <LinearLayout
+                        android:id="@+id/whitelistCompoentContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+            </rikka.widget.borderview.BorderNestedScrollView>
+        </FrameLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/label_nothing_here"
+            android:gravity="center_horizontal">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fab"
+            style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/label_add_player"
+            app:cornerRadius="15dp"
+            app:icon="@drawable/ic_baseline_add_24"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

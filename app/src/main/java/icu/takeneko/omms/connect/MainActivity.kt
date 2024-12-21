@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             ensureActive()
             when (val result = Connection.connect(ip, port, code, true)) {
                 is Result.Success<ConnectionStatus> -> {
-                    ToastUtils.showLong(R.string.success)
+                    ToastUtils.showLong(R.string.hint_connected)
                     startActivity(Intent(this@MainActivity, SessionActivity::class.java))
                     runOnUiThread {
                         alertDialog.dismiss()

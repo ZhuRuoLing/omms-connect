@@ -8,17 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.*
 import icu.takeneko.omms.connect.R
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentWhitelistBinding
 import icu.takeneko.omms.connect.util.ResultContract
-import icu.takeneko.omms.connect.util.showErrorDialog
-import icu.takeneko.omms.connect.view.Placeholder68dpView
-import icu.takeneko.omms.connect.whitelist.view.WhitelistEntryView
-import icu.takeneko.omms.connect.util.awaitExecute
 import icu.takeneko.omms.connect.util.format
+import icu.takeneko.omms.connect.util.showErrorDialog
 import icu.takeneko.omms.connect.util.toErrorMessage
+import icu.takeneko.omms.connect.whitelist.view.WhitelistEntryView
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 
 class WhitelistFragment : Fragment() {
@@ -75,21 +78,19 @@ class WhitelistFragment : Fragment() {
             }
             ensureActive()
             try {
-                awaitExecute { latch ->
-                    Connection.getClientSession().apply {
-                        this.fetchWhitelistFromServer {
-                            this@WhitelistFragment.whitelistMap = it
-                            latch.countDown()
-                        }
-                    }
-                }
+                whitelistMap = Connection.getClientSession().fetchWhitelistFromServer().get()
             } catch (e: Exception) {
                 if (showDialog) {
                     alertDialog?.dismiss()
                 } else {
                     this@WhitelistFragment.binding.whitelistSwipeRefresh.isRefreshing = false
                 }
-                showErrorDialog(requireContext().getString(R.string.hint_whitelist_fetch_failed,"$e"), requireContext())
+                showErrorDialog(
+                    requireContext().getString(
+                        R.string.hint_whitelist_fetch_failed,
+                        "$e"
+                    ), requireContext()
+                )
             }
             launch(Dispatchers.Main) {
                 ensureActive()
@@ -105,10 +106,11 @@ class WhitelistFragment : Fragment() {
                             )
                         this@WhitelistFragment.binding.linearLayout.addView(view)
                     }
-                    this@WhitelistFragment.binding.whitelistTitle.text = this@WhitelistFragment.format(
-                        R.string.label_whitelists_count,
-                        whitelistMap.count()
-                    )
+                    this@WhitelistFragment.binding.whitelistTitle.text =
+                        this@WhitelistFragment.format(
+                            R.string.label_whitelists_count,
+                            whitelistMap.count()
+                        )
                     if (showDialog) {
                         alertDialog?.dismiss()
                     } else {
@@ -120,7 +122,6 @@ class WhitelistFragment : Fragment() {
                         alertDialog?.dismiss()
                     } else {
                         this@WhitelistFragment.binding.whitelistSwipeRefresh.isRefreshing = false
-
                     }
                 }
             }

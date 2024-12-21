@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import icu.takeneko.omms.client.data.chatbridge.Broadcast
+import icu.takeneko.omms.client.data.chatbridge.ChatMessage
 import icu.takeneko.omms.connect.client.Connection
 import icu.takeneko.omms.connect.databinding.FragmentOsChatbridgeBinding
 import icu.takeneko.omms.connect.server.activity.system.view.ChatMessageView
-import icu.takeneko.omms.connect.view.Placeholder68dpView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -39,12 +38,7 @@ class ChatbridgeFragment : Fragment() {
         binding.chatSend.setOnClickListener {
             val message = chatText
             if (message.isBlank())return@setOnClickListener
-            Connection.getClientSession().sendChatbridgeMessage(
-                "GLOBAL",
-                message
-            ) { channel, messageSent ->
-
-            }
+            Connection.getClientSession().sendChatbridgeMessage("GLOBAL", message)
             chatText = ""
         }
         binding.chatSwipeRefresh.setOnRefreshListener {
@@ -62,7 +56,7 @@ class ChatbridgeFragment : Fragment() {
         return root
     }
 
-    private fun addNewBroadcast(br: Broadcast) {
+    private fun addNewBroadcast(br: ChatMessage) {
         binding.chatMessages.addView(ChatMessageView(requireContext()).also { it.updateContent(br, requireContext()) })
         binding.chatScroll.fullScroll(View.FOCUS_DOWN)
     }

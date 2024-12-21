@@ -21,7 +21,7 @@
                 android:id="@+id/playerNameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/wdnmd"
+                android:text="@string/placeholder"
                 android:textSize="20sp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
